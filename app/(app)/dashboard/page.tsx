@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs"
 import { auth } from "@clerk/nextjs/server"
 
 import {
@@ -21,7 +20,6 @@ export default async function DashboardPage() {
           </EmptyDescription>
         </EmptyHeader>
       </Empty>
-      <UserButton />
     </div>
   )
 }

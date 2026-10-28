@@ -1,8 +1,32 @@
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
+import { Suspense } from "react"
+
 import { Button } from "@/components/ui/button"
 
 export default function Page() {
   return (
     <div className="flex min-h-svh p-6">
+      <header className="flex h-16 items-center justify-end gap-2 p-4">
+        <Suspense>
+          <Show when="signed-out">
+            <SignInButton
+              forceRedirectUrl="/dashboard"
+              signUpForceRedirectUrl="/dashboard"
+            >
+              <Button variant="outline">Sign In</Button>
+            </SignInButton>
+            <SignUpButton
+              forceRedirectUrl="/dashboard"
+              signInForceRedirectUrl="/dashboard"
+            >
+              <Button>Sign Up</Button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
+          </Show>
+        </Suspense>
+      </header>
       <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
         <div>
           <h1 className="font-medium">Project ready!</h1>
