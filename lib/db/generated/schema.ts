@@ -100,6 +100,18 @@ export const assistants = pgTable(
   ]
 )
 
+export const userProfiles = pgTable("user_profiles", {
+  userId: text("user_id").primaryKey().notNull(),
+  language: language(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  contactEmail: text("contact_email"),
+})
+
 export const callCategories = pgTable(
   "call_categories",
   {
@@ -113,6 +125,7 @@ export const callCategories = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),
+    description: text(),
   },
   (table) => [
     unique("call_categories_organization_id_name_unique").on(
@@ -129,18 +142,6 @@ export const callCategories = pgTable(
     ),
   ]
 )
-
-export const userProfiles = pgTable("user_profiles", {
-  userId: text("user_id").primaryKey().notNull(),
-  language: language(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
-    .defaultNow()
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
-    .defaultNow()
-    .notNull(),
-  contactEmail: text("contact_email"),
-})
 
 export const callCategoryRecipients = pgTable(
   "call_category_recipients",

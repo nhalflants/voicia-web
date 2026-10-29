@@ -1,12 +1,12 @@
 import { cookies } from "next/headers"
 
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/layout/app-sidebar"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { UserButton } from "@/components/user-button"
+import { UserButton } from "@/features/org/components/user-button"
 
 export default async function AppLayout({
   children,

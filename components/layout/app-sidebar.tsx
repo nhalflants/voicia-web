@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { OrgSwitcher } from "@/components/org-switcher"
+import { NavSettings } from "@/components/layout/nav-settings"
 import {
   Sidebar,
   SidebarContent,
@@ -11,6 +11,7 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { OrgSwitcher } from "@/features/org/components/org-switcher"
 
 async function AppSidebar() {
   return (
@@ -38,6 +39,7 @@ async function AppSidebar() {
             Projects
           </SidebarGroupLabel>
         </SidebarGroup>
+        <NavSettings />
       </SidebarContent>
 
       <SidebarFooter>

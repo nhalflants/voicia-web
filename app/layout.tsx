@@ -4,6 +4,7 @@ import { shadcn } from "@clerk/ui/themes"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -31,7 +32,10 @@ export default function RootLayout({
     >
       <body>
         <ClerkProvider appearance={{ theme: shadcn }}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>
