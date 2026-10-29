@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs"
 import { cookies } from "next/headers"
 
 import { AppSidebar } from "@/components/app-sidebar"
@@ -18,7 +19,16 @@ export default async function AppLayout({
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <header className="flex h-12 shrink-0 items-center gap-2 px-4">
+          {/* The sidebar is an off-canvas sheet on mobile, so it needs a trigger here */}
+          <SidebarTrigger className="md:hidden" />
+          <div className="ml-auto flex items-center">
+            <UserButton />
+          </div>
+        </header>
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   )
 }

@@ -1,8 +1,7 @@
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
-import { auth } from "@clerk/nextjs/server"
 import Image from "next/image"
 import Link from "next/link"
 
+import { OrgSwitcher } from "@/components/org-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -42,19 +41,7 @@ async function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <div className="mb-1 flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-          <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-            <OrganizationSwitcher
-              appearance={{
-                elements: {
-                  rootBox: "min-w-0 flex-1",
-                  organizationSwitcherTrigger: "w-full justify-start",
-                },
-              }}
-            />
-          </div>
-          <UserButton appearance={{ elements: { rootBox: "shrink-0" } }} />
-        </div>
+        <OrgSwitcher />
       </SidebarFooter>
     </Sidebar>
   )
