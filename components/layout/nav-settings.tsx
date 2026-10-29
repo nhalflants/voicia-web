@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { TagsIcon } from "lucide-react"
+import { HeadsetIcon, TagsIcon } from "lucide-react"
 
 import {
   SidebarGroup,
@@ -13,6 +13,11 @@ import {
 } from "@/components/ui/sidebar"
 
 const items = [
+  {
+    title: "Assistants",
+    url: "/settings/assistants",
+    icon: HeadsetIcon,
+  },
   {
     title: "Call categories",
     url: "/settings/call-categories",
