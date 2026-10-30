@@ -45,13 +45,6 @@ function AssistantsSettings({
 
   return (
     <>
-      <header className="flex max-w-prose flex-col gap-1">
-        <h1 className="font-heading text-xl font-semibold">Assistants</h1>
-        <p className="text-sm text-muted-foreground">
-          The AI receptionists answering your organization&apos;s phone lines.
-        </p>
-      </header>
-
       {assistants.length === 0 ? (
         <Empty className="border">
           <EmptyHeader>

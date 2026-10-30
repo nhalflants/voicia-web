@@ -36,11 +36,6 @@ async function AppSidebar() {
 
       <SidebarContent>
         <NavMain />
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm text-muted-foreground">
-            Projects
-          </SidebarGroupLabel>
-        </SidebarGroup>
         <NavSettings />
       </SidebarContent>
 

@@ -70,8 +70,7 @@ function SheetContent({
               />
             }
           >
-            <XIcon
-            />
+            <XIcon />
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
         )}
@@ -84,7 +83,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-1.5 p-4", className)}
+      className={cn("flex flex-col gap-1.5 px-4 pt-4 pb-2", className)}
       {...props}
     />
   )
@@ -104,7 +103,10 @@ function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
-      className={cn("font-heading font-medium text-foreground", className)}
+      className={cn(
+        "font-heading text-lg font-medium text-foreground",
+        className
+      )}
       {...props}
     />
   )

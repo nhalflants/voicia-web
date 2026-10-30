@@ -112,7 +112,6 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
     <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
       <SheetHeader className="pr-12">
         <SheetTitle>Edit assistant</SheetTitle>
-        <SheetDescription>Changes apply to the next call.</SheetDescription>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto p-4">
@@ -138,13 +137,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
               required
               aria-invalid={nameInvalid || undefined}
             />
-            {nameInvalid ? (
-              <FieldError>{error.message}</FieldError>
-            ) : (
-              <FieldDescription>
-                Only shown in Voicia. Callers never hear it.
-              </FieldDescription>
-            )}
+            {nameInvalid && <FieldError>{error.message}</FieldError>}
           </Field>
 
           <Field data-invalid={firstMessageInvalid || undefined}>

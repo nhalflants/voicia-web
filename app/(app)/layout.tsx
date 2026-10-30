@@ -1,12 +1,8 @@
 import { cookies } from "next/headers"
 
 import { AppSidebar } from "@/components/layout/app-sidebar"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { UserButton } from "@/features/org/components/user-button"
+import { DashboardHeader } from "@/components/layout/dashboard-header"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default async function AppLayout({
   children,
@@ -20,13 +16,7 @@ export default async function AppLayout({
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-12 shrink-0 items-center gap-2 px-4">
-          {/* The sidebar is an off-canvas sheet on mobile, so it needs a trigger here */}
-          <SidebarTrigger className="md:hidden" />
-          <div className="ml-auto flex items-center">
-            <UserButton />
-          </div>
-        </header>
+        <DashboardHeader />
         {children}
       </SidebarInset>
     </SidebarProvider>

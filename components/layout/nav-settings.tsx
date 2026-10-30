@@ -2,8 +2,8 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { HeadsetIcon, TagsIcon } from "lucide-react"
 
+import { settingsNavItems } from "@/components/layout/nav-items"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -11,19 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
-const items = [
-  {
-    title: "Assistants",
-    url: "/settings/assistants",
-    icon: HeadsetIcon,
-  },
-  {
-    title: "Call categories",
-    url: "/settings/call-categories",
-    icon: TagsIcon,
-  },
-]
 
 function NavSettings() {
   const pathname = usePathname()
@@ -34,7 +21,7 @@ function NavSettings() {
         Settings
       </SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {settingsNavItems.map((item) => (
           <SidebarMenuItem key={item.url}>
             <SidebarMenuButton
               isActive={pathname.startsWith(item.url)}

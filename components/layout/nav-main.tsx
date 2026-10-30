@@ -2,8 +2,8 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { PhoneIcon } from "lucide-react"
 
+import { mainNavItems } from "@/components/layout/nav-items"
 import {
   SidebarGroup,
   SidebarMenu,
@@ -11,21 +11,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const items = [
-  {
-    title: "Calls",
-    url: "/calls",
-    icon: PhoneIcon,
-  },
-]
-
 function NavMain() {
   const pathname = usePathname()
 
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
+        {mainNavItems.map((item) => (
           <SidebarMenuItem key={item.url}>
             <SidebarMenuButton
               isActive={pathname.startsWith(item.url)}

@@ -84,23 +84,18 @@ function CallCategoriesSettings({
 
   return (
     <>
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div className="flex max-w-prose flex-col gap-1">
-          <h1 className="font-heading text-xl font-semibold">
-            Call categories
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Voicia sorts each call into one of your categories. Choose who
-            receives the recap email for each one.
-          </p>
-        </div>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <p className="max-w-prose text-sm text-muted-foreground">
+          Voicia sorts each call into one of your categories. Choose who
+          receives the recap email for each one.
+        </p>
         {canManage && categories.length > 0 && (
           <Button onClick={() => openSheet(null)} disabled={atLimit}>
             <PlusIcon />
             New category
           </Button>
         )}
-      </header>
+      </div>
 
       {!canManage && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
