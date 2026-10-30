@@ -10,7 +10,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty"
 import { getCallCategories } from "@/features/call-categories/repository"
-import { CallsTable } from "@/features/calls/components/calls-table"
+import { CallsList } from "@/features/calls/components/calls-list"
 import { CallsToolbar } from "@/features/calls/components/calls-toolbar"
 import { parseCallFilters } from "@/features/calls/filters"
 import { getCalls } from "@/features/calls/repository"
@@ -77,7 +77,7 @@ export default async function CallsPage({
           </EmptyHeader>
         </Empty>
       ) : (
-        <CallsTable calls={calls} members={members} currentUserId={userId} />
+        <CallsList calls={calls} members={members} currentUserId={userId} />
       )}
     </div>
   )

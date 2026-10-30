@@ -68,7 +68,7 @@ function CallsToolbar({
         value={filters.status}
         onValueChange={(status) => navigate({ status })}
       >
-        <TabsList variant="line">
+        <TabsList variant="line" className="-ml-1">
           {STATUS_FILTERS.map((filter) => (
             <TabsTrigger key={filter.value} value={filter.value}>
               {filter.label}

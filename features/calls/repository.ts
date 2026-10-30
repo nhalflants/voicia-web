@@ -49,7 +49,6 @@ export async function getCalls(
       startedAt: true,
       durationSeconds: true,
       status: true,
-      statusChangedAt: true,
       assigneeUserId: true,
     },
     with: { callCategory: { columns: { name: true, color: true } } },

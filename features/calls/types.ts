@@ -10,7 +10,6 @@ export interface CallListItem {
   startedAt: string | null
   durationSeconds: number | null
   status: CallStatus
-  statusChangedAt: string | null
   assigneeUserId: string | null
   category: { name: string; color: string } | null
 }

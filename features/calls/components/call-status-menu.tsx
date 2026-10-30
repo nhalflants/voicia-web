@@ -1,6 +1,5 @@
 "use client"
 
-import { formatDistanceToNow } from "date-fns"
 import { ChevronDownIcon } from "lucide-react"
 import { cn } from "cn"
 
@@ -9,7 +8,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
@@ -29,11 +27,9 @@ function CallStatusLabel({ status }: { status: CallStatus }) {
 
 function CallStatusMenu({
   status,
-  statusChangedAt,
   onChange,
 }: {
   status: CallStatus
-  statusChangedAt: string | null
   onChange: (status: CallStatus) => void
 }) {
   return (
@@ -48,15 +44,6 @@ function CallStatusMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-44">
         <DropdownMenuGroup>
-          {statusChangedAt && (
-            // Only rendered on the client once opened, so "ago" can't mismatch
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Changed{" "}
-              {formatDistanceToNow(new Date(statusChangedAt), {
-                addSuffix: true,
-              })}
-            </DropdownMenuLabel>
-          )}
           <DropdownMenuRadioGroup
             value={status}
             onValueChange={(value) => {
