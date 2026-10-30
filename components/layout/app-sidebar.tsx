@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import { NavMain } from "@/components/layout/nav-main"
 import { NavSettings } from "@/components/layout/nav-settings"
 import {
   Sidebar,
@@ -34,6 +35,7 @@ async function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
+        <NavMain />
         <SidebarGroup>
           <SidebarGroupLabel className="text-sm text-muted-foreground">
             Projects

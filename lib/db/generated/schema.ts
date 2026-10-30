@@ -1,11 +1,11 @@
 import {
   pgTable,
   index,
-  foreignKey,
   unique,
   uuid,
   text,
   timestamp,
+  foreignKey,
   integer,
   numeric,
   jsonb,
@@ -16,7 +16,40 @@ import {
 } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
+export const callStatus = pgEnum("call_status", [
+  "new",
+  "in_progress",
+  "done",
+  "dismissed",
+])
 export const language = pgEnum("language", ["fr", "nl", "en"])
+
+export const assistants = pgTable(
+  "assistants",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    organizationId: text("organization_id").notNull(),
+    externalAssistantId: text("external_assistant_id").notNull(),
+    name: text().notNull(),
+    firstMessage: text("first_message"),
+    systemPrompt: text("system_prompt"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("assistants_organization_id_idx").using(
+      "btree",
+      table.organizationId.asc().nullsLast().op("text_ops")
+    ),
+    unique("assistants_external_assistant_id_unique").on(
+      table.externalAssistantId
+    ),
+  ]
+)
 
 export const calls = pgTable(
   "calls",
@@ -44,6 +77,12 @@ export const calls = pgTable(
     callerName: text("caller_name"),
     successScore: integer("success_score"),
     categoryId: uuid("category_id"),
+    status: callStatus().default("new").notNull(),
+    assigneeUserId: text("assignee_user_id"),
+    statusChangedAt: timestamp("status_changed_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
   },
   (table) => [
     index("calls_assistant_id_idx").using(
@@ -56,8 +95,14 @@ export const calls = pgTable(
     ),
     index("calls_organization_id_started_at_idx").using(
       "btree",
-      table.organizationId.asc().nullsLast().op("timestamptz_ops"),
+      table.organizationId.asc().nullsLast().op("text_ops"),
       table.startedAt.asc().nullsLast().op("text_ops")
+    ),
+    index("calls_organization_id_status_started_at_idx").using(
+      "btree",
+      table.organizationId.asc().nullsLast().op("timestamptz_ops"),
+      table.status.asc().nullsLast().op("timestamptz_ops"),
+      table.startedAt.asc().nullsLast().op("enum_ops")
     ),
     foreignKey({
       columns: [table.assistantId],
@@ -70,33 +115,6 @@ export const calls = pgTable(
       name: "calls_category_id_call_categories_id_fk",
     }).onDelete("set null"),
     unique("calls_external_call_id_unique").on(table.externalCallId),
-  ]
-)
-
-export const assistants = pgTable(
-  "assistants",
-  {
-    id: uuid().defaultRandom().primaryKey().notNull(),
-    organizationId: text("organization_id").notNull(),
-    externalAssistantId: text("external_assistant_id").notNull(),
-    name: text().notNull(),
-    firstMessage: text("first_message"),
-    systemPrompt: text("system_prompt"),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
-      .defaultNow()
-      .notNull(),
-  },
-  (table) => [
-    index("assistants_organization_id_idx").using(
-      "btree",
-      table.organizationId.asc().nullsLast().op("text_ops")
-    ),
-    unique("assistants_external_assistant_id_unique").on(
-      table.externalAssistantId
-    ),
   ]
 )
 
