@@ -35,6 +35,7 @@ export async function getOrganizationBilling(
     .select({
       stripeCustomerId: organizationBilling.stripeCustomerId,
       status: organizationBilling.status,
+      cancelAt: organizationBilling.cancelAt,
     })
     .from(organizationBilling)
     .where(eq(organizationBilling.organizationId, organizationId))

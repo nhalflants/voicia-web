@@ -13,6 +13,8 @@ export interface OrganizationBilling {
   stripeCustomerId: string
   // Stripe subscription status, copied by the NestJS webhook
   status: string
+  // Set once the subscription is cancelled; it stays active until then
+  cancelAt: string | null
 }
 
 // "activating": back from Checkout, before the webhook has written the row

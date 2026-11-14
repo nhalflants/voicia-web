@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { CheckIcon, LockIcon } from "lucide-react"
+import { format } from "date-fns"
+import { CalendarXIcon, CheckIcon, LockIcon } from "lucide-react"
 
 import {
   Alert,
@@ -30,9 +31,12 @@ import type { PlanId, SubscriptionState } from "@/features/billing/types"
 
 function PlansSettings({
   subscription,
+  cancelAt,
   canManage,
 }: {
   subscription: SubscriptionState
+  // When the active subscription was cancelled and stops
+  cancelAt: string | null
   canManage: boolean
 }) {
   const [pending, startTransition] = useTransition()
@@ -64,10 +68,28 @@ function PlansSettings({
     <>
       {subscription === "active" && (
         <Alert>
-          <AlertTitle>This organization has an active subscription.</AlertTitle>
-          <AlertDescription>
-            <a href={`mailto:${CONTACT_EMAIL}`}>Contact us</a> to change plan.
-          </AlertDescription>
+          {cancelAt ? (
+            <>
+              <CalendarXIcon />
+              <AlertTitle>
+                Your subscription ends on{" "}
+                {format(new Date(cancelAt), "d MMMM yyyy")}.
+              </AlertTitle>
+              <AlertDescription>
+                It was cancelled and won&apos;t renew.
+              </AlertDescription>
+            </>
+          ) : (
+            <>
+              <AlertTitle>
+                This organization has an active subscription.
+              </AlertTitle>
+              <AlertDescription>
+                <a href={`mailto:${CONTACT_EMAIL}`}>Contact us</a> to change
+                plan.
+              </AlertDescription>
+            </>
+          )}
           {canManage && (
             <AlertAction>
               <Button
@@ -83,7 +105,8 @@ function PlansSettings({
                 }
               >
                 {pending && target === "portal" && <Spinner />}
-                Manage subscription
+                {/* The Stripe portal offers to renew a cancelled subscription */}
+                {cancelAt ? "Renew subscription" : "Manage subscription"}
               </Button>
             </AlertAction>
           )}
