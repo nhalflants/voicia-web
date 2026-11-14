@@ -20,13 +20,13 @@ async function AppSidebar() {
       <SidebarHeader className="flex-row items-center justify-between group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
         <Link
           href="/"
-          className="flex items-center gap-2 group-data-[collapsible=icon]:hidden"
+          className="flex items-center gap-2 px-2 group-data-[collapsible=icon]:hidden"
         >
           <Image
-            src="/logo.svg"
+            src="/voicia-logo.svg"
             alt="Voicia"
-            width={40}
-            height={48}
+            width={20}
+            height={20}
             className="size-5"
           />
           <span className="text-base">Voicia</span>

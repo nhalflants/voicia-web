@@ -16,7 +16,7 @@ function NavSettings() {
   const pathname = usePathname()
 
   return (
-    <SidebarGroup className="mt-auto">
+    <SidebarGroup>
       <SidebarGroupLabel className="text-sm text-muted-foreground">
         Settings
       </SidebarGroupLabel>
