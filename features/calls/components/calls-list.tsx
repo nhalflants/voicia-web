@@ -1,6 +1,8 @@
 "use client"
 
-import { useOptimistic, useTransition } from "react"
+import { useOptimistic, useState, useTransition } from "react"
+import Link from "next/link"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { format } from "date-fns"
 import { PhoneIcon } from "lucide-react"
 
@@ -13,15 +15,13 @@ import {
   ItemHeader,
   ItemTitle,
 } from "@/components/ui/item"
-import { toast } from "@/components/ui/toast"
-import { updateCallAction } from "@/features/calls/actions"
+import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
+import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
-import type {
-  CallListItem,
-  CallStatus,
-  CallUpdate,
-} from "@/features/calls/types"
+import { formatDuration } from "@/features/calls/format"
+import type { CallDetail, CallListItem } from "@/features/calls/types"
+import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
 
 type ItemProps = {
@@ -32,75 +32,159 @@ type ItemProps = {
 
 function CallsList({
   calls,
+  categories,
+  selectedCallId,
+  selectedCall,
+  empty,
   ...itemProps
-}: { calls: CallListItem[] } & Omit<ItemProps, "membersById">) {
+}: {
+  calls: CallListItem[]
+  categories: CallCategory[]
+  // From ?call=, already validated; selectedCall is null when it doesn't exist
+  selectedCallId: string | null
+  selectedCall: CallDetail | null
+  // Shown instead of the list; the panel still opens from a shared link
+  empty: React.ReactNode
+} & Omit<ItemProps, "membersById">) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const [, startTransition] = useTransition()
+  // Opens the panel right away with the row's data, before the detail loads
+  const [openId, setOpenId] = useOptimistic(selectedCallId)
   const membersById = new Map(itemProps.members.map((m) => [m.userId, m]))
 
+  // Keeps the filters, so closing the panel lands back on the same view
+  const hrefFor = (id: string | null) => {
+    const params = new URLSearchParams(searchParams)
+    if (id) params.set("call", id)
+    else params.delete("call")
+    const query = params.toString()
+    return query ? `${pathname}?${query}` : pathname
+  }
+
+  // Opening adds a history entry; moving between calls and closing don't, so
+  // Back leaves the page instead of replaying every call looked at
+  const select = (id: string | null, mode: "push" | "replace") => {
+    startTransition(() => {
+      setOpenId(id)
+      router[mode](hrefFor(id), { scroll: false })
+    })
+  }
+
+  const index = calls.findIndex((c) => c.id === openId)
+  // A change can take the open call out of this view (e.g. marking it done
+  // under Open); its old position still anchors previous and next
+  const [position, setPosition] = useState<{ id: string; index: number }>()
+  if (
+    openId &&
+    index !== -1 &&
+    (position?.id !== openId || position.index !== index)
+  ) {
+    setPosition({ id: openId, index })
+  }
+  const anchor = position?.id === openId ? position : undefined
+  const previous =
+    index !== -1 ? calls[index - 1] : anchor && calls[anchor.index - 1]
+  const next = index !== -1 ? calls[index + 1] : anchor && calls[anchor.index]
+
+  const detail = selectedCall?.id === openId ? selectedCall : null
+  const row = calls.find((c) => c.id === openId)
+  // Keeps the last call on screen while the panel slides out
+  const [shown, setShown] = useState<{
+    call: CallListItem
+    detail: CallDetail | null
+  }>()
+  const call = detail ?? row
+  if (call && (call !== shown?.call || detail !== shown.detail)) {
+    setShown({ call, detail })
+  }
+
   return (
-    <ul className="flex flex-col">
-      {calls.map((call) => (
-        <CallItem
-          key={call.id}
-          call={call}
-          membersById={membersById}
-          {...itemProps}
-        />
-      ))}
-    </ul>
+    <>
+      {calls.length === 0 ? (
+        empty
+      ) : (
+        <ul className="flex flex-col">
+          {calls.map((call) => (
+            <CallItem
+              key={call.id}
+              call={call}
+              href={hrefFor(call.id)}
+              onOpen={() => select(call.id, "push")}
+              membersById={membersById}
+              {...itemProps}
+            />
+          ))}
+        </ul>
+      )}
+      <CallDetailSheet
+        open={openId !== null}
+        call={shown?.call ?? null}
+        detail={shown?.detail ?? null}
+        // Only once the server has answered for this id
+        notFound={openId !== null && openId === selectedCallId && !selectedCall}
+        onClose={() => select(null, "replace")}
+        onPrevious={previous && (() => select(previous.id, "replace"))}
+        onNext={next && (() => select(next.id, "replace"))}
+        membersById={membersById}
+        categories={categories}
+        {...itemProps}
+      />
+    </>
   )
 }
 
 function CallItem({
   call,
+  href,
+  onOpen,
   members,
   membersById,
   currentUserId,
-}: { call: CallListItem } & ItemProps) {
-  const [pending, startTransition] = useTransition()
-  // Shows the change right away; the refresh after saving replaces it, and it
-  // reverts on its own if the save fails
-  const [optimistic, applyOptimistic] = useOptimistic(
-    { status: call.status, assigneeUserId: call.assigneeUserId },
-    (current, update: CallUpdate) => ({ ...current, ...update })
+}: { call: CallListItem; href: string; onOpen: () => void } & ItemProps) {
+  const { optimistic, pending, save, changeStatus } = useCallUpdate(
+    call,
+    currentUserId
   )
-
-  const save = (update: CallUpdate) => {
-    startTransition(async () => {
-      applyOptimistic(update)
-      const result = await updateCallAction(call.id, update)
-      if (!result.ok) {
-        toast.add({
-          type: "error",
-          title: "Couldn't update the call",
-          description: result.message,
-        })
-      }
-    })
-  }
-
-  // Starting work on an unassigned call takes it, so the team sees who's on it
-  const changeStatus = (status: CallStatus) =>
-    save(
-      status === "in_progress" && !optimistic.assigneeUserId
-        ? { status, assigneeUserId: currentUserId }
-        : { status }
-    )
 
   return (
     <Item
       variant="outline"
       render={<li />}
       aria-busy={pending}
-      className="gap-1.5 rounded-none border-x-0 border-t-0 px-0 py-4.5 first:pt-0 last:border-b-0 last:pb-0 aria-busy:opacity-70"
+      className="relative gap-1.5 rounded-none border-x-0 border-t-0 px-0 py-4.5 first:pt-0 last:border-b-0 last:pb-0 aria-busy:opacity-70"
     >
       <ItemHeader className="flex-wrap">
         <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0.5">
-          <ItemTitle>{call.callerName || "Unknown caller"}</ItemTitle>
+          <ItemTitle>
+            <Link
+              href={href}
+              scroll={false}
+              // Covers the whole row; the phone link and menus sit above it
+              className="outline-none after:absolute after:inset-0 hover:underline focus-visible:underline"
+              onClick={(event) => {
+                // Let cmd/ctrl-click open the call in a new tab
+                if (
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  event.altKey
+                ) {
+                  return
+                }
+                event.preventDefault()
+                onOpen()
+              }}
+            >
+              {call.callerName || "Unknown caller"}
+            </Link>
+          </ItemTitle>
           {call.customerNumber && (
             <Button
               variant="link"
               size="sm"
-              className="h-auto gap-1.5 px-0 font-normal tabular-nums"
+              className="relative h-auto gap-1.5 px-0 font-normal tabular-nums"
               aria-label={`Call ${call.customerNumber}`}
               nativeButton={false}
               render={<a href={`tel:${call.customerNumber}`} />}
@@ -157,7 +241,7 @@ function CallItem({
             Uncategorized
           </Badge>
         )}
-        <div className="-my-1.5 -mr-2.5 flex items-center gap-3.5">
+        <div className="relative -my-1.5 -mr-2.5 flex items-center gap-3.5">
           <CallStatusMenu status={optimistic.status} onChange={changeStatus} />
           <CallAssigneeMenu
             assigneeUserId={optimistic.assigneeUserId}
@@ -170,11 +254,6 @@ function CallItem({
       </ItemFooter>
     </Item>
   )
-}
-
-function formatDuration(seconds: number) {
-  const minutes = Math.floor(seconds / 60)
-  return `${minutes}:${String(seconds % 60).padStart(2, "0")}`
 }
 
 export { CallsList }

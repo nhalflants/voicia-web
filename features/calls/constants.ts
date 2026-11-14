@@ -25,3 +25,17 @@ export const STATUS_FILTERS: {
 
 // The list isn't paginated yet; the open view stays well under this
 export const CALL_LIST_LIMIT = 100
+
+// Vapi's ended reasons that mean something to the team; the rest are technical
+// and stay hidden
+export const ENDED_REASONS: Record<string, string> = {
+  "customer-ended-call": "Caller hung up",
+  "assistant-ended-call": "Assistant ended the call",
+  "assistant-ended-call-after-message-spoken": "Assistant ended the call",
+  "assistant-ended-call-with-hangup-task": "Assistant ended the call",
+  "assistant-said-end-call-phrase": "Assistant ended the call",
+  "assistant-forwarded-call": "Transferred by the assistant",
+  "silence-timed-out": "Ended after silence",
+  "exceeded-max-duration": "Reached the time limit",
+  voicemail: "Went to voicemail",
+}

@@ -22,6 +22,16 @@ export function parseCallFilters(searchParams: SearchParams): CallFilters {
   }
 }
 
+// The call open in the detail panel, if any
+export function parseCallId(searchParams: SearchParams): string | null {
+  const callId = first(searchParams.call)
+  return callId && UUID.test(callId) ? callId : null
+}
+
+export function isUuid(value: string) {
+  return UUID.test(value)
+}
+
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value
 }

@@ -11,7 +11,23 @@ export interface CallListItem {
   durationSeconds: number | null
   status: CallStatus
   assigneeUserId: string | null
+  categoryId: string | null
   category: { name: string; color: string } | null
+}
+
+export interface TranscriptTurn {
+  role: "assistant" | "user"
+  content: string
+}
+
+// Everything the detail panel shows. The recording itself is fetched through
+// /api/calls/[id]/recording, so its storage URL never reaches the browser
+export interface CallDetail extends CallListItem {
+  endedReason: string | null
+  isEmpty: boolean
+  assistantName: string | null
+  transcript: TranscriptTurn[]
+  hasRecording: boolean
 }
 
 // "open" groups the calls someone still has to act on
@@ -28,4 +44,5 @@ export interface CallFilters {
 export interface CallUpdate {
   status?: CallStatus
   assigneeUserId?: string | null
+  categoryId?: string | null
 }

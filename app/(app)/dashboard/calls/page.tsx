@@ -12,8 +12,8 @@ import {
 import { getCallCategories } from "@/features/call-categories/repository"
 import { CallsList } from "@/features/calls/components/calls-list"
 import { CallsToolbar } from "@/features/calls/components/calls-toolbar"
-import { parseCallFilters } from "@/features/calls/filters"
-import { getCalls } from "@/features/calls/repository"
+import { parseCallFilters, parseCallId } from "@/features/calls/filters"
+import { getCall, getCalls } from "@/features/calls/repository"
 import { getOrganizationMembers } from "@/features/org/repository"
 
 export const metadata: Metadata = {
@@ -42,11 +42,14 @@ export default async function CallsPage({
     )
   }
 
-  const filters = parseCallFilters(await searchParams)
-  const [calls, categories, members] = await Promise.all([
+  const params = await searchParams
+  const filters = parseCallFilters(params)
+  const selectedCallId = parseCallId(params)
+  const [calls, categories, members, selectedCall] = await Promise.all([
     getCalls(orgId, filters, userId),
     getCallCategories(orgId),
     getOrganizationMembers(orgId),
+    selectedCallId ? getCall(orgId, selectedCallId) : null,
   ])
   const isDefaultView =
     filters.status === "open" && !filters.assignee && !filters.categoryId
@@ -60,25 +63,31 @@ export default async function CallsPage({
         currentUserId={userId}
       />
 
-      {calls.length === 0 ? (
-        <Empty className="border">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <PhoneIcon />
-            </EmptyMedia>
-            <EmptyTitle>
-              {isDefaultView ? "You're all caught up" : "No matching calls"}
-            </EmptyTitle>
-            <EmptyDescription>
-              {isDefaultView
-                ? "New calls that need follow-up will show up here."
-                : "Try another status or clear the filters."}
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      ) : (
-        <CallsList calls={calls} members={members} currentUserId={userId} />
-      )}
+      <CallsList
+        calls={calls}
+        categories={categories}
+        members={members}
+        currentUserId={userId}
+        selectedCallId={selectedCallId}
+        selectedCall={selectedCall}
+        empty={
+          <Empty className="border">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <PhoneIcon />
+              </EmptyMedia>
+              <EmptyTitle>
+                {isDefaultView ? "You're all caught up" : "No matching calls"}
+              </EmptyTitle>
+              <EmptyDescription>
+                {isDefaultView
+                  ? "New calls that need follow-up will show up here."
+                  : "Try another status or clear the filters."}
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        }
+      />
     </div>
   )
 }

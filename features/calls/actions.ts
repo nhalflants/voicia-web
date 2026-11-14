@@ -30,7 +30,8 @@ function toErrorResult(error: unknown): ActionResult {
   }
   switch (error.status) {
     case 400:
-      // The chosen assignee left the organization since the page loaded
+      // The chosen assignee left the organization, or the category was
+      // deleted, since the page loaded
       refresh()
       return { ok: false, message: error.message }
     case 401:
