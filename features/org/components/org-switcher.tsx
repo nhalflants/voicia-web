@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+import { plansNavItem } from "@/components/layout/nav-items"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -127,16 +128,22 @@ function OrgSwitcher() {
             <DropdownMenuSeparator />
 
             {organization && (
-              <DropdownMenuItem
-                onClick={() =>
-                  openOrganizationProfile({
-                    afterLeaveOrganizationUrl: AFTER_ORG_CHANGE_URL,
-                  })
-                }
-              >
-                <SettingsIcon />
-                Manage organization
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuItem onClick={() => router.push(plansNavItem.url)}>
+                  <plansNavItem.icon />
+                  {plansNavItem.title}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    openOrganizationProfile({
+                      afterLeaveOrganizationUrl: AFTER_ORG_CHANGE_URL,
+                    })
+                  }
+                >
+                  <SettingsIcon />
+                  Manage organization
+                </DropdownMenuItem>
+              </>
             )}
             <DropdownMenuItem
               onClick={() =>

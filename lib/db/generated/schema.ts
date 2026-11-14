@@ -83,6 +83,10 @@ export const calls = pgTable(
       withTimezone: true,
       mode: "string",
     }),
+    usageReportedAt: timestamp("usage_reported_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
   },
   (table) => [
     index("calls_assistant_id_idx").using(
@@ -102,8 +106,11 @@ export const calls = pgTable(
       "btree",
       table.organizationId.asc().nullsLast().op("timestamptz_ops"),
       table.status.asc().nullsLast().op("timestamptz_ops"),
-      table.startedAt.asc().nullsLast().op("enum_ops")
+      table.startedAt.asc().nullsLast().op("timestamptz_ops")
     ),
+    index("calls_usage_unreported_created_at_idx")
+      .using("btree", table.createdAt.asc().nullsLast().op("timestamptz_ops"))
+      .where(sql`(usage_reported_at IS NULL)`),
     foreignKey({
       columns: [table.assistantId],
       foreignColumns: [assistants.id],
@@ -157,6 +164,39 @@ export const callCategories = pgTable(
     check(
       "call_categories_color_hex_check",
       sql`color ~ '^#[0-9A-Fa-f]{6}$'::text`
+    ),
+  ]
+)
+
+export const organizationBilling = pgTable(
+  "organization_billing",
+  {
+    organizationId: text("organization_id").primaryKey().notNull(),
+    stripeCustomerId: text("stripe_customer_id").notNull(),
+    stripeSubscriptionId: text("stripe_subscription_id").notNull(),
+    status: text().notNull(),
+    currentPeriodStart: timestamp("current_period_start", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(),
+    currentPeriodEnd: timestamp("current_period_end", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(),
+    cancelAt: timestamp("cancel_at", { withTimezone: true, mode: "string" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    unique("organization_billing_stripe_customer_id_unique").on(
+      table.stripeCustomerId
+    ),
+    unique("organization_billing_stripe_subscription_id_unique").on(
+      table.stripeSubscriptionId
     ),
   ]
 )

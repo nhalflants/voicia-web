@@ -31,9 +31,24 @@ The Next.js app handles checkout and the customer portal, on the server, because
 
 - `client_reference_id`: the Clerk organization ID. This is how the webhook links the subscription.
 - `customer`: the existing `stripe_customer_id`, if the organization has a row.
-- `automatic_tax`, `tax_id_collection`, `billing_mode: { type: 'flexible' }`, `allow_promotion_codes`, `customer_update`.
+- `automatic_tax`, `tax_id_collection`, `allow_promotion_codes`, and `subscription_data.billing_mode: { type: 'flexible' }`.
+- `customer_update`, only together with `customer`: Stripe rejects it otherwise.
 
-Refuse checkout if the organization's `status` is `active`, `trialing` or `past_due`. All plans share one meter, so two live subscriptions would bill the same minutes twice.
+Never set `metadata.organizationId`: the old app's webhook falls back to it and would take the subscription for one of its own.
+
+Refuse checkout unless the organization has no row, or its `status` is `canceled` or `incomplete_expired`. All plans share one meter, so two live subscriptions would bill the same minutes twice.
+
+```bash
+# .env.local of the Next.js app
+STRIPE_SECRET_KEY=rk_...                 # restricted key: Checkout Sessions write, Customer portal write
+STRIPE_VOICIA_150_BASE_PRICE_ID=price_...
+STRIPE_VOICIA_150_USAGE_PRICE_ID=price_...
+STRIPE_VOICIA_500_BASE_PRICE_ID=price_...
+STRIPE_VOICIA_500_USAGE_PRICE_ID=price_...
+APP_URL=https://...                      # where Stripe sends users back
+```
+
+The plan cards in `features/billing/constants.ts` repeat the prices for display. Change them with the Stripe prices.
 
 **Portal:** create a portal session with the row's `stripe_customer_id`.
 

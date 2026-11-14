@@ -1,4 +1,4 @@
-import { HeadsetIcon, PhoneIcon, TagsIcon } from "lucide-react"
+import { CreditCardIcon, HeadsetIcon, PhoneIcon, TagsIcon } from "lucide-react"
 
 const mainNavItems = [
   {
@@ -21,4 +21,11 @@ const settingsNavItems = [
   },
 ]
 
-export { mainNavItems, settingsNavItems }
+// Reached from the organization menu, not the sidebar
+const plansNavItem = {
+  title: "Plans",
+  url: "/dashboard/plans",
+  icon: CreditCardIcon,
+}
+
+export { mainNavItems, plansNavItem, settingsNavItems }
