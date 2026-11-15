@@ -1,7 +1,6 @@
 import { cookies } from "next/headers"
 
 import { AppSidebar } from "@/components/layout/app-sidebar"
-import { DashboardHeader } from "@/components/layout/dashboard-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default async function AppLayout({
@@ -15,10 +14,7 @@ export default async function AppLayout({
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
-      <SidebarInset>
-        <DashboardHeader />
-        {children}
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   )
 }

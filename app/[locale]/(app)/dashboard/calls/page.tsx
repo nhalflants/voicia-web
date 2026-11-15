@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { auth } from "@clerk/nextjs/server"
 import { PhoneIcon } from "lucide-react"
 
+import { DashboardHeader } from "@/components/layout/dashboard-header"
 import {
   Empty,
   EmptyDescription,
@@ -29,15 +30,18 @@ export default async function CallsPage({
 
   if (!orgId) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center p-6">
-        <Empty>
-          <EmptyHeader>
-            <EmptyTitle>No organization selected</EmptyTitle>
-            <EmptyDescription>
-              Pick an organization in the sidebar to see its calls.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
+        <DashboardHeader title="Calls" />
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>No organization selected</EmptyTitle>
+              <EmptyDescription>
+                Pick an organization in the sidebar to see its calls.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </div>
       </div>
     )
   }
@@ -56,6 +60,8 @@ export default async function CallsPage({
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
+      <DashboardHeader title="Calls" />
+
       <CallsToolbar
         filters={filters}
         categories={categories}

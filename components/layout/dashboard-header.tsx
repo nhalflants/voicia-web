@@ -1,32 +1,13 @@
-"use client"
-
-import { usePathname } from "next/navigation"
-
-import {
-  mainNavItems,
-  plansNavItem,
-  settingsNavItems,
-} from "@/components/layout/nav-items"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { UserButton } from "@/features/org/components/user-button"
-import { cn } from "@/lib/utils"
 
-function DashboardHeader() {
-  const pathname = usePathname()
-  const title = [...mainNavItems, ...settingsNavItems, plansNavItem].find(
-    (item) => pathname.startsWith(item.url)
-  )?.title
-
+// Rendered by each page inside its own container, so it inherits the page's width
+function DashboardHeader({ title }: { title: string }) {
   return (
-    <header
-      className={cn(
-        "mx-auto flex w-full items-center gap-2 px-4 pt-6 sm:px-6",
-        pathname.startsWith("/dashboard/calls") ? "max-w-5xl" : "max-w-3xl"
-      )}
-    >
+    <header className="flex items-center gap-2">
       {/* The sidebar is an off-canvas sheet on mobile, so it needs a trigger here */}
       <SidebarTrigger className="md:hidden" />
-      {title && <h1 className="font-heading text-xl font-semibold">{title}</h1>}
+      <h1 className="font-heading text-xl font-semibold">{title}</h1>
       <div className="ml-auto flex items-center">
         <UserButton />
       </div>
