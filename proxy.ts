@@ -1,6 +1,16 @@
 import { clerkMiddleware } from "@clerk/nextjs/server"
+import createMiddleware from "next-intl/middleware"
+import { routing } from "./i18n/routing"
 
-export default clerkMiddleware()
+const intlMiddleware = createMiddleware(routing)
+
+// Matched only so Clerk runs on them; they aren't localized pages
+const nonLocalizedRoute = /^\/(api|trpc|__clerk)(\/|$)/
+
+export default clerkMiddleware(async (auth, req) => {
+  if (nonLocalizedRoute.test(req.nextUrl.pathname)) return
+  return intlMiddleware(req)
+})
 
 export const config = {
   matcher: [
