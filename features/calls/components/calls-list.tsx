@@ -4,7 +4,7 @@ import { useOptimistic, useState, useTransition } from "react"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { format } from "date-fns"
-import { PhoneIcon } from "lucide-react"
+import { PhoneIcon, RepeatIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,7 +19,7 @@ import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
 import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
-import { formatDuration } from "@/features/calls/format"
+import { formatDuration, formatOrdinal } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
@@ -192,6 +192,16 @@ function CallItem({
               <PhoneIcon className="size-3.5 text-muted-foreground" />
               {call.customerNumber}
             </Button>
+          )}
+          {call.repeatCount >= 2 && (
+            // Quieter than the category badge; clicks fall through to the row
+            <Badge
+              variant="outline"
+              className="gap-1 font-normal text-muted-foreground tabular-nums"
+            >
+              <RepeatIcon className="size-3" />
+              {formatOrdinal(call.repeatCount)} call in 24h
+            </Badge>
           )}
         </div>
         <div className="flex items-center gap-1.5 text-muted-foreground tabular-nums">
