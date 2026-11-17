@@ -57,19 +57,25 @@ Calls with no number (withheld) get no badge and no history section.
 
 ### List row: repeat-caller badge
 
-- Shown next to the phone number when this call is the 2nd or later call from
-  the same number in the **24 hours up to and including this call's start**.
-  Label: "2nd call in 24h", "3rd call in 24h", …
-- The window is relative to each call, so a call's badge never changes
-  afterwards, and it avoids "today" (the app has no organization time zone).
+- Shown on **today's** calls when their number called 2 or more times today.
+  Label: "{total} calls today", the same on every one of those calls, so
+  whichever the team opens first tells them the number called repeatedly.
+  (Revised 2026-11-17: was "nth call in 24h"; a position hid the repeats on
+  the first call, and the rolling window read as confusing.)
+- "Today" starts at midnight Europe/Brussels (`BUSINESS_TIME_ZONE`). Voicia
+  only serves Belgium for now, as the API's recap emails already assume; move
+  it to the organization when that changes. Computed in the database, so the
+  server's time zone doesn't matter.
+- Calls from earlier days get no badge; the history panel covers them. The
+  count on today's calls grows as the number calls again.
 - Counted in the database across all statuses, so it stays right under any
   status / assignee / category filter. Calls with no `started_at` get no
   badge.
-- Visually quiet (secondary badge with a repeat icon), so it doesn't compete
+- Visually quiet (outline badge with a repeat icon), so it doesn't compete
   with the category badge.
 
 ```
-Marie Dupont   📞 +32 470 12 34 56   ↻ 3rd call in 24h     14:05 · 1m 12s
+Marie Dupont   📞 +32 470 12 34 56   ↻ 3 calls today     14:05 · 1m 12s
 Wants to move her appointment to Thursday…
 [Booking]                                   ● New    Unassigned
 ```
@@ -111,7 +117,7 @@ Other calls from this number (3)
   customer_number IS NOT NULL`. Serves both the badge count and the history.
   The web app regenerates `lib/db/generated` with `npm run db:pull`.
 - **Badge**: a correlated count added to `getCalls`, returned as
-  `repeatCount` on `CallListItem` (0 when there's no number or start
+  `todayCallCount` on `CallListItem` (0 for earlier days, or no number or start
   time).
 - **History**: loaded in `getCall` (reads go straight to the database; no API
   change), returned on `CallDetail` as `otherCalls` (up to 10, with the list

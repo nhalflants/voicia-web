@@ -13,9 +13,9 @@ export interface CallListItem {
   assigneeUserId: string | null
   categoryId: string | null
   category: { name: string; color: string } | null
-  // This call's position among calls from its number in the 24 hours up to
-  // its start (1 = first); 0 without a number or start time
-  repeatCount: number
+  // How many calls its number made today (Belgian time), this one included;
+  // 0 for calls from earlier days or without a number or start time
+  todayCallCount: number
 }
 
 // A row of the panel's "Other calls from this number"

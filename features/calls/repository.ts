@@ -3,6 +3,7 @@ import "server-only"
 import { and, desc, eq, inArray, isNull, ne, sql, type SQL } from "drizzle-orm"
 
 import {
+  BUSINESS_TIME_ZONE,
   CALL_HISTORY_LIMIT,
   CALL_LIST_LIMIT,
   STATUS_FILTERS,
@@ -34,16 +35,21 @@ const listColumns = {
   categoryId: true,
 } as const
 
-// The nth call from this number in the 24 hours up to this one. Later calls
-// aren't counted, so a call's badge never changes afterwards. A missing number
-// or start time makes the comparisons null, which counts 0
-const repeatCount = sql<number>`(
-  select count(*)::int from ${calls} as prior
-  where prior.organization_id = ${calls.organizationId}
-    and prior.customer_number = ${calls.customerNumber}
-    and prior.started_at > ${calls.startedAt} - interval '24 hours'
-    and prior.started_at <= ${calls.startedAt}
-)`.as("repeat_count")
+// Midnight today, Belgian time
+const startOfToday = sql`date_trunc('day', now(), ${BUSINESS_TIME_ZONE})`
+
+// How many calls this number made today, for today's calls; 0 for earlier
+// days. A missing number or start time makes the comparisons null, which
+// counts 0
+const todayCallCount = sql<number>`case
+  when ${calls.startedAt} >= ${startOfToday} then (
+    select count(*)::int from ${calls} as other
+    where other.organization_id = ${calls.organizationId}
+      and other.customer_number = ${calls.customerNumber}
+      and other.started_at >= ${startOfToday}
+  )
+  else 0
+end`.as("today_call_count")
 
 // Newest first; calls that never connected have no start time and go last
 const newestFirst = [
@@ -78,7 +84,7 @@ export async function getCalls(
   const rows = await db.query.calls.findMany({
     where: and(...conditions),
     columns: listColumns,
-    extras: { repeatCount },
+    extras: { todayCallCount },
     with: { callCategory: { columns: { name: true, color: true } } },
     orderBy: newestFirst,
     limit: CALL_LIST_LIMIT,
@@ -105,7 +111,7 @@ export async function getCall(
       transcript: true,
       recordingUrl: true,
     },
-    extras: { repeatCount },
+    extras: { todayCallCount },
     with: {
       callCategory: { columns: { name: true, color: true } },
       assistant: { columns: { name: true } },
@@ -151,7 +157,7 @@ async function getOtherCalls(
     db.query.calls.findMany({
       where,
       columns: { ...listColumns, isEmpty: true },
-      extras: { repeatCount },
+      extras: { todayCallCount },
       with: { callCategory: { columns: { name: true, color: true } } },
       orderBy: newestFirst,
       limit: CALL_HISTORY_LIMIT,

@@ -19,7 +19,7 @@ import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
 import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
-import { formatDuration, formatOrdinal } from "@/features/calls/format"
+import { formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
@@ -204,14 +204,14 @@ function CallItem({
               {call.customerNumber}
             </Button>
           )}
-          {call.repeatCount >= 2 && (
+          {call.todayCallCount >= 2 && (
             // Quieter than the category badge; clicks fall through to the row
             <Badge
               variant="outline"
               className="gap-1 font-normal text-muted-foreground tabular-nums"
             >
               <RepeatIcon className="size-3" />
-              {formatOrdinal(call.repeatCount)} call in 24h
+              {call.todayCallCount} calls today
             </Badge>
           )}
         </div>

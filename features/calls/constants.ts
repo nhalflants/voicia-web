@@ -26,6 +26,10 @@ export const STATUS_FILTERS: {
 // The list isn't paginated yet; the open view stays well under this
 export const CALL_LIST_LIMIT = 100
 
+// Where "today" starts for the repeat-caller badge. Voicia only serves Belgium
+// for now; this moves to the organization when that changes
+export const BUSINESS_TIME_ZONE = "Europe/Brussels"
+
 // Other calls from the same number shown in the detail panel
 export const CALL_HISTORY_LIMIT = 10
 
