@@ -3,7 +3,6 @@
 import { useOptimistic, useState, useTransition } from "react"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { format } from "date-fns"
 import { PhoneIcon, RepeatIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -19,7 +18,8 @@ import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
 import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
-import { formatDuration } from "@/features/calls/format"
+import { groupCallsByDay } from "@/features/calls/day-sections"
+import { formatCallTime, formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
@@ -115,18 +115,36 @@ function CallsList({
       {calls.length === 0 ? (
         empty
       ) : (
-        <ul className="flex flex-col">
-          {calls.map((call) => (
-            <CallItem
-              key={call.id}
-              call={call}
-              href={hrefFor(call.id)}
-              onOpen={() => select(call.id, "push")}
-              membersById={membersById}
-              {...itemProps}
-            />
+        <div className="flex flex-col gap-4">
+          {groupCallsByDay(calls, new Date()).map((section) => (
+            <section
+              key={section.key}
+              aria-labelledby={`calls-${section.key}`}
+              className="flex flex-col"
+            >
+              <h2
+                id={`calls-${section.key}`}
+                // Around midnight the server and the browser may disagree
+                suppressHydrationWarning
+                className="sticky top-0 z-10 mb-2 bg-background py-2 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+              >
+                {section.label}
+              </h2>
+              <ul className="flex flex-col">
+                {section.calls.map((call) => (
+                  <CallItem
+                    key={call.id}
+                    call={call}
+                    href={hrefFor(call.id)}
+                    onOpen={() => select(call.id, "push")}
+                    membersById={membersById}
+                    {...itemProps}
+                  />
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       )}
       <CallDetailSheet
         open={openId !== null}
@@ -217,9 +235,9 @@ function CallItem({
         </div>
         <div className="flex items-center gap-1.5 text-muted-foreground tabular-nums">
           {call.startedAt && (
-            // The server and the browser may sit in different time zones
-            <time dateTime={call.startedAt} suppressHydrationWarning>
-              {format(new Date(call.startedAt), "d MMM, HH:mm")}
+            // Fixed to Belgian time, so the server and the browser agree
+            <time dateTime={call.startedAt}>
+              {formatCallTime(call.startedAt)}
             </time>
           )}
           {call.startedAt && call.durationSeconds != null && (
