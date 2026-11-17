@@ -29,6 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
 import { CallCategoryMenu } from "@/features/calls/components/call-category-menu"
+import { CallHistory } from "@/features/calls/components/call-history"
 import { CallRecordingPlayer } from "@/features/calls/components/call-recording-player"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
 import { CallTranscript } from "@/features/calls/components/call-transcript"
@@ -43,6 +44,8 @@ interface PanelProps {
   membersById: Map<string, OrganizationMember>
   categories: CallCategory[]
   currentUserId: string
+  // Opens another call in the panel, from "Other calls from this number"
+  onSelectCall: (call: CallListItem) => void
 }
 
 function CallDetailSheet({
@@ -111,6 +114,7 @@ function CallPanel({
   membersById,
   categories,
   currentUserId,
+  onSelectCall,
 }: { call: CallListItem; detail: CallDetail | null } & PanelProps) {
   // The detail is fresher than the row once it has loaded
   const call = detail ?? row
@@ -228,6 +232,14 @@ function CallPanel({
             {call.summary || "No summary for this call."}
           </p>
         </section>
+
+        {detail && (
+          <CallHistory
+            calls={detail.otherCalls}
+            total={detail.otherCallsTotal}
+            onSelect={onSelectCall}
+          />
+        )}
 
         <section className="flex flex-col gap-3">
           <h3 className="font-medium">Recording</h3>

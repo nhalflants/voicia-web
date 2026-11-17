@@ -88,8 +88,18 @@ function CallsList({
     index !== -1 ? calls[index - 1] : anchor && calls[anchor.index - 1]
   const next = index !== -1 ? calls[index + 1] : anchor && calls[anchor.index]
 
+  // A call opened from the panel's history may not be in this view; its
+  // history row shows it right away while the detail loads
+  const [picked, setPicked] = useState<CallListItem | null>(null)
+  const selectCall = (call: CallListItem) => {
+    setPicked(call)
+    select(call.id, "replace")
+  }
+
   const detail = selectedCall?.id === openId ? selectedCall : null
-  const row = calls.find((c) => c.id === openId)
+  const row =
+    calls.find((c) => c.id === openId) ??
+    (picked?.id === openId ? picked : undefined)
   // Keeps the last call on screen while the panel slides out
   const [shown, setShown] = useState<{
     call: CallListItem
@@ -127,6 +137,7 @@ function CallsList({
         onClose={() => select(null, "replace")}
         onPrevious={previous && (() => select(previous.id, "replace"))}
         onNext={next && (() => select(next.id, "replace"))}
+        onSelectCall={selectCall}
         membersById={membersById}
         categories={categories}
         {...itemProps}
