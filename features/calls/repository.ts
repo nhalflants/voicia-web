@@ -1,11 +1,16 @@
 import "server-only"
 
-import { and, desc, eq, inArray, isNull, sql, type SQL } from "drizzle-orm"
+import { and, desc, eq, inArray, isNull, ne, sql, type SQL } from "drizzle-orm"
 
-import { CALL_LIST_LIMIT, STATUS_FILTERS } from "@/features/calls/constants"
+import {
+  CALL_HISTORY_LIMIT,
+  CALL_LIST_LIMIT,
+  STATUS_FILTERS,
+} from "@/features/calls/constants"
 import type {
   CallDetail,
   CallFilters,
+  CallHistoryItem,
   CallListItem,
   CallUpdate,
   TranscriptTurn,
@@ -28,6 +33,23 @@ const listColumns = {
   assigneeUserId: true,
   categoryId: true,
 } as const
+
+// The nth call from this number in the 24 hours up to this one. Later calls
+// aren't counted, so a call's badge never changes afterwards. A missing number
+// or start time makes the comparisons null, which counts 0
+const repeatCount = sql<number>`(
+  select count(*)::int from ${calls} as prior
+  where prior.organization_id = ${calls.organizationId}
+    and prior.customer_number = ${calls.customerNumber}
+    and prior.started_at > ${calls.startedAt} - interval '24 hours'
+    and prior.started_at <= ${calls.startedAt}
+)`.as("repeat_count")
+
+// Newest first; calls that never connected have no start time and go last
+const newestFirst = [
+  sql`${calls.startedAt} desc nulls last`,
+  desc(calls.createdAt),
+]
 
 export async function getCalls(
   organizationId: string,
@@ -56,9 +78,9 @@ export async function getCalls(
   const rows = await db.query.calls.findMany({
     where: and(...conditions),
     columns: listColumns,
+    extras: { repeatCount },
     with: { callCategory: { columns: { name: true, color: true } } },
-    // Calls that never connected have no start time; keep them at the bottom
-    orderBy: [sql`${calls.startedAt} desc nulls last`, desc(calls.createdAt)],
+    orderBy: newestFirst,
     limit: CALL_LIST_LIMIT,
   })
 
@@ -83,6 +105,7 @@ export async function getCall(
       transcript: true,
       recordingUrl: true,
     },
+    extras: { repeatCount },
     with: {
       callCategory: { columns: { name: true, color: true } },
       assistant: { columns: { name: true } },
@@ -98,6 +121,7 @@ export async function getCall(
     isEmpty,
     ...call
   } = row
+  const otherCalls = await getOtherCalls(organizationId, call)
   return {
     ...call,
     category: callCategory,
@@ -105,6 +129,43 @@ export async function getCall(
     isEmpty: isEmpty ?? false,
     transcript: parseTranscript(transcript),
     hasRecording: Boolean(recordingUrl),
+    otherCalls: otherCalls.calls,
+    otherCallsTotal: otherCalls.total,
+  }
+}
+
+// Every other call from the same number in this organization, earlier and
+// later. Withheld numbers can't be matched
+async function getOtherCalls(
+  organizationId: string,
+  call: { id: string; customerNumber: string | null }
+): Promise<{ calls: CallHistoryItem[]; total: number }> {
+  if (!call.customerNumber) return { calls: [], total: 0 }
+
+  const where = and(
+    eq(calls.organizationId, organizationId),
+    eq(calls.customerNumber, call.customerNumber),
+    ne(calls.id, call.id)
+  )
+  const [rows, total] = await Promise.all([
+    db.query.calls.findMany({
+      where,
+      columns: { ...listColumns, isEmpty: true },
+      extras: { repeatCount },
+      with: { callCategory: { columns: { name: true, color: true } } },
+      orderBy: newestFirst,
+      limit: CALL_HISTORY_LIMIT,
+    }),
+    db.$count(calls, where),
+  ])
+
+  return {
+    calls: rows.map(({ callCategory, isEmpty, ...other }) => ({
+      ...other,
+      category: callCategory,
+      isEmpty: isEmpty ?? false,
+    })),
+    total,
   }
 }
 

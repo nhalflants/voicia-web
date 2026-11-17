@@ -26,6 +26,9 @@ export const STATUS_FILTERS: {
 // The list isn't paginated yet; the open view stays well under this
 export const CALL_LIST_LIMIT = 100
 
+// Other calls from the same number shown in the detail panel
+export const CALL_HISTORY_LIMIT = 10
+
 // Vapi's ended reasons that mean something to the team; the rest are technical
 // and stay hidden
 export const ENDED_REASONS: Record<string, string> = {

@@ -13,6 +13,14 @@ export interface CallListItem {
   assigneeUserId: string | null
   categoryId: string | null
   category: { name: string; color: string } | null
+  // This call's position among calls from its number in the 24 hours up to
+  // its start (1 = first); 0 without a number or start time
+  repeatCount: number
+}
+
+// A row of the panel's "Other calls from this number"
+export interface CallHistoryItem extends CallListItem {
+  isEmpty: boolean
 }
 
 export interface TranscriptTurn {
@@ -28,6 +36,10 @@ export interface CallDetail extends CallListItem {
   assistantName: string | null
   transcript: TranscriptTurn[]
   hasRecording: boolean
+  // The most recent other calls from the same number, newest first, and how
+  // many there are in all
+  otherCalls: CallHistoryItem[]
+  otherCallsTotal: number
 }
 
 // "open" groups the calls someone still has to act on
