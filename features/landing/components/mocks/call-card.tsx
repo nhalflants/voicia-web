@@ -5,20 +5,19 @@ import { AnimatePresence, motion, useInView } from "motion/react"
 import { CheckIcon, PhoneIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
-import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 import { cn } from "@/lib/utils"
 
 const FIELDS = ["name", "need", "town", "timing"] as const
 
-// ringing → answering → one tick per field → qualified
+// ringing → answering → one tick per field
 const RING_MS = 1400
 const FIELD_MS = 700
-const LAST_STEP = FIELDS.length + 2
+const LAST_STEP = FIELDS.length + 1
 
 // The call as Voicia takes it: it rings, Voicia answers, and each piece of
-// information it asks for is ticked off until the lead is qualified.
+// information it asks for is ticked off.
 // Plays once each time the tab opens; decorative
 function CallCard({ className }: { className?: string }) {
   const t = useTranslations("Landing.product.mocks")
@@ -108,22 +107,6 @@ function CallCard({ className }: { className?: string }) {
             )
           })}
         </ul>
-
-        <div className="h-5">
-          <AnimatePresence>
-            {step >= LAST_STEP && (
-              <motion.div
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Badge className="bg-brand-soft font-medium text-brand">
-                  {t("answers.priority")}
-                </Badge>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
       </Card>
     </div>
   )

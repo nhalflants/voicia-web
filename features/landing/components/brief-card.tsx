@@ -50,12 +50,9 @@ const part = {
 // Decorative: its buttons don't do anything
 function BriefCard({
   content,
-  compact = false,
   className,
 }: {
   content: BriefCardContent
-  // Leaves out the recording and the "sent to" line
-  compact?: boolean
   className?: string
 }) {
   const facts = [
@@ -126,48 +123,44 @@ function BriefCard({
           ))}
         </motion.div>
 
-        {!compact && (
-          <>
-            {/* Recording */}
-            <motion.div
-              variants={part}
-              className="flex items-center gap-2.5 rounded-lg bg-muted/60 p-1.5 pr-3"
-            >
-              <Button
-                size="icon-sm"
-                variant="outline"
-                className="rounded-full"
-                tabIndex={-1}
-                aria-label={content.replay}
-              >
-                <PlayIcon className="fill-current" />
-              </Button>
-              <div className="flex h-6 flex-1 items-center gap-[3px]">
-                {WAVEFORM.map((height, i) => (
-                  <span
-                    key={i}
-                    className={cn(
-                      "w-[3px] rounded-full",
-                      i < 7 ? "bg-foreground" : "bg-foreground/25"
-                    )}
-                    style={{ height: `${height * 100}%` }}
-                  />
-                ))}
-              </div>
-              <span className="text-xs text-muted-foreground tabular-nums">
-                {content.duration}
-              </span>
-            </motion.div>
+        {/* Recording */}
+        <motion.div
+          variants={part}
+          className="flex items-center gap-2.5 rounded-lg bg-muted/60 p-1.5 pr-3"
+        >
+          <Button
+            size="icon-sm"
+            variant="outline"
+            className="rounded-full"
+            tabIndex={-1}
+            aria-label={content.replay}
+          >
+            <PlayIcon className="fill-current" />
+          </Button>
+          <div className="flex h-6 flex-1 items-center gap-[3px]">
+            {WAVEFORM.map((height, i) => (
+              <span
+                key={i}
+                className={cn(
+                  "w-[3px] rounded-full",
+                  i < 7 ? "bg-foreground" : "bg-foreground/25"
+                )}
+                style={{ height: `${height * 100}%` }}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-muted-foreground tabular-nums">
+            {content.duration}
+          </span>
+        </motion.div>
 
-            <motion.div variants={part} className="flex flex-col gap-3">
-              <Separator />
-              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <MailIcon className="size-3.5" />
-                {content.sentTo}
-              </p>
-            </motion.div>
-          </>
-        )}
+        <motion.div variants={part} className="flex flex-col gap-3">
+          <Separator />
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <MailIcon className="size-3.5" />
+            {content.sentTo}
+          </p>
+        </motion.div>
       </motion.div>
     </Card>
   )

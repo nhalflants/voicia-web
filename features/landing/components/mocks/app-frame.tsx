@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 
-// A browser-style window around a mock of the dashboard
+// A plain panel around a mock of the dashboard
 function AppFrame({
   children,
   className,
@@ -16,11 +16,6 @@ function AppFrame({
         className
       )}
     >
-      <div className="flex items-center gap-1.5 border-b px-4 py-3">
-        <span className="size-2.5 rounded-full bg-foreground/15" />
-        <span className="size-2.5 rounded-full bg-foreground/15" />
-        <span className="size-2.5 rounded-full bg-foreground/15" />
-      </div>
       <div className="p-4 sm:p-5">{children}</div>
     </div>
   )

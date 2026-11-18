@@ -34,23 +34,23 @@ function BriefMock() {
   const t = useTranslations("Landing.product.mocks")
   return (
     <BriefCard
-      className="mx-auto shadow-none ring-0"
+      className="mx-auto shadow-xl shadow-black/5"
       content={{
-        callerName: t("brief.callerName"),
-        callerNumber: t("brief.callerNumber"),
-        time: t("brief.time"),
-        category: t("brief.category"),
-        priority: t("brief.priority"),
-        summary: t("brief.summary"),
+        callerName: t("answers.callerName"),
+        callerNumber: t("answers.callerNumber"),
+        time: t("answers.time"),
+        category: t("answers.category"),
+        priority: t("answers.priority"),
+        summary: t("answers.summary"),
         facts: {
-          place: t("brief.place"),
-          when: t("brief.when"),
-          topic: t("brief.topic"),
+          place: t("answers.place"),
+          when: t("answers.when"),
+          topic: t("answers.topic"),
         },
-        duration: t("brief.duration"),
-        replay: t("brief.replay"),
-        callBack: t("brief.callBack"),
-        sentTo: t("brief.sentTo"),
+        duration: t("answers.duration"),
+        replay: t("answers.replay"),
+        callBack: t("answers.callBack"),
+        sentTo: t("answers.sentTo"),
       }}
     />
   )
@@ -88,6 +88,9 @@ function ProductTabs() {
 
   useEffect(() => {
     if (!inView || picked || reduceMotion) return
+    // On phones each tab has its own height, so changing on its own would
+    // move the page under the reader's thumb
+    if (!window.matchMedia("(min-width: 640px)").matches) return
     const timer = setTimeout(() => {
       const next =
         TABS[(TABS.findIndex((tab) => tab.key === active) + 1) % TABS.length]
@@ -160,7 +163,7 @@ function ProductTabs() {
                 className={
                   key === "answers"
                     ? undefined
-                    : "landing-glow relative rounded-3xl p-4 sm:p-10"
+                    : "landing-glow relative flex items-center justify-center rounded-3xl p-4 sm:aspect-[4/3] sm:p-10"
                 }
               >
                 {key === "answers" ? (
@@ -169,9 +172,16 @@ function ProductTabs() {
                 ) : (
                   <>
                     <div className="landing-dots pointer-events-none absolute inset-0" />
-                    <AppFrame className="relative mx-auto max-w-lg">
-                      <Mock />
-                    </AppFrame>
+                    {key === "brief" ? (
+                      // Already a card
+                      <div className="relative w-full max-w-sm">
+                        <Mock />
+                      </div>
+                    ) : (
+                      <AppFrame className="relative max-w-lg">
+                        <Mock />
+                      </AppFrame>
+                    )}
                   </>
                 )}
               </motion.div>

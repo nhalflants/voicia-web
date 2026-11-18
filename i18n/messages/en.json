@@ -391,39 +391,24 @@
         "alerts": {
           "label": "Alerts your team",
           "title": "The right person hears about it right away",
-          "text": "Each category goes to the people you choose, by email. More channels are on the way."
+          "text": "Each category goes to the people you choose, by email."
         }
       },
       "mocks": {
-        "brief": {
-          "callerName": "Claire Dubois",
-          "callerNumber": "+32 475 55 66 77",
-          "time": "10 min ago",
-          "priority": "High intent",
-          "category": "Sales",
-          "summary": "Claire Dubois wants to visit the house for sale in Uccle, ideally tomorrow late afternoon. Already house hunting, financing approved.",
-          "place": "Uccle",
-          "when": "Tomorrow after 4pm",
-          "topic": "House visit",
-          "duration": "2:14",
-          "replay": "Replay the call",
-          "callBack": "Call back",
-          "sentTo": "Sent to Julie by email"
-        },
         "tabsOpen": "Open",
         "tabsClosed": "Closed",
         "tabsAll": "All",
         "today": "Today",
         "rows": [
           {
-            "name": "Claire Dubois",
-            "number": "+32 475 55 66 77",
-            "time": "15:40",
-            "duration": "2:14",
-            "summary": "Wants to visit the house for sale in Uccle tomorrow, late afternoon.",
-            "category": "Sales",
+            "name": "Julien Peeters",
+            "number": "+32 495 63 12 08",
+            "time": "15:42",
+            "duration": "1:36",
+            "summary": "Wants a quote to renovate his bathroom in Uccle before the summer.",
+            "category": "Quote",
             "status": "New",
-            "assignee": "JD"
+            "assignee": ""
           },
           {
             "name": "Unknown caller",
@@ -440,18 +425,18 @@
             "number": "+32 474 44 33 22",
             "time": "11:05",
             "duration": "1:38",
-            "summary": "Owns a flat she wants to let and is looking for an agency to manage it.",
-            "category": "Rentals",
+            "summary": "Asks when the plumber can come back to finish the kitchen sink.",
+            "category": "Follow-up",
             "status": "In progress",
             "assignee": "MV"
           }
         ],
-        "categoryName": "Repair",
+        "categoryName": "Quote",
         "recipients": "Marc and Julie",
         "byEmail": "By email",
         "emailFrom": "Voicia",
-        "emailSubject": "New call · Repair",
-        "emailBody": "Sophie Martin has a leaking water heater in Ixelles and asks for a visit today.",
+        "emailSubject": "New call · Quote",
+        "emailBody": "Julien Peeters wants a quote to renovate his bathroom in Uccle before the summer. Prefers a call back tomorrow morning.",
         "emailAction": "Open the call",
         "now": "now",
         "answers": {

@@ -391,39 +391,24 @@
         "alerts": {
           "label": "Prévient l'équipe",
           "title": "La bonne personne est prévenue tout de suite",
-          "text": "Chaque catégorie est envoyée aux personnes que vous choisissez, par e-mail. D'autres canaux arrivent bientôt."
+          "text": "Chaque catégorie est envoyée aux personnes que vous choisissez, par e-mail."
         }
       },
       "mocks": {
-        "brief": {
-          "callerName": "Claire Dubois",
-          "callerNumber": "+32 475 55 66 77",
-          "time": "il y a 10 min",
-          "priority": "Très intéressée",
-          "category": "Vente",
-          "summary": "Claire Dubois souhaite visiter la maison à vendre à Uccle, idéalement demain en fin d'après-midi. Déjà en recherche, financement accordé.",
-          "place": "Uccle",
-          "when": "Demain après 16 h",
-          "topic": "Visite maison",
-          "duration": "2:14",
-          "replay": "Réécouter l'appel",
-          "callBack": "Rappeler",
-          "sentTo": "Envoyé à Julie par e-mail"
-        },
         "tabsOpen": "Ouverts",
         "tabsClosed": "Clôturés",
         "tabsAll": "Tous",
         "today": "Aujourd'hui",
         "rows": [
           {
-            "name": "Claire Dubois",
-            "number": "+32 475 55 66 77",
-            "time": "15:40",
-            "duration": "2:14",
-            "summary": "Souhaite visiter la maison à vendre à Uccle demain en fin d'après-midi.",
-            "category": "Vente",
+            "name": "Julien Peeters",
+            "number": "+32 495 63 12 08",
+            "time": "15:42",
+            "duration": "1:36",
+            "summary": "Souhaite un devis pour rénover sa salle de bain à Uccle avant l'été.",
+            "category": "Devis",
             "status": "Nouveau",
-            "assignee": "JD"
+            "assignee": ""
           },
           {
             "name": "Appelant inconnu",
@@ -440,18 +425,18 @@
             "number": "+32 474 44 33 22",
             "time": "11:05",
             "duration": "1:38",
-            "summary": "Possède un appartement à louer et cherche une agence pour la gestion locative.",
-            "category": "Location",
+            "summary": "Demande quand le plombier peut repasser pour terminer l'évier de la cuisine.",
+            "category": "Suivi",
             "status": "En cours",
             "assignee": "MV"
           }
         ],
-        "categoryName": "Dépannage",
+        "categoryName": "Devis",
         "recipients": "Marc et Julie",
         "byEmail": "Par e-mail",
         "emailFrom": "Voicia",
-        "emailSubject": "Nouvel appel · Dépannage",
-        "emailBody": "Sophie Martin a un chauffe-eau qui fuit à Ixelles et demande un passage aujourd'hui.",
+        "emailSubject": "Nouvel appel · Devis",
+        "emailBody": "Julien Peeters souhaite un devis pour rénover sa salle de bain à Uccle avant l'été. Préfère être rappelé demain matin.",
         "emailAction": "Ouvrir l'appel",
         "now": "maintenant",
         "answers": {

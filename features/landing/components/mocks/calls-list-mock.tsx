@@ -1,3 +1,6 @@
+"use client"
+
+import { motion } from "motion/react"
 import { PhoneIcon, PhoneMissedIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
@@ -17,10 +20,11 @@ interface Row {
 }
 
 // Category colours from the dashboard's palette; null means no category
-const CATEGORY_COLORS = ["#3b82f6", null, "#10b981"]
+const CATEGORY_COLORS = ["#f59e0b", null, "#10b981"]
 const STATUS_DOTS = ["bg-blue-500", "bg-blue-500", "bg-amber-500"]
 
-// The calls page as the dashboard shows it, with sample data
+// The calls page as the dashboard shows it, with sample data. The newest
+// call (Julien's, from the other tabs) slides in at the top
 function CallsListMock() {
   const t = useTranslations("Landing.product.mocks")
   const rows = t.raw("rows") as Row[]
@@ -41,9 +45,15 @@ function CallsListMock() {
         {rows.map((row, i) => {
           const color = CATEGORY_COLORS[i]
           return (
-            <li
+            <motion.li
               key={row.number}
-              className="flex flex-col gap-1.5 py-3 first:pt-0 last:pb-0"
+              initial={i === 0 ? { opacity: 0, y: -12 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              className={cn(
+                "flex flex-col gap-1.5 py-3 first:pt-0 last:pb-0",
+                i === 0 && "-mx-2 rounded-lg bg-brand-soft/40 px-2 first:pt-3"
+              )}
             >
               <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 text-sm">
                 <div className="flex min-w-0 flex-wrap items-center gap-x-3">
@@ -104,7 +114,7 @@ function CallsListMock() {
                   )}
                 </div>
               </div>
-            </li>
+            </motion.li>
           )
         })}
       </ul>
