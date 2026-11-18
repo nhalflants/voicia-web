@@ -591,6 +591,11 @@
       "contact": "Contact",
       "language": "Language",
       "rights": "© {year} Voicia"
+    },
+    "meta": {
+      "title": "Voicia · AI receptionist for busy professionals",
+      "description": "Voicia answers every call while you work, qualifies the request and sends you a structured brief, so no lead goes cold.",
+      "ogAlt": "Voicia: turn missed calls into qualified leads"
     }
   }
 }

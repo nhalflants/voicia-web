@@ -591,6 +591,11 @@
       "contact": "Contact",
       "language": "Langue",
       "rights": "© {year} Voicia"
+    },
+    "meta": {
+      "title": "Voicia · Réceptionniste IA pour professionnels occupés",
+      "description": "Voicia répond à chaque appel pendant que vous travaillez, qualifie la demande et vous envoie un résumé structuré, pour qu'aucun prospect ne refroidisse.",
+      "ogAlt": "Voicia : transformez vos appels manqués en prospects qualifiés"
     }
   }
 }
