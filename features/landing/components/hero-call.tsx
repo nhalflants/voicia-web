@@ -44,9 +44,9 @@ function HeroCall() {
     <div
       ref={ref}
       aria-hidden
-      className="relative flex flex-col items-center gap-6 md:block md:h-[620px]"
+      className="relative flex flex-col items-center gap-6 py-10 lg:py-14"
     >
-      <PhoneFrame className="md:absolute md:top-10 md:left-[calc(50%-250px)]">
+      <PhoneFrame className="shrink-0">
         {/* Call header */}
         <div className="flex flex-col items-center gap-2 px-4 pt-12 pb-4 text-center">
           <div className="relative flex size-14 items-center justify-center rounded-full bg-background shadow-sm">
@@ -112,8 +112,9 @@ function HeroCall() {
       </PhoneFrame>
 
       {/* The brief slides out beside the phone */}
-      {/* Space is kept on phones so the page doesn't jump when it appears */}
-      <div className="min-h-[300px] w-full max-w-sm md:absolute md:min-h-0 md:top-44 md:left-[calc(50%+40px)] md:w-[360px]">
+      {/* Beside the centred phone on wide screens; below it, with space kept so
+          the page doesn't jump when it appears */}
+      <div className="min-h-[300px] w-full max-w-sm lg:absolute lg:top-1/2 lg:left-[calc(50%+170px)] lg:min-h-0 lg:w-[360px] lg:-translate-y-1/2">
         <AnimatePresence>
           {ended && (
             <motion.div

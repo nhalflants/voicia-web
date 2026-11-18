@@ -159,3 +159,19 @@
   background-size: 16px 16px;
   mask-image: radial-gradient(70% 70% at 50% 50%, black, transparent);
 }
+
+/* Landing hero: pill, title and subtitle fade in one after another on load */
+@keyframes landing-intro {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.landing-intro {
+  animation: landing-intro 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-intro {
+    animation: none;
+  }
+}

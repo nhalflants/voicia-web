@@ -297,13 +297,18 @@
       "menu": "Menu"
     },
     "cta": {
-      "book": "Réserver un appel de configuration",
+      "book": "Réserver un appel",
       "signUp": "S'inscrire"
     },
     "hero": {
-      "eyebrow": "Réceptionniste IA pour professionnels occupés",
+      "pills": {
+        "answers": "Répond à chaque appel",
+        "chases": "Ne laisse filer aucun prospect",
+        "sorts": "Classe les appels par intention",
+        "summary": "Vous envoie un résumé"
+      },
       "title": "Transformez vos appels manqués en prospects qualifiés",
-      "subtitle": "Voicia répond à chaque appel pendant que vous travaillez, puis vous envoie un court résumé pour rappeler avant que le prospect ne refroidisse.",
+      "subtitle": "Voicia prend en charge vos appels entrants, qualifie la demande et donne à votre équipe un résumé structuré sur lequel agir immédiatement.",
       "call": {
         "incoming": "Appel entrant",
         "answering": "Voicia répond",

@@ -301,9 +301,14 @@
       "signUp": "Sign up"
     },
     "hero": {
-      "eyebrow": "AI receptionist for busy professionals",
+      "pills": {
+        "answers": "Answers every call",
+        "chases": "Chases every lead",
+        "sorts": "Sorts calls by intent",
+        "summary": "Sends you a summary"
+      },
       "title": "Turn missed calls into qualified leads",
-      "subtitle": "Voicia answers every call while you work, then sends you a short brief so you can follow up before the lead goes cold.",
+      "subtitle": "Voicia handles your incoming calls, qualifies the request and gives your team a structured brief to act on right away.",
       "call": {
         "incoming": "Incoming call",
         "answering": "Voicia is answering",
