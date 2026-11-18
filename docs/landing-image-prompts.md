@@ -64,6 +64,40 @@ or "AI" visuals, glowing blue light, hands pointing at holograms.
 > couple, seen from behind, the agent gesturing towards tall windows and
 > parquet floors. Brussels townhouse architecture.
 
+## Answers tab: Voicia picks up while you work
+
+The photo fills the Answers tab panel in the "How it works" section. The
+Voicia summary card floats over its lower right corner, so that area must
+stay calm.
+
+- File: `public/landing/answers.webp`, 4:3, at least 1600 × 1200, under 300 KB.
+- Turn it on: set `ANSWERS_IMAGE = "/landing/answers.webp"` in
+  `features/landing/constants.ts`.
+
+> Candid editorial photograph, warm natural daylight from a window on the
+> left, inside a small, tidy Belgian woodworking workshop. In the left two
+> thirds of the frame, a craftsperson's hands and forearms sand a wooden
+> board on a workbench, slightly out of focus, sleeves rolled up, no face
+> visible. In the sharp lower-left foreground, a smartphone lies face-up on
+> the bench, its screen softly lit by an incoming call, nothing readable on
+> it. Wood shavings, a pencil, a folding ruler and a ceramic coffee cup. The
+> lower-right third is a calm, uncluttered stretch of light wood and soft
+> shadow. Muted palette of warm whites, honey wood and peach, with a subtle
+> coral accent; soft contrast, gentle highlights, fine film grain, shallow
+> depth of field, 35 mm lens look. Quiet and real, not staged. 4:3
+> landscape. No faces, no text, no logos, no brand names, no watermark.
+
+Negative prompt, for tools that take one: *face, people looking at camera,
+smiling, headset, call centre, office desk, computer screen, readable text,
+UI, logo, watermark, neon, blue light, harsh flash, cluttered background,
+extra fingers, distorted hands.*
+
+Variations worth trying with the same style block:
+- *A physiotherapist's hands adjusting a treatment table, the phone lit on a
+  side shelf.*
+- *A chef's hands plating a dish at the pass, the phone lit beside a stack of
+  order tickets.*
+
 ## Social image (optional)
 
 The social sharing image is generated in code

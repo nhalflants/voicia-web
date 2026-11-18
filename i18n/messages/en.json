@@ -395,13 +395,6 @@
         }
       },
       "mocks": {
-        "live": "Live call",
-        "liveNumber": "+32 495 63 12 08",
-        "liveTopic": "New customer · asking for a quote",
-        "transfer": "Transfer to Marc",
-        "transcript": "Live transcript",
-        "line1": "Hello, I'd like a quote for renovating my bathroom.",
-        "line2": "Of course. Which town is the property in, and when would you like the work done?",
         "brief": {
           "callerName": "Claire Dubois",
           "callerNumber": "+32 475 55 66 77",
@@ -460,7 +453,23 @@
         "emailSubject": "New call · Repair",
         "emailBody": "Sophie Martin has a leaking water heater in Ixelles and asks for a visit today.",
         "emailAction": "Open the call",
-        "now": "now"
+        "now": "now",
+        "answers": {
+          "callerName": "Julien Peeters",
+          "callerNumber": "+32 495 63 12 08",
+          "time": "just now",
+          "priority": "Qualified lead",
+          "category": "Quote",
+          "summary": "Julien Peeters wants a quote to renovate his bathroom in Uccle before the summer. Prefers a call back tomorrow morning.",
+          "place": "Uccle",
+          "when": "Before summer",
+          "topic": "Bathroom",
+          "duration": "1:36",
+          "replay": "Replay the call",
+          "callBack": "Call back",
+          "sentTo": "Sent to Marc by email",
+          "imageAlt": "A craftsperson at work while their phone rings on the workbench"
+        }
       }
     },
     "audiences": {

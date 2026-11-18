@@ -14,9 +14,9 @@ import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BriefCard } from "@/features/landing/components/brief-card"
 import { AlertsMock } from "@/features/landing/components/mocks/alerts-mock"
+import { AnswersVisual } from "@/features/landing/components/mocks/answers-visual"
 import { AppFrame } from "@/features/landing/components/mocks/app-frame"
 import { CallsListMock } from "@/features/landing/components/mocks/calls-list-mock"
-import { LiveCallMock } from "@/features/landing/components/mocks/live-call-mock"
 import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 type TabKey = "answers" | "brief" | "sorts" | "alerts"
@@ -57,7 +57,7 @@ function BriefMock() {
 }
 
 const MOCKS: Record<TabKey, React.ComponentType> = {
-  answers: LiveCallMock,
+  answers: AnswersVisual,
   brief: BriefMock,
   sorts: CallsListMock,
   alerts: AlertsMock,
@@ -111,7 +111,7 @@ function ProductTabs() {
           ref={tabsRowRef}
           className="relative -mx-4 max-w-[calc(100%+2rem)] overflow-x-auto px-4 pb-1 sm:mx-0 sm:max-w-full sm:px-0"
         >
-          <TabsList className="h-auto gap-1 rounded-full border border-foreground/[0.06] bg-background p-1 shadow-[0_2px_12px_rgb(0_0_0/0.06)] dark:shadow-none">
+          <TabsList className="h-auto gap-1 rounded-full border border-foreground/[0.06] bg-background p-1 group-data-horizontal/tabs:h-auto">
             {TABS.map(({ key, icon: Icon }) => (
               <TabsTrigger
                 key={key}
@@ -157,12 +157,23 @@ function ProductTabs() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="landing-glow relative rounded-3xl p-4 sm:p-10"
+                className={
+                  key === "answers"
+                    ? undefined
+                    : "landing-glow relative rounded-3xl p-4 sm:p-10"
+                }
               >
-                <div className="landing-dots pointer-events-none absolute inset-0" />
-                <AppFrame className="relative mx-auto max-w-lg">
+                {key === "answers" ? (
+                  // Brings its own photo and frame
                   <Mock />
-                </AppFrame>
+                ) : (
+                  <>
+                    <div className="landing-dots pointer-events-none absolute inset-0" />
+                    <AppFrame className="relative mx-auto max-w-lg">
+                      <Mock />
+                    </AppFrame>
+                  </>
+                )}
               </motion.div>
             </TabsContent>
           )

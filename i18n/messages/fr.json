@@ -395,13 +395,6 @@
         }
       },
       "mocks": {
-        "live": "Appel en cours",
-        "liveNumber": "+32 495 63 12 08",
-        "liveTopic": "Nouveau client · demande de devis",
-        "transfer": "Transférer à Marc",
-        "transcript": "Transcription en direct",
-        "line1": "Bonjour, je voudrais un devis pour rénover ma salle de bain.",
-        "line2": "Bien sûr. Dans quelle commune se trouve le bien, et pour quand souhaitez-vous les travaux ?",
         "brief": {
           "callerName": "Claire Dubois",
           "callerNumber": "+32 475 55 66 77",
@@ -460,7 +453,23 @@
         "emailSubject": "Nouvel appel · Dépannage",
         "emailBody": "Sophie Martin a un chauffe-eau qui fuit à Ixelles et demande un passage aujourd'hui.",
         "emailAction": "Ouvrir l'appel",
-        "now": "maintenant"
+        "now": "maintenant",
+        "answers": {
+          "callerName": "Julien Peeters",
+          "callerNumber": "+32 495 63 12 08",
+          "time": "à l'instant",
+          "priority": "Prospect qualifié",
+          "category": "Devis",
+          "summary": "Julien Peeters souhaite un devis pour rénover sa salle de bain à Uccle avant l'été. Préfère être rappelé demain matin.",
+          "place": "Uccle",
+          "when": "Avant l'été",
+          "topic": "Salle de bain",
+          "duration": "1:36",
+          "replay": "Réécouter l'appel",
+          "callBack": "Rappeler",
+          "sentTo": "Envoyé à Marc par e-mail",
+          "imageAlt": "Un artisan au travail pendant que son téléphone sonne sur l'établi"
+        }
       }
     },
     "audiences": {
