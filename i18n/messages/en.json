@@ -334,21 +334,32 @@
       }
     },
     "problem": {
-      "title": "Every missed call is a lead going cold",
-      "stat": "of calls come in while you're working: on a job, with a client, on the road.",
+      "title": "Every missed call is <mark>a missed opportunity.</mark>",
+      "stat": "of calls come in while you're working: on a job, in a consultation, with a client.",
       "statSource": "Share of the calls Voicia answered on weekdays between 9:00 and 18:00.",
       "pains": {
         "onSite": {
           "title": "On a job",
-          "text": "Your hands are full when the phone rings. The caller hangs up and tries the next company."
+          "text": "Your hands are full when the phone rings. The caller tries the next company.",
+          "before": "Missed call",
+          "after": "Answered by Voicia"
         },
-        "withClient": {
-          "title": "With a client",
-          "text": "You can't step out of a meeting or a visit to pick up."
+        "consultation": {
+          "title": "In a consultation",
+          "text": "You can't interrupt a meeting or a patient to pick up.",
+          "before": "Voicemail",
+          "after": "Message taken"
         },
         "afterHours": {
           "title": "After hours",
-          "text": "People call at lunch, in the evening and at weekends. Few of them leave a message."
+          "text": "People call at lunch, in the evening and at weekends.",
+          "before": "No answer",
+          "after": "Answered 24/7"
+        },
+        "yourWork": {
+          "title": "The work you're good at",
+          "text": "You get to do it without the phone pulling you away.",
+          "after": "All yours again"
         }
       }
     },

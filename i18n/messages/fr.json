@@ -334,21 +334,32 @@
       }
     },
     "problem": {
-      "title": "Chaque appel manqué est un prospect qui refroidit",
-      "stat": "des appels arrivent pendant que vous travaillez : sur un chantier, avec un client, sur la route.",
+      "title": "Chaque appel manqué est <mark>une opportunité perdue.</mark>",
+      "stat": "des appels arrivent pendant que vous travaillez : sur un chantier, en consultation, avec un client.",
       "statSource": "Part des appels traités par Voicia en semaine entre 9 h et 18 h.",
       "pains": {
         "onSite": {
           "title": "Sur un chantier",
-          "text": "Vous avez les mains prises quand le téléphone sonne. L'appelant raccroche et essaie l'entreprise suivante."
+          "text": "Vous avez les mains prises quand le téléphone sonne. L'appelant essaie l'entreprise suivante.",
+          "before": "Appel manqué",
+          "after": "Voicia décroche"
         },
-        "withClient": {
-          "title": "Avec un client",
-          "text": "Impossible de quitter un rendez-vous ou une visite pour décrocher."
+        "consultation": {
+          "title": "En consultation",
+          "text": "Impossible d'interrompre un rendez-vous ou un patient pour décrocher.",
+          "before": "Messagerie",
+          "after": "Message pris"
         },
         "afterHours": {
           "title": "Après les heures",
-          "text": "On vous appelle à midi, le soir et le week-end. Peu de gens laissent un message."
+          "text": "On vous appelle à midi, le soir et le week-end.",
+          "before": "Pas de réponse",
+          "after": "Réponse 24 h/24"
+        },
+        "yourWork": {
+          "title": "Votre métier",
+          "text": "Vous l'exercez sans que le téléphone vous interrompe.",
+          "after": "Rien que pour vous"
         }
       }
     },
