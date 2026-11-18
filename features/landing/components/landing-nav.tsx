@@ -91,7 +91,6 @@ function LandingNav() {
                 key={section.key}
                 variant="ghost"
                 nativeButton={false}
-                className="text-muted-foreground hover:text-foreground"
                 render={<a href={section.href} />}
               >
                 {t(section.key)}
