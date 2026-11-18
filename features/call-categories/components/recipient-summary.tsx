@@ -1,4 +1,5 @@
 import { UsersIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { AvatarGroup } from "@/components/ui/avatar"
 import { MemberAvatar } from "@/features/org/components/member-avatar"
@@ -13,13 +14,14 @@ function RecipientSummary({
   userIds: string[]
   membersById: Map<string, OrganizationMember>
 }) {
+  const t = useTranslations("CallCategories.recipients")
   const recipients = userIds.flatMap((id) => membersById.get(id) ?? [])
 
   if (recipients.length === 0) {
     return (
       <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <UsersIcon className="size-4" />
-        Everyone
+        {t("everyone")}
       </span>
     )
   }
@@ -29,8 +31,8 @@ function RecipientSummary({
     others.length === 0
       ? first.name
       : others.length === 1
-        ? `${first.name} and ${others[0].name}`
-        : `${first.name} and ${others.length} others`
+        ? t("two", { first: first.name, second: others[0].name })
+        : t("many", { first: first.name, count: others.length })
 
   return (
     <span className="flex min-w-0 items-center gap-2 text-sm">

@@ -1,6 +1,7 @@
 "use client"
 
 import { useOptimistic, useTransition } from "react"
+import { useLocale, useTranslations } from "next-intl"
 
 import { toast } from "@/components/ui/toast"
 import { updateCallAction } from "@/features/calls/actions"
@@ -12,6 +13,8 @@ import type {
 
 // Shared by the list row and the detail panel so both save the same way
 export function useCallUpdate(call: CallListItem, currentUserId: string) {
+  const t = useTranslations("Calls")
+  const locale = useLocale()
   const [pending, startTransition] = useTransition()
   // Shows the change right away; the refresh after saving replaces it, and it
   // reverts on its own if the save fails
@@ -27,11 +30,11 @@ export function useCallUpdate(call: CallListItem, currentUserId: string) {
   const save = (update: CallUpdate) => {
     startTransition(async () => {
       applyOptimistic(update)
-      const result = await updateCallAction(call.id, update)
+      const result = await updateCallAction(call.id, update, locale)
       if (!result.ok) {
         toast.add({
           type: "error",
-          title: "Couldn't update the call",
+          title: t("updateFailed"),
           description: result.message,
         })
       }

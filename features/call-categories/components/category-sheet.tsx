@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { CheckIcon, CircleAlertIcon, Trash2Icon } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -88,6 +89,10 @@ function CategoryForm({
   onDone,
   onDelete,
 }: CategoryFormProps) {
+  const t = useTranslations("CallCategories.form")
+  const tColors = useTranslations("CallCategories.colors")
+  const tCommon = useTranslations("Common")
+  const locale = useLocale()
   const initial = category ?? draft
   // Recipients who left the organization are dropped: a Clerk webhook removes
   // them shortly, and the API rejects them on save
@@ -97,11 +102,15 @@ function CategoryForm({
   })
   // A color saved outside this palette stays available as the first swatch
   const [colors] = useState(() => {
+    const palette = CATEGORY_COLORS.map((c) => ({
+      name: tColors(c.key),
+      value: c.value,
+    }))
     const color = initial?.color
     const known = CATEGORY_COLORS.some((c) => sameColor(c.value, color))
     return color && !known
-      ? [{ name: "Current color", value: color }, ...CATEGORY_COLORS]
-      : CATEGORY_COLORS
+      ? [{ name: tColors("current"), value: color }, ...palette]
+      : palette
   })
 
   const [name, setName] = useState(initial?.name ?? "")
@@ -135,33 +144,37 @@ function CategoryForm({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!name.trim()) {
-      setError({ field: "name", message: "Enter a name." })
+      setError({ field: "name", message: t("errors.nameRequired") })
       return
     }
     const recipientUserIds = routing === "specific" ? [...selected] : []
     if (routing === "specific" && recipientUserIds.length === 0) {
       setError({
         field: "recipients",
-        message: "Choose at least one member, or send recaps to everyone.",
+        message: t("errors.recipientsRequired"),
       })
       return
     }
 
     setError(null)
     startTransition(async () => {
-      const result = await saveCallCategoryAction(category?.id ?? null, {
-        name: name.trim(),
-        color,
-        description: description.trim(),
-        recipientUserIds,
-      })
+      const result = await saveCallCategoryAction(
+        category?.id ?? null,
+        {
+          name: name.trim(),
+          color,
+          description: description.trim(),
+          recipientUserIds,
+        },
+        locale
+      )
       if (!result.ok) {
         setError({ field: result.field, message: result.message })
         return
       }
       toast.add({
         type: "success",
-        title: category ? "Category saved" : "Category created",
+        title: category ? t("saved") : t("created"),
       })
       onDone()
     })
@@ -173,7 +186,7 @@ function CategoryForm({
   return (
     <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
       <SheetHeader className="pr-12">
-        <SheetTitle>{category ? "Edit category" : "New category"}</SheetTitle>
+        <SheetTitle>{category ? t("editTitle") : t("newTitle")}</SheetTitle>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto p-4">
@@ -186,7 +199,7 @@ function CategoryForm({
           )}
 
           <Field data-invalid={nameInvalid || undefined}>
-            <FieldLabel htmlFor="category-name">Name</FieldLabel>
+            <FieldLabel htmlFor="category-name">{t("name")}</FieldLabel>
             <Input
               id="category-name"
               value={name}
@@ -194,7 +207,7 @@ function CategoryForm({
                 setName(event.target.value)
                 if (nameInvalid) setError(null)
               }}
-              placeholder="e.g. Appointment"
+              placeholder={t("namePlaceholder")}
               maxLength={50}
               required
               aria-invalid={nameInvalid || undefined}
@@ -203,7 +216,7 @@ function CategoryForm({
           </Field>
 
           <FieldSet>
-            <FieldLegend variant="label">Color</FieldLegend>
+            <FieldLegend variant="label">{t("color")}</FieldLegend>
             <div className="flex flex-wrap gap-2.5">
               {colors.map((swatch) => (
                 <label key={swatch.value} className="relative cursor-pointer">
@@ -230,9 +243,9 @@ function CategoryForm({
 
           <Field>
             <FieldLabel htmlFor="category-description">
-              Description
+              {t("description")}
               <span className="font-normal text-muted-foreground">
-                (optional)
+                {tCommon("optional")}
               </span>
             </FieldLabel>
             {/* <FieldDescription>
@@ -242,7 +255,7 @@ function CategoryForm({
               id="category-description"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="e.g. The caller wants to book, move or cancel an appointment."
+              placeholder={t("descriptionPlaceholder")}
               rows={3}
               maxLength={500}
             />
@@ -256,7 +269,7 @@ function CategoryForm({
           <FieldSeparator />
 
           <FieldSet>
-            <FieldLegend variant="label">Who gets the recap email?</FieldLegend>
+            <FieldLegend variant="label">{t("recapLegend")}</FieldLegend>
             <RadioGroup
               value={routing}
               onValueChange={(value) => {
@@ -268,11 +281,9 @@ function CategoryForm({
                 <Field orientation="horizontal">
                   <RadioGroupItem value="everyone" id="routing-everyone" />
                   <FieldContent>
-                    <FieldTitle>Everyone in the organization</FieldTitle>
+                    <FieldTitle>{t("everyone.title")}</FieldTitle>
                     <FieldDescription>
-                      {members.length === 1
-                        ? "The only member receives every recap."
-                        : `All ${members.length} members receive the recap.`}
+                      {t("everyone.description", { count: members.length })}
                     </FieldDescription>
                   </FieldContent>
                 </Field>
@@ -281,11 +292,11 @@ function CategoryForm({
                 <Field orientation="horizontal">
                   <RadioGroupItem value="specific" id="routing-specific" />
                   <FieldContent>
-                    <FieldTitle>Only specific members</FieldTitle>
+                    <FieldTitle>{t("specific.title")}</FieldTitle>
                     <FieldDescription>
                       {members.length > 1
-                        ? "Choose who receives recaps for this category."
-                        : "Invite teammates to send recaps to specific people."}
+                        ? t("specific.description")
+                        : t("specific.invite")}
                     </FieldDescription>
                   </FieldContent>
                 </Field>
@@ -295,7 +306,7 @@ function CategoryForm({
             {routing === "specific" && (
               <div className="flex flex-col gap-2">
                 <div
-                  aria-label="Recipients"
+                  aria-label={t("recipients")}
                   role="group"
                   aria-describedby="recipients-hint"
                   data-invalid={recipientsInvalid || undefined}
@@ -323,12 +334,12 @@ function CategoryForm({
                             {member.userId === currentUserId && (
                               <span className="font-normal text-muted-foreground">
                                 {" "}
-                                (you)
+                                {tCommon("you")}
                               </span>
                             )}
                           </span>
                           <span className="truncate text-xs text-muted-foreground">
-                            {member.email ?? "Can't receive recaps"}
+                            {member.email ?? t("cantReceive")}
                           </span>
                         </span>
                       </label>
@@ -339,8 +350,7 @@ function CategoryForm({
                   <FieldError id="recipients-hint">{error.message}</FieldError>
                 ) : (
                   <FieldDescription id="recipients-hint">
-                    If none of them can receive it, everyone gets the recap
-                    instead.
+                    {t("recipientsHint")}
                   </FieldDescription>
                 )}
               </div>
@@ -359,16 +369,16 @@ function CategoryForm({
             disabled={pending}
           >
             <Trash2Icon />
-            Delete
+            {tCommon("delete")}
           </Button>
         )}
         <div className="ml-auto flex gap-2">
           <SheetClose render={<Button type="button" variant="outline" />}>
-            Cancel
+            {tCommon("cancel")}
           </SheetClose>
           <Button type="submit" disabled={pending}>
             {pending && <Spinner />}
-            {category ? "Save changes" : "Create category"}
+            {category ? tCommon("saveChanges") : t("create")}
           </Button>
         </div>
       </SheetFooter>

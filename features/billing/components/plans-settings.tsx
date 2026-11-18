@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { format } from "date-fns"
 import { CalendarXIcon, CheckIcon, LockIcon } from "lucide-react"
+import { useFormatter, useLocale, useTranslations } from "next-intl"
 
 import {
   Alert,
@@ -39,6 +39,9 @@ function PlansSettings({
   cancelAt: string | null
   canManage: boolean
 }) {
+  const t = useTranslations("Billing")
+  const format = useFormatter()
+  const locale = useLocale()
   const [pending, startTransition] = useTransition()
   // Which button the spinner belongs to
   const [target, setTarget] = useState<PlanId | "portal" | null>(null)
@@ -72,21 +75,19 @@ function PlansSettings({
             <>
               <CalendarXIcon />
               <AlertTitle>
-                Your subscription ends on{" "}
-                {format(new Date(cancelAt), "d MMMM yyyy")}.
+                {t("endsOn", { date: new Date(cancelAt) })}
               </AlertTitle>
-              <AlertDescription>
-                It was cancelled and won&apos;t renew.
-              </AlertDescription>
+              <AlertDescription>{t("cancelled")}</AlertDescription>
             </>
           ) : (
             <>
-              <AlertTitle>
-                This organization has an active subscription.
-              </AlertTitle>
+              <AlertTitle>{t("active")}</AlertTitle>
               <AlertDescription>
-                <a href={`mailto:${CONTACT_EMAIL}`}>Contact us</a> to change
-                plan.
+                {t.rich("changePlan", {
+                  contact: (chunks) => (
+                    <a href={`mailto:${CONTACT_EMAIL}`}>{chunks}</a>
+                  ),
+                })}
               </AlertDescription>
             </>
           )}
@@ -99,14 +100,14 @@ function PlansSettings({
                 onClick={() =>
                   run(
                     "portal",
-                    openPortalAction,
-                    "Couldn't open subscription management"
+                    () => openPortalAction(locale),
+                    t("portalFailed")
                   )
                 }
               >
                 {pending && target === "portal" && <Spinner />}
                 {/* The Stripe portal offers to renew a cancelled subscription */}
-                {cancelAt ? "Renew subscription" : "Manage subscription"}
+                {cancelAt ? t("renew") : t("manage")}
               </Button>
             </AlertAction>
           )}
@@ -114,16 +115,14 @@ function PlansSettings({
       )}
       {subscription === "activating" && (
         <Alert>
-          <AlertTitle>Payment received.</AlertTitle>
-          <AlertDescription>
-            Your subscription will appear here in a few moments.
-          </AlertDescription>
+          <AlertTitle>{t("activating.title")}</AlertTitle>
+          <AlertDescription>{t("activating.description")}</AlertDescription>
         </Alert>
       )}
       {subscription === "none" && !canManage && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <LockIcon className="size-4 shrink-0" />
-          Only organization admins can subscribe.
+          {t("adminsOnly")}
         </p>
       )}
 
@@ -136,18 +135,27 @@ function PlansSettings({
             <CardContent className="gap-4">
               <p>
                 <span className="font-heading text-3xl font-semibold">
-                  {plan.monthlyPrice}
+                  {format.number(plan.monthlyPrice, {
+                    style: "currency",
+                    currency: "EUR",
+                    maximumFractionDigits: 0,
+                  })}
                 </span>{" "}
-                <span className="text-muted-foreground">/month excl. VAT</span>
+                <span className="text-muted-foreground">{t("perMonth")}</span>
               </p>
               <ul className="flex flex-col gap-2">
                 <li className="flex items-center gap-2">
                   <CheckIcon className="size-4 shrink-0 text-muted-foreground" />
-                  {plan.includedMinutes} minutes included
+                  {t("includedMinutes", { minutes: plan.includedMinutes })}
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon className="size-4 shrink-0 text-muted-foreground" />
-                  Then {plan.extraMinutePrice}/min excl. VAT
+                  {t("extraMinute", {
+                    price: format.number(plan.extraMinutePrice, {
+                      style: "currency",
+                      currency: "EUR",
+                    }),
+                  })}
                 </li>
               </ul>
             </CardContent>
@@ -158,13 +166,13 @@ function PlansSettings({
                 onClick={() =>
                   run(
                     plan.id,
-                    () => startCheckoutAction(plan.id),
-                    "Couldn't open checkout"
+                    () => startCheckoutAction(plan.id, locale),
+                    t("checkoutFailed")
                   )
                 }
               >
                 {pending && target === plan.id && <Spinner />}
-                Choose {plan.name}
+                {t("choose", { plan: plan.name })}
               </Button>
             </CardFooter>
           </Card>

@@ -1,42 +1,48 @@
 "use server"
 
 import { refresh } from "next/cache"
+import { getTranslations } from "next-intl/server"
 
 import { updateAssistant } from "@/features/assistants/repository"
 import type { AssistantUpdate } from "@/features/assistants/types"
 import { isOrganizationAdmin } from "@/features/org/auth"
+import { actionLocale } from "@/i18n/action-locale"
 import { ApiError } from "@/lib/api"
 
 export type ActionResult =
   { ok: true } | { ok: false; field?: "name" | "firstMessage"; message: string }
 
-const FORBIDDEN: ActionResult = {
-  ok: false,
-  message: "Only organization admins can change assistants.",
-}
-
 export async function updateAssistantAction(
   id: string,
-  update: AssistantUpdate
+  update: AssistantUpdate,
+  locale: string
 ): Promise<ActionResult> {
-  if (!(await isOrganizationAdmin())) return FORBIDDEN
+  const t = await getTranslations({ locale: actionLocale(locale) })
+  if (!(await isOrganizationAdmin())) {
+    return { ok: false, message: t("Assistants.errors.forbidden") }
+  }
   try {
     await updateAssistant(id, update)
   } catch (error) {
-    return toErrorResult(error)
+    return toErrorResult(error, locale)
   }
   refresh()
   return { ok: true }
 }
 
-function toErrorResult(error: unknown): ActionResult {
+async function toErrorResult(
+  error: unknown,
+  locale: string
+): Promise<ActionResult> {
+  const t = await getTranslations({ locale: actionLocale(locale) })
   if (!(error instanceof ApiError)) {
     console.error("Assistant update failed", error)
-    return { ok: false, message: "Something went wrong. Please try again." }
+    return { ok: false, message: t("Common.somethingWentWrong") }
   }
   switch (error.status) {
     case 400:
-      // Nest prefixes each issue with its field, e.g. "firstMessage: Too big…"
+      // Nest prefixes each issue with its field, e.g. "firstMessage: Too big…".
+      // The API's message isn't translated
       if (error.message.startsWith("firstMessage")) {
         return { ok: false, field: "firstMessage", message: error.message }
       }
@@ -46,19 +52,15 @@ function toErrorResult(error: unknown): ActionResult {
       return { ok: false, message: error.message }
     case 401:
     case 403:
-      return FORBIDDEN
+      return { ok: false, message: t("Assistants.errors.forbidden") }
     case 404:
       refresh()
-      return { ok: false, message: "This assistant no longer exists." }
+      return { ok: false, message: t("Assistants.errors.notFound") }
     case 502:
       // Vapi rejected the first message or was unreachable; the API saved nothing
-      return {
-        ok: false,
-        message:
-          "We couldn't update your phone line. Nothing was saved, please try again.",
-      }
+      return { ok: false, message: t("Assistants.errors.phoneLine") }
     default:
       console.error("Assistant update failed", error)
-      return { ok: false, message: "Something went wrong. Please try again." }
+      return { ok: false, message: t("Common.somethingWentWrong") }
   }
 }

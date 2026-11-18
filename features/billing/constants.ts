@@ -6,15 +6,15 @@ export const PLANS: Plan[] = [
   {
     id: "voicia-150",
     name: "Voicia 150",
-    monthlyPrice: "€60",
+    monthlyPrice: 60,
     includedMinutes: 150,
-    extraMinutePrice: "€0.20",
+    extraMinutePrice: 0.2,
   },
   {
     id: "voicia-500",
     name: "Voicia 500",
-    monthlyPrice: "€120",
+    monthlyPrice: 120,
     includedMinutes: 500,
-    extraMinutePrice: "€0.15",
+    extraMinutePrice: 0.15,
   },
 ]

@@ -1,9 +1,9 @@
 "use client"
 
 import { useOptimistic, useState, useTransition } from "react"
-import Link from "next/link"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { PhoneIcon, RepeatIcon } from "lucide-react"
+import { useFormatter, useNow, useTranslations } from "next-intl"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,11 +19,12 @@ import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu
 import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
 import { MissedCallBadge } from "@/features/calls/components/missed-call-badge"
-import { groupCallsByDay } from "@/features/calls/day-sections"
-import { formatCallTime, formatDuration } from "@/features/calls/format"
+import { groupCallsByDay, type DaySection } from "@/features/calls/day-sections"
+import { formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
+import { Link, usePathname, useRouter } from "@/i18n/navigation"
 
 type ItemProps = {
   members: OrganizationMember[]
@@ -47,6 +48,9 @@ function CallsList({
   // Shown instead of the list; the panel still opens from a shared link
   empty: React.ReactNode
 } & Omit<ItemProps, "membersById">) {
+  const t = useTranslations("Calls")
+  const format = useFormatter()
+  const now = useNow()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -111,13 +115,25 @@ function CallsList({
     setShown({ call, detail })
   }
 
+  const dayLabel = (section: DaySection<CallListItem>) => {
+    if (!section.connected) return t("days.notConnected")
+    if (section.daysAgo === 0) return t("days.today")
+    if (section.daysAgo === 1) return t("days.yesterday")
+    return format.dateTime(section.date, {
+      weekday: section.daysAgo < 7 ? "long" : undefined,
+      day: "numeric",
+      month: "short",
+      year: section.sameYear ? undefined : "numeric",
+    })
+  }
+
   return (
     <>
       {calls.length === 0 ? (
         empty
       ) : (
         <div className="flex flex-col gap-4">
-          {groupCallsByDay(calls, new Date()).map((section) => (
+          {groupCallsByDay(calls, now).map((section) => (
             <section
               key={section.key}
               aria-labelledby={`calls-${section.key}`}
@@ -129,7 +145,7 @@ function CallsList({
                 suppressHydrationWarning
                 className="sticky top-0 z-10 mb-2 bg-background py-2 text-xs font-medium tracking-wide text-muted-foreground uppercase"
               >
-                {section.label}
+                {dayLabel(section)}
               </h2>
               <ul className="flex flex-col">
                 {section.calls.map((call) => (
@@ -173,6 +189,8 @@ function CallItem({
   membersById,
   currentUserId,
 }: { call: CallListItem; href: string; onOpen: () => void } & ItemProps) {
+  const t = useTranslations("Calls")
+  const format = useFormatter()
   const { optimistic, pending, save, changeStatus } = useCallUpdate(
     call,
     currentUserId
@@ -207,7 +225,7 @@ function CallItem({
                 onOpen()
               }}
             >
-              {call.callerName || "Unknown caller"}
+              {call.callerName || t("unknownCaller")}
             </Link>
           </ItemTitle>
           {call.customerNumber && (
@@ -215,7 +233,7 @@ function CallItem({
               variant="link"
               size="sm"
               className="relative h-auto gap-1.5 px-0 font-normal tabular-nums"
-              aria-label={`Call ${call.customerNumber}`}
+              aria-label={t("callNumber", { number: call.customerNumber })}
               nativeButton={false}
               render={<a href={`tel:${call.customerNumber}`} />}
             >
@@ -230,15 +248,16 @@ function CallItem({
               className="gap-1 font-normal text-muted-foreground tabular-nums"
             >
               <RepeatIcon className="size-3" />
-              {call.todayCallCount} calls today
+              {t("callsToday", { count: call.todayCallCount })}
             </Badge>
           )}
         </div>
         <div className="flex items-center gap-1.5 text-muted-foreground tabular-nums">
           {call.startedAt && (
-            // Fixed to Belgian time, so the server and the browser agree
+            // In the configured Belgian time zone, so the server and the
+            // browser agree
             <time dateTime={call.startedAt}>
-              {formatCallTime(call.startedAt)}
+              {format.dateTime(new Date(call.startedAt), "time")}
             </time>
           )}
           {call.startedAt && call.durationSeconds != null && (
@@ -280,7 +299,7 @@ function CallItem({
             variant="secondary"
             className="bg-foreground/8 px-2.5 py-3 text-sm font-normal text-muted-foreground"
           >
-            Uncategorized
+            {t("uncategorized")}
           </Badge>
         )}
         <div className="relative -my-1.5 -mr-2.5 flex items-center gap-3.5">

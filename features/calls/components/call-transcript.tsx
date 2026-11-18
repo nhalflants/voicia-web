@@ -1,6 +1,7 @@
 "use client"
 
 import { CopyIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import { Button } from "@/components/ui/button"
@@ -22,25 +23,28 @@ function CallTranscript({
   assistantName: string
   callerName: string
 }) {
+  const t = useTranslations("Calls.transcript")
   const speaker = (turn: TranscriptTurn) =>
     turn.role === "assistant" ? assistantName : callerName
 
   // Plain "Name: text" lines paste cleanly into an email or a CRM note
   const copy = () => {
-    const text = turns.map((t) => `${speaker(t)}: ${t.content}`).join("\n\n")
+    const text = turns
+      .map((turn) => `${speaker(turn)}: ${turn.content}`)
+      .join("\n\n")
     navigator.clipboard
       .writeText(text)
-      .then(() => toast.add({ type: "success", title: "Transcript copied" }))
+      .then(() => toast.add({ type: "success", title: t("copied") }))
       .catch(() => {})
   }
 
   return (
     <section className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h3 className="font-medium">Transcript</h3>
+        <h3 className="font-medium">{t("title")}</h3>
         <Button variant="ghost" size="sm" className="-mr-2.5" onClick={copy}>
           <CopyIcon />
-          Copy
+          {t("copy")}
         </Button>
       </div>
       <MessageGroup className="gap-3">

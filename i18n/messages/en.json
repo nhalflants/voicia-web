@@ -1,1 +1,298 @@
-{}
+{
+  "Nav": {
+    "calls": "Calls",
+    "settings": "Settings",
+    "assistants": "Assistants",
+    "callCategories": "Call categories",
+    "plans": "Plans"
+  },
+  "Common": {
+    "noOrganization": "No organization selected",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "saveChanges": "Save changes",
+    "optional": "(optional)",
+    "you": "(you)"
+  },
+  "Calls": {
+    "noOrganization": "Pick an organization in the sidebar to see its calls.",
+    "caughtUp": {
+      "title": "You're all caught up",
+      "description": "New calls that need follow-up will show up here."
+    },
+    "noMatch": {
+      "title": "No matching calls",
+      "description": "Try another status or clear the filters."
+    },
+    "unknownCaller": "Unknown caller",
+    "callNumber": "Call {number}",
+    "callsToday": "{count, plural, one {# call today} other {# calls today}}",
+    "uncategorized": "Uncategorized",
+    "missedCall": "Missed call",
+    "updateFailed": "Couldn't update the call",
+    "days": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "notConnected": "Not connected"
+    },
+    "statuses": {
+      "new": "New",
+      "in_progress": "In progress",
+      "done": "Done"
+    },
+    "statusFilters": {
+      "open": "Open",
+      "closed": "Closed",
+      "all": "All"
+    },
+    "filters": {
+      "anyone": "Anyone",
+      "assignedToMe": "Assigned to me",
+      "unassigned": "Unassigned",
+      "allCategories": "All categories",
+      "assignee": "Assignee",
+      "category": "Category"
+    },
+    "assignee": {
+      "me": "Me",
+      "formerMember": "Former member",
+      "unassigned": "Unassigned"
+    },
+    "errors": {
+      "forbidden": "You can't change calls in this organization.",
+      "notFound": "This call no longer exists. It may have been deleted."
+    },
+    "endedReasons": {
+      "callerHungUp": "Caller hung up",
+      "assistantEnded": "Assistant ended the call",
+      "transferred": "Transferred by the assistant",
+      "silence": "Ended after silence",
+      "timeLimit": "Reached the time limit",
+      "voicemail": "Went to voicemail"
+    },
+    "history": {
+      "title": "Other calls from this number ({total})",
+      "noSummary": "No summary"
+    },
+    "detail": {
+      "previous": "Previous call",
+      "next": "Next call",
+      "answeredBy": "Answered by {name}",
+      "assignToMe": "Assign to me",
+      "markAsDone": "Mark as done",
+      "reopen": "Reopen",
+      "callBack": "Call back",
+      "summary": "Summary",
+      "noSummary": "No summary for this call.",
+      "recording": "Recording",
+      "noRecording": "No recording for this call.",
+      "transcript": "Transcript",
+      "assistant": "Assistant",
+      "caller": "Caller",
+      "callerSilent": "The caller didn't say anything.",
+      "noTranscript": "No transcript for this call.",
+      "notFound": {
+        "title": "Call not found",
+        "description": "It may have been deleted, or it belongs to another organization."
+      }
+    },
+    "player": {
+      "unavailable": "The recording isn't available.",
+      "play": "Play",
+      "pause": "Pause",
+      "position": "Position",
+      "speed": "{speed, number}x",
+      "speedLabel": "Playback speed {speed, number}x",
+      "download": "Download recording"
+    },
+    "transcript": {
+      "title": "Transcript",
+      "copy": "Copy",
+      "copied": "Transcript copied"
+    }
+  },
+  "Billing": {
+    "noOrganization": "Pick an organization in the sidebar to see its plans.",
+    "endsOn": "Your subscription ends on {date, date, long}.",
+    "cancelled": "It was cancelled and won't renew.",
+    "active": "This organization has an active subscription.",
+    "changePlan": "<contact>Contact us</contact> to change plan.",
+    "renew": "Renew subscription",
+    "manage": "Manage subscription",
+    "portalFailed": "Couldn't open subscription management",
+    "checkoutFailed": "Couldn't open checkout",
+    "activating": {
+      "title": "Payment received.",
+      "description": "Your subscription will appear here in a few moments."
+    },
+    "adminsOnly": "Only organization admins can subscribe.",
+    "perMonth": "/month excl. VAT",
+    "includedMinutes": "{minutes, number} minutes included",
+    "extraMinute": "Then {price}/min excl. VAT",
+    "choose": "Choose {plan}",
+    "errors": {
+      "forbidden": "Only organization admins can manage the subscription.",
+      "unknownPlan": "This plan doesn't exist.",
+      "alreadySubscribed": "This organization already has an active subscription.",
+      "noSubscription": "This organization has no subscription."
+    }
+  },
+  "Assistants": {
+    "noOrganization": "Pick an organization in the sidebar to see its assistants.",
+    "empty": {
+      "title": "No AI receptionist yet",
+      "description": "Get in touch and we'll set up an AI receptionist that answers your calls, in your languages and with your greeting.",
+      "contact": "Contact us"
+    },
+    "adminsOnly": "Only organization admins can edit assistants.",
+    "quoted": "“{message}”",
+    "noFirstMessage": "No first message",
+    "form": {
+      "title": "Edit assistant",
+      "name": "Name",
+      "namePlaceholder": "e.g. Front desk",
+      "firstMessage": "First message",
+      "firstMessagePlaceholder": "e.g. Hello, you've reached the Dupont practice. How can I help you?",
+      "firstMessageHint": "What callers hear when the assistant picks up.",
+      "saved": "Assistant saved",
+      "errors": {
+        "nameRequired": "Enter a name.",
+        "firstMessageRequired": "Enter a first message."
+      }
+    },
+    "errors": {
+      "forbidden": "Only organization admins can change assistants.",
+      "notFound": "This assistant no longer exists.",
+      "phoneLine": "We couldn't update your phone line. Nothing was saved, please try again."
+    }
+  },
+  "CallCategories": {
+    "noOrganization": "Pick an organization in the sidebar to manage its call categories.",
+    "intro": "Voicia sorts each call into one of your categories. Choose who receives the recap email for each one.",
+    "new": "New category",
+    "adminsOnly": "Only organization admins can edit categories and recap routing.",
+    "empty": {
+      "title": "No call categories yet",
+      "description": "Add categories to sort calls and send each recap to the right people.",
+      "suggestion": "Or start from a suggestion"
+    },
+    "uncategorized": {
+      "title": "Uncategorized",
+      "description": "Calls that don't fit any category"
+    },
+    "limitReached": "You've reached the limit of {max} categories. Delete one to add another.",
+    "actionsFor": "Actions for {name}",
+    "suggestions": {
+      "appointment": {
+        "name": "Appointment",
+        "description": "The caller wants to book, move or cancel an appointment."
+      },
+      "quote": {
+        "name": "Quote request",
+        "description": "The caller asks for a price, an estimate or a quote."
+      },
+      "urgent": {
+        "name": "Urgent",
+        "description": "The caller needs help today, such as an emergency or a problem that can't wait."
+      },
+      "complaint": {
+        "name": "Complaint",
+        "description": "The caller is unhappy with a product, a service or a past visit."
+      }
+    },
+    "colors": {
+      "current": "Current color",
+      "gray": "Gray",
+      "red": "Red",
+      "orange": "Orange",
+      "amber": "Amber",
+      "green": "Green",
+      "teal": "Teal",
+      "blue": "Blue",
+      "indigo": "Indigo",
+      "purple": "Purple",
+      "pink": "Pink"
+    },
+    "recipients": {
+      "everyone": "Everyone",
+      "two": "{first} and {second}",
+      "many": "{first} and {count, plural, one {# other} other {# others}}"
+    },
+    "delete": {
+      "title": "Delete “{name}”?",
+      "descriptionWithCalls": "{count, plural, one {# past call} other {# past calls}} will become uncategorized and its recap routing will be removed.",
+      "description": "Its recap routing will be removed and new calls won't be sorted into it.",
+      "irreversible": "This can't be undone.",
+      "confirm": "Delete category",
+      "failed": "Couldn't delete the category",
+      "deleted": "“{name}” deleted"
+    },
+    "form": {
+      "newTitle": "New category",
+      "editTitle": "Edit category",
+      "name": "Name",
+      "namePlaceholder": "e.g. Appointment",
+      "color": "Color",
+      "description": "Description",
+      "descriptionPlaceholder": "e.g. The caller wants to book, move or cancel an appointment.",
+      "recapLegend": "Who gets the recap email?",
+      "everyone": {
+        "title": "Everyone in the organization",
+        "description": "{count, plural, one {The only member receives every recap.} other {All # members receive the recap.}}"
+      },
+      "specific": {
+        "title": "Only specific members",
+        "description": "Choose who receives recaps for this category.",
+        "invite": "Invite teammates to send recaps to specific people."
+      },
+      "recipients": "Recipients",
+      "cantReceive": "Can't receive recaps",
+      "recipientsHint": "If none of them can receive it, everyone gets the recap instead.",
+      "create": "Create category",
+      "saved": "Category saved",
+      "created": "Category created",
+      "errors": {
+        "nameRequired": "Enter a name.",
+        "recipientsRequired": "Choose at least one member, or send recaps to everyone."
+      }
+    },
+    "errors": {
+      "forbidden": "Only organization admins can change call categories.",
+      "formerMembers": "Some selected members are no longer in this organization. The list has been updated, please review it and save again.",
+      "notFound": "This category no longer exists. It may have been deleted.",
+      "nameTaken": "A category with this name already exists."
+    }
+  },
+  "Home": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "title": "Project ready!",
+    "intro": "You may now add components and start building.",
+    "buttonAdded": "We've already added the button component for you.",
+    "button": "Button",
+    "darkModeHint": "(Press <kbd>d</kbd> to toggle dark mode)"
+  },
+  "Org": {
+    "personalAccount": "Personal account",
+    "organizations": "Organizations",
+    "loadMore": "Load more",
+    "manage": "Manage organization",
+    "create": "Create organization",
+    "unnamedMember": "Unnamed member"
+  },
+  "User": {
+    "openMenu": "Open user menu",
+    "manageAccount": "Manage account",
+    "signOut": "Sign out"
+  },
+  "UI": {
+    "loading": "Loading",
+    "close": "Close",
+    "closeToast": "Close notification",
+    "toggleSidebar": "Toggle sidebar",
+    "sidebar": "Sidebar",
+    "sidebarDescription": "Displays the mobile sidebar."
+  }
+}

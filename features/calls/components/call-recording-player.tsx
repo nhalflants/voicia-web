@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import { DownloadIcon, PauseIcon, PlayIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -17,6 +18,7 @@ function CallRecordingPlayer({
   // Shown until the audio's own duration is known
   durationSeconds: number | null
 }) {
+  const t = useTranslations("Calls.player")
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playing, setPlaying] = useState(false)
   const [position, setPosition] = useState(0)
@@ -32,11 +34,7 @@ function CallRecordingPlayer({
   const src = `/api/calls/${callId}/recording`
 
   if (unavailable) {
-    return (
-      <p className="text-muted-foreground">
-        The recording isn&apos;t available.
-      </p>
-    )
+    return <p className="text-muted-foreground">{t("unavailable")}</p>
   }
 
   const togglePlay = () => {
@@ -100,13 +98,13 @@ function CallRecordingPlayer({
       <Button
         size="icon"
         className="shrink-0 rounded-full"
-        aria-label={playing ? "Pause" : "Play"}
+        aria-label={playing ? t("pause") : t("play")}
         onClick={togglePlay}
       >
         {playing ? <PauseIcon /> : <PlayIcon />}
       </Button>
       <Slider
-        aria-label="Position"
+        aria-label={t("position")}
         className="flex-1"
         value={position}
         min={0}
@@ -124,15 +122,15 @@ function CallRecordingPlayer({
           variant="ghost"
           size="sm"
           className="w-12 tabular-nums"
-          aria-label={`Playback speed ${speed}x`}
+          aria-label={t("speedLabel", { speed })}
           onClick={changeSpeed}
         >
-          {speed}x
+          {t("speed", { speed })}
         </Button>
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Download recording"
+          aria-label={t("download")}
           nativeButton={false}
           render={<a href={`${src}?download=1`} />}
         >

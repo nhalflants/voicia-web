@@ -7,7 +7,7 @@ import {
   PlusIcon,
   SettingsIcon,
 } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useLocale, useTranslations } from "next-intl"
 
 import { plansNavItem } from "@/components/layout/nav-items"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -27,8 +27,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-
-const AFTER_ORG_CHANGE_URL = "/dashboard"
+import { getPathname, useRouter } from "@/i18n/navigation"
 
 function OrgAvatar({
   name,
@@ -50,6 +49,9 @@ function OrgAvatar({
 }
 
 function OrgSwitcher() {
+  const t = useTranslations("Org")
+  const tNav = useTranslations("Nav")
+  const locale = useLocale()
   const router = useRouter()
   const { isMobile } = useSidebar()
   const { openOrganizationProfile, openCreateOrganization } = useClerk()
@@ -76,7 +78,9 @@ function OrgSwitcher() {
     router.refresh()
   }
 
-  const name = organization?.name ?? "Personal account"
+  const name = organization?.name ?? t("personalAccount")
+  // Clerk navigates outside the router, so the URL needs its locale prefix
+  const afterOrgChangeUrl = getPathname({ href: "/dashboard", locale })
 
   return (
     <SidebarMenu>
@@ -102,7 +106,7 @@ function OrgSwitcher() {
             sideOffset={4}
           >
             <DropdownMenuGroup>
-              <DropdownMenuLabel>Organizations</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("organizations")}</DropdownMenuLabel>
               {userMemberships.data?.map(({ organization: org }) => (
                 <DropdownMenuItem key={org.id} onClick={() => switchTo(org.id)}>
                   <OrgAvatar
@@ -120,7 +124,7 @@ function OrgSwitcher() {
                   onClick={() => userMemberships.fetchNext()}
                   className="text-muted-foreground"
                 >
-                  Load more
+                  {t("loadMore")}
                 </DropdownMenuItem>
               )}
             </DropdownMenuGroup>
@@ -131,29 +135,29 @@ function OrgSwitcher() {
               <>
                 <DropdownMenuItem onClick={() => router.push(plansNavItem.url)}>
                   <plansNavItem.icon />
-                  {plansNavItem.title}
+                  {tNav(plansNavItem.key)}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
                     openOrganizationProfile({
-                      afterLeaveOrganizationUrl: AFTER_ORG_CHANGE_URL,
+                      afterLeaveOrganizationUrl: afterOrgChangeUrl,
                     })
                   }
                 >
                   <SettingsIcon />
-                  Manage organization
+                  {t("manage")}
                 </DropdownMenuItem>
               </>
             )}
             <DropdownMenuItem
               onClick={() =>
                 openCreateOrganization({
-                  afterCreateOrganizationUrl: AFTER_ORG_CHANGE_URL,
+                  afterCreateOrganizationUrl: afterOrgChangeUrl,
                 })
               }
             >
               <PlusIcon />
-              Create organization
+              {t("create")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

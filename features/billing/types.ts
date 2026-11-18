@@ -3,10 +3,10 @@ export type PlanId = "voicia-150" | "voicia-500"
 export interface Plan {
   id: PlanId
   name: string
-  // Excluding VAT, as Stripe charges it on top
-  monthlyPrice: string
+  // In euros, excluding VAT, as Stripe charges it on top
+  monthlyPrice: number
   includedMinutes: number
-  extraMinutePrice: string
+  extraMinutePrice: number
 }
 
 export interface OrganizationBilling {

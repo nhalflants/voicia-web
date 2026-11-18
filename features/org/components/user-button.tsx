@@ -2,6 +2,7 @@
 
 import { useClerk, useUser } from "@clerk/nextjs"
 import { EllipsisVerticalIcon, LogOutIcon, UserCogIcon } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -20,6 +21,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
+import { getPathname } from "@/i18n/navigation"
 
 function UserIdentity({
   name,
@@ -47,6 +49,8 @@ function UserIdentity({
 }
 
 function UserButton() {
+  const t = useTranslations("User")
+  const locale = useLocale()
   const { isMobile } = useSidebar()
   const { openUserProfile, signOut } = useClerk()
   const { user, isLoaded } = useUser()
@@ -76,7 +80,7 @@ function UserButton() {
             render={
               <SidebarMenuButton
                 size="lg"
-                aria-label="Open user menu"
+                aria-label={t("openMenu")}
                 className="data-popup-open:bg-sidebar-accent data-popup-open:text-sidebar-accent-foreground"
               />
             }
@@ -101,11 +105,15 @@ function UserButton() {
 
             <DropdownMenuItem onClick={() => openUserProfile()}>
               <UserCogIcon />
-              Manage account
+              {t("manageAccount")}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => signOut({ redirectUrl: "/" })}>
+            <DropdownMenuItem
+              onClick={() =>
+                signOut({ redirectUrl: getPathname({ href: "/", locale }) })
+              }
+            >
               <LogOutIcon />
-              Sign out
+              {t("signOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

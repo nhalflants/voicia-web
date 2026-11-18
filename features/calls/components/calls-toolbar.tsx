@@ -1,7 +1,7 @@
 "use client"
 
 import { useTransition } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 import {
   Select,
@@ -16,6 +16,7 @@ import type { CallCategory } from "@/features/call-categories/types"
 import { STATUS_FILTERS } from "@/features/calls/constants"
 import type { CallFilters } from "@/features/calls/types"
 import type { OrganizationMember } from "@/features/org/types"
+import { usePathname, useRouter } from "@/i18n/navigation"
 
 // Select values can't be null, so "no filter" gets a key of its own
 const ANY = "any"
@@ -31,6 +32,7 @@ function CallsToolbar({
   members: OrganizationMember[]
   currentUserId: string
 }) {
+  const t = useTranslations("Calls")
   const router = useRouter()
   const pathname = usePathname()
   const [pending, startTransition] = useTransition()
@@ -49,15 +51,15 @@ function CallsToolbar({
   }
 
   const assigneeItems = [
-    { value: ANY, label: "Anyone" },
-    { value: "me", label: "Assigned to me" },
-    { value: "unassigned", label: "Unassigned" },
+    { value: ANY, label: t("filters.anyone") },
+    { value: "me", label: t("filters.assignedToMe") },
+    { value: "unassigned", label: t("filters.unassigned") },
     ...members
       .filter((m) => m.userId !== currentUserId)
       .map((m) => ({ value: m.userId, label: m.name })),
   ]
   const categoryItems = [
-    { value: ANY, label: "All categories" },
+    { value: ANY, label: t("filters.allCategories") },
     ...categories.map((c) => ({ value: c.id, label: c.name })),
   ]
   const categoryColors = new Map(categories.map((c) => [c.id, c.color]))
@@ -71,7 +73,7 @@ function CallsToolbar({
         <TabsList variant="line" className="-ml-1">
           {STATUS_FILTERS.map((filter) => (
             <TabsTrigger key={filter.value} value={filter.value}>
-              {filter.label}
+              {t(`statusFilters.${filter.value}`)}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -86,7 +88,7 @@ function CallsToolbar({
             navigate({ assignee: value === ANY ? null : value })
           }
         >
-          <SelectTrigger size="sm" aria-label="Assignee">
+          <SelectTrigger size="sm" aria-label={t("filters.assignee")}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -105,7 +107,7 @@ function CallsToolbar({
               navigate({ categoryId: value === ANY ? null : value })
             }
           >
-            <SelectTrigger size="sm" aria-label="Category">
+            <SelectTrigger size="sm" aria-label={t("filters.category")}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

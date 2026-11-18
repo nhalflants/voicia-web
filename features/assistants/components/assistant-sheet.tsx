@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { CircleAlertIcon } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -67,6 +68,9 @@ function AssistantSheet({
 }
 
 function AssistantForm({ assistant, onDone }: AssistantFormProps) {
+  const t = useTranslations("Assistants.form")
+  const tCommon = useTranslations("Common")
+  const locale = useLocale()
   const [name, setName] = useState(assistant.name)
   const [firstMessage, setFirstMessage] = useState(assistant.firstMessage ?? "")
   const [error, setError] = useState<FormError | null>(null)
@@ -84,23 +88,26 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
     event.preventDefault()
     if (!changed) return
     if (update.name === "") {
-      setError({ field: "name", message: "Enter a name." })
+      setError({ field: "name", message: t("errors.nameRequired") })
       return
     }
     // A first message can be changed but not removed
     if (update.firstMessage === "") {
-      setError({ field: "firstMessage", message: "Enter a first message." })
+      setError({
+        field: "firstMessage",
+        message: t("errors.firstMessageRequired"),
+      })
       return
     }
 
     setError(null)
     startTransition(async () => {
-      const result = await updateAssistantAction(assistant.id, update)
+      const result = await updateAssistantAction(assistant.id, update, locale)
       if (!result.ok) {
         setError({ field: result.field, message: result.message })
         return
       }
-      toast.add({ type: "success", title: "Assistant saved" })
+      toast.add({ type: "success", title: t("saved") })
       onDone()
     })
   }
@@ -111,7 +118,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
       <SheetHeader className="pr-12">
-        <SheetTitle>Edit assistant</SheetTitle>
+        <SheetTitle>{t("title")}</SheetTitle>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto p-4">
@@ -124,7 +131,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
           )}
 
           <Field data-invalid={nameInvalid || undefined}>
-            <FieldLabel htmlFor="assistant-name">Name</FieldLabel>
+            <FieldLabel htmlFor="assistant-name">{t("name")}</FieldLabel>
             <Input
               id="assistant-name"
               value={name}
@@ -132,7 +139,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
                 setName(event.target.value)
                 if (nameInvalid) setError(null)
               }}
-              placeholder="e.g. Front desk"
+              placeholder={t("namePlaceholder")}
               maxLength={MAX_NAME_LENGTH}
               required
               aria-invalid={nameInvalid || undefined}
@@ -142,7 +149,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
 
           <Field data-invalid={firstMessageInvalid || undefined}>
             <FieldLabel htmlFor="assistant-first-message">
-              First message
+              {t("firstMessage")}
             </FieldLabel>
             <Textarea
               id="assistant-first-message"
@@ -151,7 +158,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
                 setFirstMessage(event.target.value)
                 if (firstMessageInvalid) setError(null)
               }}
-              placeholder="e.g. Hello, you've reached the Dupont practice. How can I help you?"
+              placeholder={t("firstMessagePlaceholder")}
               rows={5}
               maxLength={MAX_FIRST_MESSAGE_LENGTH}
               aria-invalid={firstMessageInvalid || undefined}
@@ -160,7 +167,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
               <FieldError>{error.message}</FieldError>
             ) : (
               <FieldDescription className="flex justify-between gap-4">
-                <span>What callers hear when the assistant picks up.</span>
+                <span>{t("firstMessageHint")}</span>
                 <span className="shrink-0 tabular-nums">
                   {firstMessage.length}/{MAX_FIRST_MESSAGE_LENGTH}
                 </span>
@@ -172,11 +179,11 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
 
       <SheetFooter className="flex-row justify-end gap-2 border-t">
         <SheetClose render={<Button type="button" variant="outline" />}>
-          Cancel
+          {tCommon("cancel")}
         </SheetClose>
         <Button type="submit" disabled={!changed || pending}>
           {pending && <Spinner />}
-          Save changes
+          {tCommon("saveChanges")}
         </Button>
       </SheetFooter>
     </form>

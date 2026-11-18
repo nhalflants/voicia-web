@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { HeadsetIcon, LockIcon, MailIcon, PencilIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +32,7 @@ function AssistantsSettings({
   assistants: Assistant[]
   canManage: boolean
 }) {
+  const t = useTranslations("Assistants")
   const [sheetOpen, setSheetOpen] = useState(false)
   // Kept after closing so the sheet doesn't empty while it animates out
   const [editing, setEditing] = useState<{
@@ -51,11 +53,8 @@ function AssistantsSettings({
             <EmptyMedia variant="icon">
               <HeadsetIcon />
             </EmptyMedia>
-            <EmptyTitle>No AI receptionist yet</EmptyTitle>
-            <EmptyDescription>
-              Get in touch and we&apos;ll set up an AI receptionist that answers
-              your calls, in your languages and with your greeting.
-            </EmptyDescription>
+            <EmptyTitle>{t("empty.title")}</EmptyTitle>
+            <EmptyDescription>{t("empty.description")}</EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
             <Button
@@ -63,7 +62,7 @@ function AssistantsSettings({
               render={<a href={`mailto:${CONTACT_EMAIL}`} />}
             >
               <MailIcon />
-              Contact us
+              {t("empty.contact")}
             </Button>
           </EmptyContent>
         </Empty>
@@ -72,7 +71,7 @@ function AssistantsSettings({
           {!canManage && (
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <LockIcon className="size-4 shrink-0" />
-              Only organization admins can edit assistants.
+              {t("adminsOnly")}
             </p>
           )}
           <div className="flex flex-col divide-y overflow-hidden rounded-lg border">
@@ -109,6 +108,8 @@ function AssistantRow({
   canManage: boolean
   onEdit: () => void
 }) {
+  const t = useTranslations("Assistants")
+  const tCommon = useTranslations("Common")
   return (
     <Item
       size="sm"
@@ -135,9 +136,9 @@ function AssistantRow({
         </ItemTitle>
         <ItemDescription className="line-clamp-1">
           {assistant.firstMessage ? (
-            `“${assistant.firstMessage}”`
+            t("quoted", { message: assistant.firstMessage })
           ) : (
-            <span className="italic">No first message</span>
+            <span className="italic">{t("noFirstMessage")}</span>
           )}
         </ItemDescription>
       </ItemContent>
@@ -152,7 +153,7 @@ function AssistantRow({
             onClick={onEdit}
           >
             <PencilIcon />
-            Edit
+            {tCommon("edit")}
           </Button>
         </ItemActions>
       )}

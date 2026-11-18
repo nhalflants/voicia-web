@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { auth } from "@clerk/nextjs/server"
+import { getTranslations } from "next-intl/server"
 
 import { DashboardHeader } from "@/components/layout/dashboard-header"
 import {
@@ -12,25 +13,28 @@ import { CallCategoriesSettings } from "@/features/call-categories/components/ca
 import { getCallCategories } from "@/features/call-categories/repository"
 import { getOrganizationMembers } from "@/features/org/repository"
 
-export const metadata: Metadata = {
-  title: "Call categories",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Nav")
+  return { title: t("callCategories") }
 }
 
 export default async function CallCategoriesPage() {
   const { orgId, userId, has } = await auth.protect()
+  const [tNav, tCommon, t] = await Promise.all([
+    getTranslations("Nav"),
+    getTranslations("Common"),
+    getTranslations("CallCategories"),
+  ])
 
   if (!orgId) {
     return (
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-        <DashboardHeader title="Call categories" />
+        <DashboardHeader title={tNav("callCategories")} />
         <div className="flex flex-1 flex-col items-center justify-center">
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No organization selected</EmptyTitle>
-              <EmptyDescription>
-                Pick an organization in the sidebar to manage its call
-                categories.
-              </EmptyDescription>
+              <EmptyTitle>{tCommon("noOrganization")}</EmptyTitle>
+              <EmptyDescription>{t("noOrganization")}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </div>
@@ -45,7 +49,7 @@ export default async function CallCategoriesPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <DashboardHeader title="Call categories" />
+      <DashboardHeader title={tNav("callCategories")} />
 
       <CallCategoriesSettings
         categories={categories}

@@ -9,6 +9,7 @@ import {
   TagsIcon,
   Trash2Icon,
 } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -59,6 +60,7 @@ function CallCategoriesSettings({
   currentUserId: string
   canManage: boolean
 }) {
+  const t = useTranslations("CallCategories")
   const [sheetOpen, setSheetOpen] = useState(false)
   // Kept after closing so the sheet doesn't empty while it animates out
   const [editing, setEditing] = useState<{
@@ -86,13 +88,12 @@ function CallCategoriesSettings({
     <>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <p className="max-w-prose text-sm text-muted-foreground">
-          Voicia sorts each call into one of your categories. Choose who
-          receives the recap email for each one.
+          {t("intro")}
         </p>
         {canManage && categories.length > 0 && (
           <Button onClick={() => openSheet(null)} disabled={atLimit}>
             <PlusIcon />
-            New category
+            {t("new")}
           </Button>
         )}
       </div>
@@ -100,7 +101,7 @@ function CallCategoriesSettings({
       {!canManage && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <LockIcon className="size-4 shrink-0" />
-          Only organization admins can edit categories and recap routing.
+          {t("adminsOnly")}
         </p>
       )}
 
@@ -110,33 +111,36 @@ function CallCategoriesSettings({
             <EmptyMedia variant="icon">
               <TagsIcon />
             </EmptyMedia>
-            <EmptyTitle>No call categories yet</EmptyTitle>
-            <EmptyDescription>
-              Add categories to sort calls and send each recap to the right
-              people.
-            </EmptyDescription>
+            <EmptyTitle>{t("empty.title")}</EmptyTitle>
+            <EmptyDescription>{t("empty.description")}</EmptyDescription>
           </EmptyHeader>
           {canManage && (
             <EmptyContent className="gap-5">
               <Button onClick={() => openSheet(null)}>
                 <PlusIcon />
-                New category
+                {t("new")}
               </Button>
               <div className="flex flex-col items-center gap-2">
                 <span className="text-xs text-muted-foreground">
-                  Or start from a suggestion
+                  {t("empty.suggestion")}
                 </span>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {CATEGORY_SUGGESTIONS.map((suggestion) => (
+                  {CATEGORY_SUGGESTIONS.map(({ key, color }) => (
                     <Button
-                      key={suggestion.name}
+                      key={key}
                       variant="outline"
                       size="sm"
-                      onClick={() => openSheet(null, suggestion)}
+                      onClick={() =>
+                        openSheet(null, {
+                          name: t(`suggestions.${key}.name`),
+                          color,
+                          description: t(`suggestions.${key}.description`),
+                        })
+                      }
                       className="flex items-center gap-2 px-3 font-normal text-foreground"
                     >
-                      <ColorDot color={suggestion.color} />
-                      {suggestion.name}
+                      <ColorDot color={color} />
+                      {t(`suggestions.${key}.name`)}
                     </Button>
                   ))}
                 </div>
@@ -166,10 +170,10 @@ function CallCategoriesSettings({
               </ItemMedia>
               <ItemContent className="min-w-0">
                 <ItemTitle className="text-muted-foreground">
-                  Uncategorized
+                  {t("uncategorized.title")}
                 </ItemTitle>
                 <ItemDescription>
-                  Calls that don&apos;t fit any category
+                  {t("uncategorized.description")}
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
@@ -181,8 +185,7 @@ function CallCategoriesSettings({
           </div>
           {canManage && atLimit && (
             <p className="text-sm text-muted-foreground">
-              You&apos;ve reached the limit of {MAX_CALL_CATEGORIES} categories.
-              Delete one to add another.
+              {t("limitReached", { max: MAX_CALL_CATEGORIES })}
             </p>
           )}
         </div>
@@ -226,6 +229,8 @@ function CategoryRow({
   onEdit: () => void
   onDelete: () => void
 }) {
+  const t = useTranslations("CallCategories")
+  const tCommon = useTranslations("Common")
   return (
     <Item
       size="sm"
@@ -269,7 +274,7 @@ function CategoryRow({
                   variant="ghost"
                   size="icon-sm"
                   className="relative z-10"
-                  aria-label={`Actions for ${category.name}`}
+                  aria-label={t("actionsFor", { name: category.name })}
                 />
               }
             >
@@ -278,11 +283,11 @@ function CategoryRow({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={onEdit}>
                 <PencilIcon />
-                Edit
+                {tCommon("edit")}
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive" onClick={onDelete}>
                 <Trash2Icon />
-                Delete
+                {tCommon("delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -1,7 +1,6 @@
 "use client"
 
 import { Fragment } from "react"
-import { format } from "date-fns"
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -10,6 +9,7 @@ import {
   RotateCcwIcon,
   UserRoundPlusIcon,
 } from "lucide-react"
+import { useFormatter, useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -68,6 +68,7 @@ function CallDetailSheet({
   onPrevious?: () => void
   onNext?: () => void
 } & PanelProps) {
+  const t = useTranslations("Calls.detail")
   return (
     <Sheet open={open} onOpenChange={(next) => !next && onClose()}>
       <SheetContent className="w-full gap-0 data-[side=right]:sm:max-w-xl">
@@ -75,7 +76,7 @@ function CallDetailSheet({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Previous call"
+            aria-label={t("previous")}
             disabled={!onPrevious}
             onClick={onPrevious}
           >
@@ -84,7 +85,7 @@ function CallDetailSheet({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Next call"
+            aria-label={t("next")}
             disabled={!onNext}
             onClick={onNext}
           >
@@ -116,6 +117,8 @@ function CallPanel({
   currentUserId,
   onSelectCall,
 }: { call: CallListItem; detail: CallDetail | null } & PanelProps) {
+  const t = useTranslations("Calls")
+  const format = useFormatter()
   // The detail is fresher than the row once it has loaded
   const call = detail ?? row
   const { optimistic, pending, save, changeStatus } = useCallUpdate(
@@ -128,13 +131,14 @@ function CallPanel({
   const endedReason = detail?.endedReason
     ? ENDED_REASONS[detail.endedReason]
     : undefined
-  const callerName = call.callerName || "Unknown caller"
+  const callerName = call.callerName || t("unknownCaller")
   const meta = [
     call.customerNumber && <span>{call.customerNumber}</span>,
     call.startedAt && (
-      // The server and the browser may sit in different time zones
-      <time dateTime={call.startedAt} suppressHydrationWarning>
-        {format(new Date(call.startedAt), "d MMM, HH:mm")}
+      // In the configured Belgian time zone, so the server and the browser
+      // agree
+      <time dateTime={call.startedAt}>
+        {format.dateTime(new Date(call.startedAt), "dayMonthTime")}
       </time>
     ),
     call.durationSeconds != null && (
@@ -161,8 +165,9 @@ function CallPanel({
           {(detail?.assistantName || endedReason) && (
             <p className="text-sm text-muted-foreground">
               {[
-                detail?.assistantName && `Answered by ${detail.assistantName}`,
-                endedReason,
+                detail?.assistantName &&
+                  t("detail.answeredBy", { name: detail.assistantName }),
+                endedReason && t(`endedReasons.${endedReason}`),
               ]
                 .filter(Boolean)
                 .join(" · ")}
@@ -174,12 +179,12 @@ function CallPanel({
           {isOpen && !optimistic.assigneeUserId ? (
             <Button onClick={() => save({ assigneeUserId: currentUserId })}>
               <UserRoundPlusIcon />
-              Assign to me
+              {t("detail.assignToMe")}
             </Button>
           ) : isOpen ? (
             <Button onClick={() => save({ status: "done" })}>
               <CheckIcon />
-              Mark as done
+              {t("detail.markAsDone")}
             </Button>
           ) : (
             <Button
@@ -191,7 +196,7 @@ function CallPanel({
               }
             >
               <RotateCcwIcon />
-              Reopen
+              {t("detail.reopen")}
             </Button>
           )}
           {call.customerNumber && (
@@ -201,7 +206,7 @@ function CallPanel({
               render={<a href={`tel:${call.customerNumber}`} />}
             >
               <PhoneIcon />
-              Call back
+              {t("detail.callBack")}
             </Button>
           )}
         </div>
@@ -227,9 +232,9 @@ function CallPanel({
 
       <div className="flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-6">
         <section className="flex flex-col gap-2">
-          <h3 className="font-medium">Summary</h3>
+          <h3 className="font-medium">{t("detail.summary")}</h3>
           <p className="leading-relaxed whitespace-pre-line text-muted-foreground">
-            {call.summary || "No summary for this call."}
+            {call.summary || t("detail.noSummary")}
           </p>
         </section>
 
@@ -242,7 +247,7 @@ function CallPanel({
         )}
 
         <section className="flex flex-col gap-3">
-          <h3 className="font-medium">Recording</h3>
+          <h3 className="font-medium">{t("detail.recording")}</h3>
           {!detail ? (
             <Skeleton className="h-13 w-full" />
           ) : detail.hasRecording ? (
@@ -251,13 +256,13 @@ function CallPanel({
               durationSeconds={detail.durationSeconds}
             />
           ) : (
-            <p className="text-muted-foreground">No recording for this call.</p>
+            <p className="text-muted-foreground">{t("detail.noRecording")}</p>
           )}
         </section>
 
         {!detail ? (
           <section className="flex flex-col gap-3">
-            <h3 className="font-medium">Transcript</h3>
+            <h3 className="font-medium">{t("detail.transcript")}</h3>
             <Skeleton className="h-10 w-3/4" />
             <Skeleton className="h-10 w-2/3 self-end" />
             <Skeleton className="h-10 w-3/4" />
@@ -265,16 +270,16 @@ function CallPanel({
         ) : detail.transcript.length > 0 ? (
           <CallTranscript
             turns={detail.transcript}
-            assistantName={detail.assistantName ?? "Assistant"}
-            callerName={detail.callerName || "Caller"}
+            assistantName={detail.assistantName ?? t("detail.assistant")}
+            callerName={detail.callerName || t("detail.caller")}
           />
         ) : (
           <section className="flex flex-col gap-2">
-            <h3 className="font-medium">Transcript</h3>
+            <h3 className="font-medium">{t("detail.transcript")}</h3>
             <p className="text-muted-foreground">
               {detail.isEmpty
-                ? "The caller didn't say anything."
-                : "No transcript for this call."}
+                ? t("detail.callerSilent")
+                : t("detail.noTranscript")}
             </p>
           </section>
         )}
@@ -284,15 +289,14 @@ function CallPanel({
 }
 
 function CallNotFound() {
+  const t = useTranslations("Calls.detail")
   return (
     <div className="flex flex-1 flex-col items-center justify-center p-6">
-      <SheetTitle className="sr-only">Call not found</SheetTitle>
+      <SheetTitle className="sr-only">{t("notFound.title")}</SheetTitle>
       <Empty>
         <EmptyHeader>
-          <EmptyTitle>Call not found</EmptyTitle>
-          <EmptyDescription>
-            It may have been deleted, or it belongs to another organization.
-          </EmptyDescription>
+          <EmptyTitle>{t("notFound.title")}</EmptyTitle>
+          <EmptyDescription>{t("notFound.description")}</EmptyDescription>
         </EmptyHeader>
       </Empty>
     </div>

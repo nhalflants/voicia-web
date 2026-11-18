@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { auth } from "@clerk/nextjs/server"
+import { getTranslations } from "next-intl/server"
 
 import { DashboardHeader } from "@/components/layout/dashboard-header"
 import {
@@ -14,8 +15,9 @@ import {
   isSubscribed,
 } from "@/features/billing/repository"
 
-export const metadata: Metadata = {
-  title: "Plans",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Nav")
+  return { title: t("plans") }
 }
 
 export default async function PlansPage({
@@ -24,18 +26,21 @@ export default async function PlansPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { orgId, has } = await auth.protect()
+  const [tNav, tCommon, t] = await Promise.all([
+    getTranslations("Nav"),
+    getTranslations("Common"),
+    getTranslations("Billing"),
+  ])
 
   if (!orgId) {
     return (
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-        <DashboardHeader title="Plans" />
+        <DashboardHeader title={tNav("plans")} />
         <div className="flex flex-1 flex-col items-center justify-center">
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No organization selected</EmptyTitle>
-              <EmptyDescription>
-                Pick an organization in the sidebar to see its plans.
-              </EmptyDescription>
+              <EmptyTitle>{tCommon("noOrganization")}</EmptyTitle>
+              <EmptyDescription>{t("noOrganization")}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </div>
@@ -56,7 +61,7 @@ export default async function PlansPage({
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <DashboardHeader title="Plans" />
+      <DashboardHeader title={tNav("plans")} />
 
       <PlansSettings
         subscription={subscription}

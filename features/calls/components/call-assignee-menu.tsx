@@ -1,6 +1,7 @@
 "use client"
 
 import { UserRoundIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +32,8 @@ function CallAssigneeMenu({
   currentUserId: string
   onChange: (assigneeUserId: string | null) => void
 }) {
+  const t = useTranslations("Calls.assignee")
+  const tCommon = useTranslations("Common")
   const assignee = assigneeUserId ? membersById.get(assigneeUserId) : undefined
   const value = assigneeUserId ?? UNASSIGNED
 
@@ -49,14 +52,14 @@ function CallAssigneeMenu({
           <>
             <MemberAvatar member={assignee} size="sm" />
             <span className="truncate">
-              {assignee.userId === currentUserId ? "Me" : assignee.name}
+              {assignee.userId === currentUserId ? t("me") : assignee.name}
             </span>
           </>
         ) : (
           <span className="flex items-center gap-2 text-muted-foreground">
             <UserRoundIcon />
             {/* Assigned to someone who has since left the organization */}
-            {assigneeUserId ? "Former member" : "Unassigned"}
+            {assigneeUserId ? t("formerMember") : t("unassigned")}
           </span>
         )}
       </DropdownMenuTrigger>
@@ -71,7 +74,7 @@ function CallAssigneeMenu({
           >
             <DropdownMenuRadioItem value={UNASSIGNED}>
               <UserRoundIcon className="text-muted-foreground" />
-              Unassigned
+              {t("unassigned")}
             </DropdownMenuRadioItem>
             <DropdownMenuSeparator />
             {members.map((member) => (
@@ -80,7 +83,10 @@ function CallAssigneeMenu({
                 <span className="truncate">
                   {member.name}
                   {member.userId === currentUserId && (
-                    <span className="text-muted-foreground"> (you)</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      {tCommon("you")}
+                    </span>
                   )}
                 </span>
               </DropdownMenuRadioItem>

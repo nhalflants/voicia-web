@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { auth } from "@clerk/nextjs/server"
+import { getTranslations } from "next-intl/server"
 import { PhoneIcon } from "lucide-react"
 
 import { DashboardHeader } from "@/components/layout/dashboard-header"
@@ -17,8 +18,9 @@ import { parseCallFilters, parseCallId } from "@/features/calls/filters"
 import { getCall, getCalls } from "@/features/calls/repository"
 import { getOrganizationMembers } from "@/features/org/repository"
 
-export const metadata: Metadata = {
-  title: "Calls",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Nav")
+  return { title: t("calls") }
 }
 
 export default async function CallsPage({
@@ -27,18 +29,21 @@ export default async function CallsPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { orgId, userId } = await auth.protect()
+  const [tNav, tCommon, t] = await Promise.all([
+    getTranslations("Nav"),
+    getTranslations("Common"),
+    getTranslations("Calls"),
+  ])
 
   if (!orgId) {
     return (
       <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-        <DashboardHeader title="Calls" />
+        <DashboardHeader title={tNav("calls")} />
         <div className="flex flex-1 flex-col items-center justify-center">
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No organization selected</EmptyTitle>
-              <EmptyDescription>
-                Pick an organization in the sidebar to see its calls.
-              </EmptyDescription>
+              <EmptyTitle>{tCommon("noOrganization")}</EmptyTitle>
+              <EmptyDescription>{t("noOrganization")}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </div>
@@ -60,7 +65,7 @@ export default async function CallsPage({
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <DashboardHeader title="Calls" />
+      <DashboardHeader title={tNav("calls")} />
 
       <CallsToolbar
         filters={filters}
@@ -83,12 +88,12 @@ export default async function CallsPage({
                 <PhoneIcon />
               </EmptyMedia>
               <EmptyTitle>
-                {isDefaultView ? "You're all caught up" : "No matching calls"}
+                {isDefaultView ? t("caughtUp.title") : t("noMatch.title")}
               </EmptyTitle>
               <EmptyDescription>
                 {isDefaultView
-                  ? "New calls that need follow-up will show up here."
-                  : "Try another status or clear the filters."}
+                  ? t("caughtUp.description")
+                  : t("noMatch.description")}
               </EmptyDescription>
             </EmptyHeader>
           </Empty>

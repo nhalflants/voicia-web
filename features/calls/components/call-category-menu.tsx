@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronDownIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,8 +19,9 @@ import type { CallCategory } from "@/features/call-categories/types"
 const UNCATEGORIZED = "uncategorized"
 
 function CategoryLabel({ category }: { category: CallCategory | undefined }) {
+  const t = useTranslations("Calls")
   if (!category) {
-    return <span className="text-muted-foreground">Uncategorized</span>
+    return <span className="text-muted-foreground">{t("uncategorized")}</span>
   }
   return (
     <span className="flex min-w-0 items-center gap-2">

@@ -1,1 +1,298 @@
-{}
+{
+  "Nav": {
+    "calls": "Appels",
+    "settings": "Paramètres",
+    "assistants": "Assistants",
+    "callCategories": "Catégories d'appels",
+    "plans": "Abonnements"
+  },
+  "Common": {
+    "noOrganization": "Aucune organisation sélectionnée",
+    "somethingWentWrong": "Une erreur s'est produite. Veuillez réessayer.",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "saveChanges": "Enregistrer",
+    "optional": "(facultatif)",
+    "you": "(vous)"
+  },
+  "Calls": {
+    "noOrganization": "Choisissez une organisation dans la barre latérale pour voir ses appels.",
+    "caughtUp": {
+      "title": "Vous êtes à jour",
+      "description": "Les nouveaux appels à traiter apparaîtront ici."
+    },
+    "noMatch": {
+      "title": "Aucun appel correspondant",
+      "description": "Essayez un autre statut ou effacez les filtres."
+    },
+    "unknownCaller": "Appelant inconnu",
+    "callNumber": "Appeler le {number}",
+    "callsToday": "{count, plural, one {# appel aujourd'hui} other {# appels aujourd'hui}}",
+    "uncategorized": "Sans catégorie",
+    "missedCall": "Appel manqué",
+    "updateFailed": "Impossible de mettre à jour l'appel",
+    "days": {
+      "today": "Aujourd'hui",
+      "yesterday": "Hier",
+      "notConnected": "Non connectés"
+    },
+    "statuses": {
+      "new": "Nouveau",
+      "in_progress": "En cours",
+      "done": "Terminé"
+    },
+    "statusFilters": {
+      "open": "Ouverts",
+      "closed": "Clôturés",
+      "all": "Tous"
+    },
+    "filters": {
+      "anyone": "Tout le monde",
+      "assignedToMe": "Assignés à moi",
+      "unassigned": "Non assignés",
+      "allCategories": "Toutes les catégories",
+      "assignee": "Responsable",
+      "category": "Catégorie"
+    },
+    "assignee": {
+      "me": "Moi",
+      "formerMember": "Ancien membre",
+      "unassigned": "Non assigné"
+    },
+    "errors": {
+      "forbidden": "Vous ne pouvez pas modifier les appels de cette organisation.",
+      "notFound": "Cet appel n'existe plus. Il a peut-être été supprimé."
+    },
+    "endedReasons": {
+      "callerHungUp": "L'appelant a raccroché",
+      "assistantEnded": "L'assistant a mis fin à l'appel",
+      "transferred": "Transféré par l'assistant",
+      "silence": "Terminé après un silence",
+      "timeLimit": "Durée maximale atteinte",
+      "voicemail": "Messagerie vocale"
+    },
+    "history": {
+      "title": "Autres appels de ce numéro ({total})",
+      "noSummary": "Pas de résumé"
+    },
+    "detail": {
+      "previous": "Appel précédent",
+      "next": "Appel suivant",
+      "answeredBy": "Répondu par {name}",
+      "assignToMe": "M'assigner",
+      "markAsDone": "Marquer comme terminé",
+      "reopen": "Rouvrir",
+      "callBack": "Rappeler",
+      "summary": "Résumé",
+      "noSummary": "Pas de résumé pour cet appel.",
+      "recording": "Enregistrement",
+      "noRecording": "Pas d'enregistrement pour cet appel.",
+      "transcript": "Transcription",
+      "assistant": "Assistant",
+      "caller": "Appelant",
+      "callerSilent": "L'appelant n'a rien dit.",
+      "noTranscript": "Pas de transcription pour cet appel.",
+      "notFound": {
+        "title": "Appel introuvable",
+        "description": "Il a peut-être été supprimé, ou il appartient à une autre organisation."
+      }
+    },
+    "player": {
+      "unavailable": "L'enregistrement n'est pas disponible.",
+      "play": "Lire",
+      "pause": "Pause",
+      "position": "Position",
+      "speed": "{speed, number}x",
+      "speedLabel": "Vitesse de lecture {speed, number}x",
+      "download": "Télécharger l'enregistrement"
+    },
+    "transcript": {
+      "title": "Transcription",
+      "copy": "Copier",
+      "copied": "Transcription copiée"
+    }
+  },
+  "Billing": {
+    "noOrganization": "Choisissez une organisation dans la barre latérale pour voir ses abonnements.",
+    "endsOn": "Votre abonnement prend fin le {date, date, long}.",
+    "cancelled": "Il a été résilié et ne sera pas renouvelé.",
+    "active": "Cette organisation a un abonnement actif.",
+    "changePlan": "<contact>Contactez-nous</contact> pour changer de formule.",
+    "renew": "Renouveler l'abonnement",
+    "manage": "Gérer l'abonnement",
+    "portalFailed": "Impossible d'ouvrir la gestion de l'abonnement",
+    "checkoutFailed": "Impossible d'ouvrir le paiement",
+    "activating": {
+      "title": "Paiement reçu.",
+      "description": "Votre abonnement apparaîtra ici dans quelques instants."
+    },
+    "adminsOnly": "Seuls les administrateurs de l'organisation peuvent s'abonner.",
+    "perMonth": "/mois HTVA",
+    "includedMinutes": "{minutes, number} minutes incluses",
+    "extraMinute": "Ensuite {price}/min HTVA",
+    "choose": "Choisir {plan}",
+    "errors": {
+      "forbidden": "Seuls les administrateurs de l'organisation peuvent gérer l'abonnement.",
+      "unknownPlan": "Cette formule n'existe pas.",
+      "alreadySubscribed": "Cette organisation a déjà un abonnement actif.",
+      "noSubscription": "Cette organisation n'a pas d'abonnement."
+    }
+  },
+  "Assistants": {
+    "noOrganization": "Choisissez une organisation dans la barre latérale pour voir ses assistants.",
+    "empty": {
+      "title": "Pas encore de réceptionniste IA",
+      "description": "Contactez-nous et nous configurerons un réceptionniste IA qui répond à vos appels, dans vos langues et avec votre message d'accueil.",
+      "contact": "Nous contacter"
+    },
+    "adminsOnly": "Seuls les administrateurs de l'organisation peuvent modifier les assistants.",
+    "quoted": "« {message} »",
+    "noFirstMessage": "Pas de message d'accueil",
+    "form": {
+      "title": "Modifier l'assistant",
+      "name": "Nom",
+      "namePlaceholder": "ex. Accueil",
+      "firstMessage": "Message d'accueil",
+      "firstMessagePlaceholder": "ex. Bonjour, vous êtes bien au cabinet Dupont. Comment puis-je vous aider ?",
+      "firstMessageHint": "Ce que les appelants entendent quand l'assistant décroche.",
+      "saved": "Assistant enregistré",
+      "errors": {
+        "nameRequired": "Saisissez un nom.",
+        "firstMessageRequired": "Saisissez un message d'accueil."
+      }
+    },
+    "errors": {
+      "forbidden": "Seuls les administrateurs de l'organisation peuvent modifier les assistants.",
+      "notFound": "Cet assistant n'existe plus.",
+      "phoneLine": "Nous n'avons pas pu mettre à jour votre ligne téléphonique. Rien n'a été enregistré, veuillez réessayer."
+    }
+  },
+  "CallCategories": {
+    "noOrganization": "Choisissez une organisation dans la barre latérale pour gérer ses catégories d'appels.",
+    "intro": "Voicia classe chaque appel dans l'une de vos catégories. Choisissez qui reçoit l'e-mail récapitulatif pour chacune.",
+    "new": "Nouvelle catégorie",
+    "adminsOnly": "Seuls les administrateurs de l'organisation peuvent modifier les catégories et l'envoi des récapitulatifs.",
+    "empty": {
+      "title": "Aucune catégorie d'appels",
+      "description": "Ajoutez des catégories pour classer les appels et envoyer chaque récapitulatif aux bonnes personnes.",
+      "suggestion": "Ou partez d'une suggestion"
+    },
+    "uncategorized": {
+      "title": "Sans catégorie",
+      "description": "Les appels qui ne correspondent à aucune catégorie"
+    },
+    "limitReached": "Vous avez atteint la limite de {max} catégories. Supprimez-en une pour en ajouter une autre.",
+    "actionsFor": "Actions pour {name}",
+    "suggestions": {
+      "appointment": {
+        "name": "Rendez-vous",
+        "description": "L'appelant souhaite prendre, déplacer ou annuler un rendez-vous."
+      },
+      "quote": {
+        "name": "Demande de devis",
+        "description": "L'appelant demande un prix, une estimation ou un devis."
+      },
+      "urgent": {
+        "name": "Urgent",
+        "description": "L'appelant a besoin d'aide aujourd'hui, par exemple une urgence ou un problème qui ne peut pas attendre."
+      },
+      "complaint": {
+        "name": "Réclamation",
+        "description": "L'appelant est mécontent d'un produit, d'un service ou d'une visite passée."
+      }
+    },
+    "colors": {
+      "current": "Couleur actuelle",
+      "gray": "Gris",
+      "red": "Rouge",
+      "orange": "Orange",
+      "amber": "Ambre",
+      "green": "Vert",
+      "teal": "Sarcelle",
+      "blue": "Bleu",
+      "indigo": "Indigo",
+      "purple": "Violet",
+      "pink": "Rose"
+    },
+    "recipients": {
+      "everyone": "Tout le monde",
+      "two": "{first} et {second}",
+      "many": "{first} et {count, plural, one {# autre} other {# autres}}"
+    },
+    "delete": {
+      "title": "Supprimer « {name} » ?",
+      "descriptionWithCalls": "{count, plural, one {# appel passé deviendra non classé} other {# appels passés deviendront non classés}} et l'envoi de ses récapitulatifs sera supprimé.",
+      "description": "L'envoi de ses récapitulatifs sera supprimé et les nouveaux appels n'y seront plus classés.",
+      "irreversible": "Cette action est irréversible.",
+      "confirm": "Supprimer la catégorie",
+      "failed": "Impossible de supprimer la catégorie",
+      "deleted": "« {name} » supprimée"
+    },
+    "form": {
+      "newTitle": "Nouvelle catégorie",
+      "editTitle": "Modifier la catégorie",
+      "name": "Nom",
+      "namePlaceholder": "ex. Rendez-vous",
+      "color": "Couleur",
+      "description": "Description",
+      "descriptionPlaceholder": "ex. L'appelant souhaite prendre, déplacer ou annuler un rendez-vous.",
+      "recapLegend": "Qui reçoit l'e-mail récapitulatif ?",
+      "everyone": {
+        "title": "Tout le monde dans l'organisation",
+        "description": "{count, plural, one {Le seul membre reçoit chaque récapitulatif.} other {Les # membres reçoivent le récapitulatif.}}"
+      },
+      "specific": {
+        "title": "Seulement certains membres",
+        "description": "Choisissez qui reçoit les récapitulatifs de cette catégorie.",
+        "invite": "Invitez des collègues pour envoyer les récapitulatifs à des personnes précises."
+      },
+      "recipients": "Destinataires",
+      "cantReceive": "Ne peut pas recevoir de récapitulatifs",
+      "recipientsHint": "Si aucun d'eux ne peut le recevoir, tout le monde reçoit le récapitulatif.",
+      "create": "Créer la catégorie",
+      "saved": "Catégorie enregistrée",
+      "created": "Catégorie créée",
+      "errors": {
+        "nameRequired": "Saisissez un nom.",
+        "recipientsRequired": "Choisissez au moins un membre, ou envoyez les récapitulatifs à tout le monde."
+      }
+    },
+    "errors": {
+      "forbidden": "Seuls les administrateurs de l'organisation peuvent modifier les catégories d'appels.",
+      "formerMembers": "Certains membres sélectionnés ne font plus partie de cette organisation. La liste a été mise à jour, vérifiez-la et enregistrez à nouveau.",
+      "notFound": "Cette catégorie n'existe plus. Elle a peut-être été supprimée.",
+      "nameTaken": "Une catégorie porte déjà ce nom."
+    }
+  },
+  "Home": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "title": "Projet prêt !",
+    "intro": "Vous pouvez maintenant ajouter des composants et commencer à construire.",
+    "buttonAdded": "Nous avons déjà ajouté le composant bouton pour vous.",
+    "button": "Bouton",
+    "darkModeHint": "(Appuyez sur <kbd>d</kbd> pour basculer le mode sombre)"
+  },
+  "Org": {
+    "personalAccount": "Compte personnel",
+    "organizations": "Organisations",
+    "loadMore": "Charger plus",
+    "manage": "Gérer l'organisation",
+    "create": "Créer une organisation",
+    "unnamedMember": "Membre sans nom"
+  },
+  "User": {
+    "openMenu": "Ouvrir le menu utilisateur",
+    "manageAccount": "Gérer le compte",
+    "signOut": "Se déconnecter"
+  },
+  "UI": {
+    "loading": "Chargement",
+    "close": "Fermer",
+    "closeToast": "Fermer la notification",
+    "toggleSidebar": "Afficher ou masquer la barre latérale",
+    "sidebar": "Barre latérale",
+    "sidebarDescription": "Affiche la barre latérale mobile."
+  }
+}

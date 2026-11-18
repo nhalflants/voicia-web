@@ -2,6 +2,7 @@
 
 import { ChevronDownIcon } from "lucide-react"
 import { cn } from "cn"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,11 +17,12 @@ import { CALL_STATUSES } from "@/features/calls/constants"
 import type { CallStatus } from "@/features/calls/types"
 
 function CallStatusLabel({ status }: { status: CallStatus }) {
-  const { label, dotClassName } = CALL_STATUSES[status]
+  const t = useTranslations("Calls.statuses")
+  const { dotClassName } = CALL_STATUSES[status]
   return (
     <span className="flex items-center gap-2">
       <span className={cn("size-2 shrink-0 rounded-full", dotClassName)} />
-      {label}
+      {t(status)}
     </span>
   )
 }

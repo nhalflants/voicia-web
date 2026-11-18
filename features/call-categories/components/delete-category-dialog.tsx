@@ -1,6 +1,7 @@
 "use client"
 
 import { useTransition } from "react"
+import { useLocale, useTranslations } from "next-intl"
 
 import {
   AlertDialog,
@@ -28,21 +29,27 @@ function DeleteCategoryDialog({
   onOpenChange: (open: boolean) => void
   onDeleted: () => void
 }) {
+  const t = useTranslations("CallCategories.delete")
+  const tCommon = useTranslations("Common")
+  const locale = useLocale()
   const [pending, startTransition] = useTransition()
 
   const handleDelete = () => {
     if (!category) return
     startTransition(async () => {
-      const result = await deleteCallCategoryAction(category.id)
+      const result = await deleteCallCategoryAction(category.id, locale)
       if (!result.ok) {
         toast.add({
           type: "error",
-          title: "Couldn't delete the category",
+          title: t("failed"),
           description: result.message,
         })
         return
       }
-      toast.add({ type: "success", title: `“${category.name}” deleted` })
+      toast.add({
+        type: "success",
+        title: t("deleted", { name: category.name }),
+      })
       onOpenChange(false)
       onDeleted()
     })
@@ -54,23 +61,27 @@ function DeleteCategoryDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete “{category?.name}”?</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t("title", { name: category?.name ?? "" })}
+          </AlertDialogTitle>
           <AlertDialogDescription>
             {callCount > 0
-              ? `${callCount} past ${callCount === 1 ? "call" : "calls"} will become uncategorized and its recap routing will be removed.`
-              : "Its recap routing will be removed and new calls won't be sorted into it."}{" "}
-            This can&apos;t be undone.
+              ? t("descriptionWithCalls", { count: callCount })
+              : t("description")}{" "}
+            {t("irreversible")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={pending}>
+            {tCommon("cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
             onClick={handleDelete}
             disabled={pending}
           >
             {pending && <Spinner />}
-            Delete category
+            {t("confirm")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

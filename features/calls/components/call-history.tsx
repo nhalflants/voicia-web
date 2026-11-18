@@ -1,6 +1,6 @@
 "use client"
 
-import { format } from "date-fns"
+import { useFormatter, useTranslations } from "next-intl"
 
 import { MissedCallBadge } from "@/features/calls/components/missed-call-badge"
 import { CALL_STATUSES } from "@/features/calls/constants"
@@ -18,14 +18,18 @@ function CallHistory({
   total: number
   onSelect: (call: CallListItem) => void
 }) {
+  const t = useTranslations("Calls")
+  const format = useFormatter()
+
   if (total === 0) return null
 
   return (
     <section className="flex flex-col gap-2">
-      <h3 className="font-medium">Other calls from this number ({total})</h3>
+      <h3 className="font-medium">{t("history.title", { total })}</h3>
       <ul className="-mx-2 flex flex-col">
         {calls.map((call) => {
-          const { label, dotClassName } = CALL_STATUSES[call.status]
+          const { dotClassName } = CALL_STATUSES[call.status]
+          const label = t(`statuses.${call.status}`)
           return (
             <li key={call.id}>
               <button
@@ -39,13 +43,13 @@ function CallHistory({
                 />
                 <span className="sr-only">{label}</span>
                 {call.startedAt && (
-                  // The server and the browser may sit in different time zones
+                  // In the configured Belgian time zone, so the server and
+                  // the browser agree
                   <time
                     dateTime={call.startedAt}
-                    suppressHydrationWarning
                     className="shrink-0 text-muted-foreground tabular-nums"
                   >
-                    {format(new Date(call.startedAt), "d MMM, HH:mm")}
+                    {format.dateTime(new Date(call.startedAt), "dayMonthTime")}
                   </time>
                 )}
                 {call.isEmpty ? (
@@ -53,7 +57,9 @@ function CallHistory({
                 ) : call.summary ? (
                   <span className="min-w-0 truncate">{call.summary}</span>
                 ) : (
-                  <span className="text-muted-foreground">No summary</span>
+                  <span className="text-muted-foreground">
+                    {t("history.noSummary")}
+                  </span>
                 )}
               </button>
             </li>

@@ -1,4 +1,3 @@
-import Link from "next/link"
 import Image from "next/image"
 
 import { NavMain } from "@/components/layout/nav-main"
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/sidebar"
 import { OrgSwitcher } from "@/features/org/components/org-switcher"
 import { UserButton } from "@/features/org/components/user-button"
+import { Link } from "@/i18n/navigation"
 
 async function AppSidebar() {
   return (

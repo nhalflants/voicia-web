@@ -1,8 +1,10 @@
 import "server-only"
 
 import { eq } from "drizzle-orm"
+import type { Locale } from "next-intl"
 
 import type { OrganizationBilling, PlanId } from "@/features/billing/types"
+import { getPathname } from "@/i18n/navigation"
 import { db } from "@/lib/db"
 import { organizationBilling } from "@/lib/db/generated/schema"
 import { getStripe } from "@/lib/stripe"
@@ -51,12 +53,13 @@ export function isSubscribed(billing: OrganizationBilling | null) {
 export async function createCheckoutSession(
   organizationId: string,
   planId: PlanId,
-  billing: OrganizationBilling | null
+  billing: OrganizationBilling | null,
+  locale: Locale
 ): Promise<string> {
   const { base, usage } = PRICE_IDS[planId]
   if (!base || !usage)
     throw new Error(`Stripe prices for ${planId} are not set`)
-  const appUrl = getAppUrl()
+  const plansUrl = getPlansUrl(locale)
 
   const session = await getStripe().checkout.sessions.create({
     mode: "subscription",
@@ -76,8 +79,10 @@ export async function createCheckoutSession(
     // Shorter than the 24-hour default, so a forgotten tab can't add a second
     // subscription after the organization subscribed elsewhere
     expires_at: Math.floor(Date.now() / 1000) + 31 * 60,
-    success_url: `${appUrl}/dashboard/plans?checkout=success`,
-    cancel_url: `${appUrl}/dashboard/plans`,
+    // Checkout in the user's language, and back to the page in it
+    locale,
+    success_url: `${plansUrl}?checkout=success`,
+    cancel_url: plansUrl,
     // A returning organization keeps its customer. Stripe only accepts
     // customer_update together with customer
     ...(billing && {
@@ -90,17 +95,20 @@ export async function createCheckoutSession(
 }
 
 export async function createPortalSession(
-  stripeCustomerId: string
+  stripeCustomerId: string,
+  locale: Locale
 ): Promise<string> {
   const session = await getStripe().billingPortal.sessions.create({
     customer: stripeCustomerId,
-    return_url: `${getAppUrl()}/dashboard/plans`,
+    locale,
+    return_url: getPlansUrl(locale),
   })
   return session.url
 }
 
-function getAppUrl() {
+// Stripe sends the user back outside the router, so the URL needs its locale
+function getPlansUrl(locale: Locale) {
   const appUrl = process.env.APP_URL
   if (!appUrl) throw new Error("APP_URL is not set")
-  return appUrl
+  return appUrl + getPathname({ href: "/dashboard/plans", locale })
 }

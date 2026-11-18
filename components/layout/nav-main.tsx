@@ -1,7 +1,6 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 import { mainNavItems } from "@/components/layout/nav-items"
 import {
@@ -10,8 +9,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Link, usePathname } from "@/i18n/navigation"
 
 function NavMain() {
+  const t = useTranslations("Nav")
+  // Without the locale prefix, so it compares with the item URLs
   const pathname = usePathname()
 
   return (
@@ -21,11 +23,11 @@ function NavMain() {
           <SidebarMenuItem key={item.url}>
             <SidebarMenuButton
               isActive={pathname.startsWith(item.url)}
-              tooltip={item.title}
+              tooltip={t(item.key)}
               render={<Link href={item.url} />}
             >
               <item.icon />
-              <span>{item.title}</span>
+              <span>{t(item.key)}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
