@@ -111,18 +111,18 @@ function ProductTabs() {
           ref={tabsRowRef}
           className="relative -mx-4 max-w-[calc(100%+2rem)] overflow-x-auto px-4 pb-1 sm:mx-0 sm:max-w-full sm:px-0"
         >
-          <TabsList className="h-auto gap-1 rounded-full bg-muted p-1">
+          <TabsList className="h-auto gap-1 rounded-full border border-foreground/[0.06] bg-background p-1 shadow-[0_2px_12px_rgb(0_0_0/0.06)] dark:shadow-none">
             {TABS.map(({ key, icon: Icon }) => (
               <TabsTrigger
                 key={key}
                 value={key}
-                className="relative h-9 flex-none rounded-full px-4 data-active:bg-transparent data-active:shadow-none dark:data-active:border-transparent dark:data-active:bg-transparent"
+                className="relative isolate h-8 flex-none gap-2 rounded-full border-none px-3.5 text-[13px] text-muted-foreground hover:text-foreground data-active:bg-transparent data-active:text-foreground data-active:shadow-none dark:data-active:bg-transparent [&_svg]:size-3.5 [&_svg]:opacity-40 [&_svg]:transition-opacity data-active:[&_svg]:opacity-100"
               >
                 {active === key && (
                   <motion.span
                     layoutId="product-tab"
-                    className="absolute inset-0 -z-10 rounded-full bg-background shadow-sm dark:bg-input/40"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                    className="absolute inset-0 -z-10 rounded-full bg-muted"
+                    transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
                   />
                 )}
                 <Icon />
