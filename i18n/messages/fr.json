@@ -451,6 +451,50 @@
         "emailAction": "Ouvrir l'appel",
         "now": "maintenant"
       }
+    },
+    "audiences": {
+      "title": "Pensé pour ceux qui ne peuvent pas toujours décrocher",
+      "subtitle": "Si votre travail se fait loin du téléphone, Voicia prend l'appel pour vous.",
+      "items": {
+        "trades": {
+          "title": "Artisans et dépannage",
+          "text": "L'intervention est notée pendant que vous êtes sur le chantier."
+        },
+        "clinics": {
+          "title": "Cabinets et centres médicaux",
+          "text": "Les patients ont une réponse même quand l'accueil est débordé."
+        },
+        "agencies": {
+          "title": "Agences et consultants",
+          "text": "Les prospects vous joignent pendant que vous êtes chez un client."
+        },
+        "legal": {
+          "title": "Juridique et comptabilité",
+          "text": "Les nouvelles demandes sont triées avant que vous rappeliez."
+        },
+        "hospitality": {
+          "title": "Restauration et hôtellerie",
+          "text": "Réservations et questions prises en charge pendant le coup de feu."
+        },
+        "realEstate": {
+          "title": "Immobilier",
+          "text": "Les demandes de visite sont notées, même le dimanche."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Connecté à vos outils, étape par étape",
+      "subtitle": "Les alertes par e-mail fonctionnent déjà. Agenda, CRM et messageries arrivent bientôt.",
+      "available": "Disponible",
+      "soon": "Bientôt",
+      "items": {
+        "email": "Alertes e-mail",
+        "googleCalendar": "Google Agenda",
+        "outlook": "Outlook",
+        "hubspot": "HubSpot",
+        "whatsapp": "WhatsApp",
+        "imessage": "iMessage"
+      }
     }
   }
 }

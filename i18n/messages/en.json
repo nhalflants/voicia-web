@@ -451,6 +451,50 @@
         "emailAction": "Open the call",
         "now": "now"
       }
+    },
+    "audiences": {
+      "title": "Built for people who can't always pick up",
+      "subtitle": "If your work happens away from the phone, Voicia takes the call for you.",
+      "items": {
+        "trades": {
+          "title": "Trades and home services",
+          "text": "The repair gets booked while you're on the roof."
+        },
+        "clinics": {
+          "title": "Clinics and practices",
+          "text": "Patients get an answer even when the front desk is busy."
+        },
+        "agencies": {
+          "title": "Agencies and consultants",
+          "text": "Prospects reach you while you're with a client."
+        },
+        "legal": {
+          "title": "Legal and accounting",
+          "text": "New enquiries are screened before you call back."
+        },
+        "hospitality": {
+          "title": "Restaurants and hospitality",
+          "text": "Bookings and questions are handled during the rush."
+        },
+        "realEstate": {
+          "title": "Real estate",
+          "text": "Viewing requests are captured, even on a Sunday."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Connected to your tools, step by step",
+      "subtitle": "Email alerts work today. Calendar, CRM and messaging connections are on the way.",
+      "available": "Available",
+      "soon": "Coming soon",
+      "items": {
+        "email": "Email alerts",
+        "googleCalendar": "Google Calendar",
+        "outlook": "Outlook",
+        "hubspot": "HubSpot",
+        "whatsapp": "WhatsApp",
+        "imessage": "iMessage"
+      }
     }
   }
 }

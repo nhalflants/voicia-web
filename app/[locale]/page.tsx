@@ -1,4 +1,6 @@
+import { Audiences } from "@/features/landing/components/audiences"
 import { Hero } from "@/features/landing/components/hero"
+import { Integrations } from "@/features/landing/components/integrations"
 import { LandingMotion } from "@/features/landing/components/landing-motion"
 import { LandingNav } from "@/features/landing/components/landing-nav"
 import { Numbers } from "@/features/landing/components/numbers"
@@ -14,6 +16,8 @@ export default function Page() {
         <Problem />
         <Product />
         <Numbers />
+        <Audiences />
+        <Integrations />
       </main>
     </LandingMotion>
   )
