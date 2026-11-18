@@ -545,6 +545,52 @@
         "callBack": "Rappeler",
         "sentTo": "Envoyé à l'équipe Voicia par e-mail"
       }
+    },
+    "pricing": {
+      "title": "Des tarifs simples, configuration incluse",
+      "subtitle": "Choisissez vos minutes. Nous configurons votre assistante avec vous, en général le jour même.",
+      "perMonth": "/mois HTVA",
+      "includedMinutes": "{minutes, number} minutes d'appels incluses",
+      "extraMinute": "Puis {price} par minute supplémentaire",
+      "setupIncluded": "Configuration incluse",
+      "features": [
+        "Chaque appel répondu, jour et nuit",
+        "Un résumé et l'enregistrement pour chaque appel",
+        "Alertes e-mail par catégorie d'appel",
+        "Transfert vers une personne si nécessaire"
+      ]
+    },
+    "faq": {
+      "title": "Vos questions, nos réponses",
+      "subtitle": "Encore un doute ? Nous vous expliquons tout lors d'un appel.",
+      "items": {
+        "keepNumber": {
+          "q": "Puis-je garder mon numéro ?",
+          "a": "Oui. Transférez votre numéro actuel vers Voicia, ou utilisez le numéro attribué à votre assistante."
+        },
+        "setupTime": {
+          "q": "Combien de temps prend la configuration ?",
+          "a": "En général, le jour même. L'équipe Voicia configure tout avec vous."
+        },
+        "replaceTeam": {
+          "q": "Est-ce que Voicia remplace mon équipe ?",
+          "a": "Non. Voicia peut transférer un appel à une personne et rédige un résumé pour chaque autre appel, pour que votre équipe assure le suivi."
+        },
+        "extraMinutes": {
+          "q": "Que se passe-t-il après les minutes incluses ?",
+          "a": "Les appels continuent d'être pris en charge. Chaque minute supplémentaire est facturée {first} avec {firstPlan} et {second} avec {secondPlan}, HTVA."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Ne perdez plus de prospects sur la messagerie",
+      "text": "Réservez un appel de configuration. Voicia peut répondre à vos appels dès aujourd'hui."
+    },
+    "footer": {
+      "tagline": "La réceptionniste IA des professionnels occupés.",
+      "contact": "Contact",
+      "language": "Langue",
+      "rights": "© {year} Voicia"
     }
   }
 }

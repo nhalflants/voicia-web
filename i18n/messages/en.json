@@ -545,6 +545,52 @@
         "callBack": "Call back",
         "sentTo": "Sent to the Voicia team by email"
       }
+    },
+    "pricing": {
+      "title": "Simple pricing, setup included",
+      "subtitle": "Pick the minutes you need. We set up your assistant with you, usually the same day.",
+      "perMonth": "/month excl. VAT",
+      "includedMinutes": "{minutes, number} minutes of calls included",
+      "extraMinute": "Then {price} per extra minute",
+      "setupIncluded": "Setup included",
+      "features": [
+        "Every call answered, day and night",
+        "A brief and the recording for each call",
+        "Email alerts by call category",
+        "Transfers to a person when needed"
+      ]
+    },
+    "faq": {
+      "title": "Your questions, answered",
+      "subtitle": "Still unsure? We'll walk you through it on a call.",
+      "items": {
+        "keepNumber": {
+          "q": "Can I keep my phone number?",
+          "a": "Yes. Forward your existing number to Voicia, or use the number assigned to your assistant."
+        },
+        "setupTime": {
+          "q": "How long does setup take?",
+          "a": "Typically the same day. The Voicia team sets everything up with you."
+        },
+        "replaceTeam": {
+          "q": "Does it replace my team?",
+          "a": "No. Voicia can transfer a call to a person, and writes a brief for every other call so your team can follow up."
+        },
+        "extraMinutes": {
+          "q": "What happens after the included minutes?",
+          "a": "Calls keep being answered. Each extra minute is billed {first} on {firstPlan} and {second} on {secondPlan}, excl. VAT."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Stop losing leads to voicemail",
+      "text": "Book a setup call. Voicia can be answering your calls today."
+    },
+    "footer": {
+      "tagline": "The AI receptionist for busy professionals.",
+      "contact": "Contact",
+      "language": "Language",
+      "rights": "© {year} Voicia"
     }
   }
 }
