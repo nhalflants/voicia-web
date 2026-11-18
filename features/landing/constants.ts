@@ -26,7 +26,3 @@ export const STATS = {
 export function bookingHref(): string {
   return BOOKING_URL || `mailto:${CONTACT_EMAIL}`
 }
-
-// Photo behind the Answers tab's card, under public/. Empty until it exists:
-// the card then sits on the coral field. See docs/landing-image-prompts.md
-export const ANSWERS_IMAGE = ""

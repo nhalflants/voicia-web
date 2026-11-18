@@ -468,7 +468,16 @@
           "replay": "Réécouter l'appel",
           "callBack": "Rappeler",
           "sentTo": "Envoyé à Marc par e-mail",
-          "imageAlt": "Un artisan au travail pendant que son téléphone sonne sur l'établi"
+          "imageAlt": "Un carreleur au travail dans une salle de bain pendant que son téléphone sonne sur un escabeau",
+          "incoming": "Appel entrant",
+          "answering": "Voicia répond",
+          "fields": {
+            "name": "Nom",
+            "need": "Besoin",
+            "town": "Commune",
+            "timing": "Délai"
+          },
+          "need": "Rénovation salle de bain"
         }
       }
     },

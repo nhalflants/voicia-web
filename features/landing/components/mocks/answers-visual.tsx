@@ -1,53 +1,28 @@
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 
-import { BriefCard } from "@/features/landing/components/brief-card"
-import { ANSWERS_IMAGE } from "@/features/landing/constants"
-import { cn } from "@/lib/utils"
+import { CallCard } from "@/features/landing/components/mocks/call-card"
+import answerImage from "@/public/landing/answer.png"
 
-// A professional busy at work, and the summary Voicia sends once it has
-// answered and qualified the call
+// A professional busy at work while Voicia takes and qualifies the call.
+// next/image serves the PNG as WebP or AVIF at the size each screen needs
 function AnswersVisual() {
   const t = useTranslations("Landing.product.mocks")
 
   return (
-    <div
-      className={cn(
-        "relative flex aspect-[4/5] w-full items-end justify-end overflow-hidden rounded-3xl p-4 sm:aspect-[4/3] sm:p-6",
-        !ANSWERS_IMAGE && "landing-glow"
-      )}
-    >
-      {ANSWERS_IMAGE ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={ANSWERS_IMAGE}
+    <div className="relative">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
+        <Image
+          src={answerImage}
           alt={t("answers.imageAlt")}
-          // Portrait on phones: keep the left side, where the hands and phone are
-          className="absolute inset-0 size-full object-cover object-[25%_50%] sm:object-center"
+          placeholder="blur"
+          sizes="(min-width: 1024px) 680px, 100vw"
+          className="size-full object-cover"
         />
-      ) : (
-        <div className="landing-dots pointer-events-none absolute inset-0" />
-      )}
-      <BriefCard
-        compact
-        className="relative w-full max-w-[320px] shadow-2xl shadow-black/15"
-        content={{
-          callerName: t("answers.callerName"),
-          callerNumber: t("answers.callerNumber"),
-          time: t("answers.time"),
-          category: t("answers.category"),
-          priority: t("answers.priority"),
-          summary: t("answers.summary"),
-          facts: {
-            place: t("answers.place"),
-            when: t("answers.when"),
-            topic: t("answers.topic"),
-          },
-          duration: t("answers.duration"),
-          replay: t("answers.replay"),
-          callBack: t("answers.callBack"),
-          sentTo: t("answers.sentTo"),
-        }}
-      />
+      </div>
+      {/* Over the plain wall on the right on wider screens; just below the
+          photo on phones so the ringing phone stays in view */}
+      <CallCard className="relative z-10 mx-4 -mt-4 sm:absolute sm:top-1/2 sm:right-6 sm:mx-0 sm:mt-0 sm:w-[290px] sm:-translate-y-1/2" />
     </div>
   )
 }

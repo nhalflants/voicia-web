@@ -468,7 +468,16 @@
           "replay": "Replay the call",
           "callBack": "Call back",
           "sentTo": "Sent to Marc by email",
-          "imageAlt": "A craftsperson at work while their phone rings on the workbench"
+          "imageAlt": "A tiler at work in a bathroom while their phone rings on a step stool",
+          "incoming": "Incoming call",
+          "answering": "Voicia is answering",
+          "fields": {
+            "name": "Name",
+            "need": "Need",
+            "town": "Town",
+            "timing": "Timing"
+          },
+          "need": "Bathroom renovation"
         }
       }
     },
