@@ -90,13 +90,15 @@ Wants to move her appointment to Thursday…
 - Hidden entirely when there are no other calls, or no number.
 - Each row:
   - **Status dot**, using the existing `CALL_STATUSES` colours (blue New,
-    amber In progress, green Done, grey Dismissed), with the status label
+    amber In progress, green Done), with the status label
     available to screen readers and as a tooltip.
   - **Date and time**, in the same format as the list ("17 Nov, 14:05").
   - **Summary**, one line, truncated with an ellipsis; or a **"Missed call"**
-    badge when `is_empty` is true (the caller said nothing). Empty calls are
-    set to Dismissed at ingest, so these show a grey dot. When a call is
-    neither empty nor summarised, show "No summary".
+    badge when `is_empty` is true (the caller said nothing). When a call is
+    neither empty nor summarised, show "No summary". (Revised 2026-11-18: the
+    Dismissed status was removed; missed calls now arrive as New, and the
+    list row shows the same "Missed call" badge in place of its summary.
+    Status tabs are Open · Closed · All.)
 - Clicking a row opens that call in the panel (same URL update as moving
   between calls, no new history entry). It shows immediately from the
   history row's data while the detail loads, like opening from the list.

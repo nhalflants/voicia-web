@@ -11,7 +11,6 @@ import {
 import type {
   CallDetail,
   CallFilters,
-  CallHistoryItem,
   CallListItem,
   CallUpdate,
   TranscriptTurn,
@@ -33,6 +32,7 @@ const listColumns = {
   status: true,
   assigneeUserId: true,
   categoryId: true,
+  isEmpty: true,
 } as const
 
 // Midnight today, Belgian time
@@ -90,10 +90,7 @@ export async function getCalls(
     limit: CALL_LIST_LIMIT,
   })
 
-  return rows.map(({ callCategory, ...call }) => ({
-    ...call,
-    category: callCategory,
-  }))
+  return rows.map(toListItem)
 }
 
 // Scoped by organization too, so a shared link can't open another
@@ -107,7 +104,6 @@ export async function getCall(
     columns: {
       ...listColumns,
       endedReason: true,
-      isEmpty: true,
       transcript: true,
       recordingUrl: true,
     },
@@ -145,7 +141,7 @@ export async function getCall(
 async function getOtherCalls(
   organizationId: string,
   call: { id: string; customerNumber: string | null }
-): Promise<{ calls: CallHistoryItem[]; total: number }> {
+): Promise<{ calls: CallListItem[]; total: number }> {
   if (!call.customerNumber) return { calls: [], total: 0 }
 
   const where = and(
@@ -156,7 +152,7 @@ async function getOtherCalls(
   const [rows, total] = await Promise.all([
     db.query.calls.findMany({
       where,
-      columns: { ...listColumns, isEmpty: true },
+      columns: listColumns,
       extras: { todayCallCount },
       with: { callCategory: { columns: { name: true, color: true } } },
       orderBy: newestFirst,
@@ -165,14 +161,15 @@ async function getOtherCalls(
     db.$count(calls, where),
   ])
 
-  return {
-    calls: rows.map(({ callCategory, isEmpty, ...other }) => ({
-      ...other,
-      category: callCategory,
-      isEmpty: isEmpty ?? false,
-    })),
-    total,
-  }
+  return { calls: rows.map(toListItem), total }
+}
+
+// isEmpty is null when the structured output didn't run; treat that as a call
+// with something said
+function toListItem<
+  T extends { callCategory: CallListItem["category"]; isEmpty: boolean | null },
+>({ callCategory, isEmpty, ...call }: T) {
+  return { ...call, category: callCategory, isEmpty: isEmpty ?? false }
 }
 
 // The stored recording URLs aren't playable (Vapi's storage is private), so

@@ -16,10 +16,7 @@ export interface CallListItem {
   // How many calls its number made today (Belgian time), this one included;
   // 0 for calls from earlier days or without a number or start time
   todayCallCount: number
-}
-
-// A row of the panel's "Other calls from this number"
-export interface CallHistoryItem extends CallListItem {
+  // The caller said nothing: a missed call to call back
   isEmpty: boolean
 }
 
@@ -32,18 +29,17 @@ export interface TranscriptTurn {
 // /api/calls/[id]/recording, so its storage URL never reaches the browser
 export interface CallDetail extends CallListItem {
   endedReason: string | null
-  isEmpty: boolean
   assistantName: string | null
   transcript: TranscriptTurn[]
   hasRecording: boolean
   // The most recent other calls from the same number, newest first, and how
   // many there are in all
-  otherCalls: CallHistoryItem[]
+  otherCalls: CallListItem[]
   otherCallsTotal: number
 }
 
 // "open" groups the calls someone still has to act on
-export type StatusFilter = "open" | "done" | "dismissed" | "all"
+export type StatusFilter = "open" | "closed" | "all"
 
 export interface CallFilters {
   status: StatusFilter

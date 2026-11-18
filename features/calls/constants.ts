@@ -8,7 +8,6 @@ export const CALL_STATUSES: Record<
   new: { label: "New", dotClassName: "bg-blue-500" },
   in_progress: { label: "In progress", dotClassName: "bg-amber-500" },
   done: { label: "Done", dotClassName: "bg-green-500" },
-  dismissed: { label: "Dismissed", dotClassName: "bg-gray-400" },
 }
 
 export const STATUS_FILTERS: {
@@ -18,8 +17,7 @@ export const STATUS_FILTERS: {
   statuses: CallStatus[] | null
 }[] = [
   { value: "open", label: "Open", statuses: ["new", "in_progress"] },
-  { value: "done", label: "Done", statuses: ["done"] },
-  { value: "dismissed", label: "Dismissed", statuses: ["dismissed"] },
+  { value: "closed", label: "Closed", statuses: ["done"] },
   { value: "all", label: "All", statuses: null },
 ]
 

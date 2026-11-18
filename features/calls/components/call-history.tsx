@@ -2,9 +2,9 @@
 
 import { format } from "date-fns"
 
-import { Badge } from "@/components/ui/badge"
+import { MissedCallBadge } from "@/features/calls/components/missed-call-badge"
 import { CALL_STATUSES } from "@/features/calls/constants"
-import type { CallHistoryItem } from "@/features/calls/types"
+import type { CallListItem } from "@/features/calls/types"
 import { cn } from "@/lib/utils"
 
 // Other calls from the open call's number, so the team sees what this caller
@@ -14,9 +14,9 @@ function CallHistory({
   total,
   onSelect,
 }: {
-  calls: CallHistoryItem[]
+  calls: CallListItem[]
   total: number
-  onSelect: (call: CallHistoryItem) => void
+  onSelect: (call: CallListItem) => void
 }) {
   if (total === 0) return null
 
@@ -49,9 +49,7 @@ function CallHistory({
                   </time>
                 )}
                 {call.isEmpty ? (
-                  <Badge variant="secondary" className="font-normal">
-                    Missed call
-                  </Badge>
+                  <MissedCallBadge />
                 ) : call.summary ? (
                   <span className="min-w-0 truncate">{call.summary}</span>
                 ) : (

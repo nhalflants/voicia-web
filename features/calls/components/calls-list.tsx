@@ -18,6 +18,7 @@ import type { CallCategory } from "@/features/call-categories/types"
 import { CallAssigneeMenu } from "@/features/calls/components/call-assignee-menu"
 import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
+import { MissedCallBadge } from "@/features/calls/components/missed-call-badge"
 import { groupCallsByDay } from "@/features/calls/day-sections"
 import { formatCallTime, formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
@@ -248,14 +249,16 @@ function CallItem({
           )}
         </div>
       </ItemHeader>
-      {call.summary && (
+      {call.isEmpty ? (
+        <MissedCallBadge className="mt-0.5" />
+      ) : call.summary ? (
         <ItemDescription
           title={call.summary}
           className="line-clamp-3 basis-full"
         >
           {call.summary}
         </ItemDescription>
-      )}
+      ) : null}
       <ItemFooter className="mt-0.5 flex-wrap">
         {call.category ? (
           <Badge
