@@ -357,6 +357,100 @@
       "callsAnswered": "calls answered",
       "hoursHandled": "hours of calls handled for our customers",
       "afterHours": "calls answered after office hours"
+    },
+    "product": {
+      "title": "One assistant for every call",
+      "subtitle": "From the first ring to the follow-up, Voicia does the work you'd otherwise do between two appointments.",
+      "tabs": {
+        "answers": {
+          "label": "Answers",
+          "title": "Picks up every call, day and night",
+          "text": "Voicia answers in your company's name, with your greeting. It asks the right questions and transfers a call to a person when it can't wait."
+        },
+        "brief": {
+          "label": "Writes the brief",
+          "title": "A brief for every call, ready when they hang up",
+          "text": "Who called, why, how urgent and what they need, with the recording if you want to hear it."
+        },
+        "sorts": {
+          "label": "Sorts your calls",
+          "title": "Your calls, sorted before you look",
+          "text": "Each call gets a category and a status. Missed calls are flagged and every call can be assigned to someone on your team."
+        },
+        "alerts": {
+          "label": "Alerts your team",
+          "title": "The right person hears about it right away",
+          "text": "Each category goes to the people you choose, by email. More channels are on the way."
+        }
+      },
+      "mocks": {
+        "live": "Live call",
+        "liveNumber": "+32 495 63 12 08",
+        "liveTopic": "New customer · asking for a quote",
+        "transfer": "Transfer to Marc",
+        "transcript": "Live transcript",
+        "line1": "Hello, I'd like a quote for renovating my bathroom.",
+        "line2": "Of course. Which town is the property in, and when would you like the work done?",
+        "brief": {
+          "callerName": "Claire Dubois",
+          "callerNumber": "+32 475 55 66 77",
+          "time": "10 min ago",
+          "priority": "High intent",
+          "category": "Sales",
+          "summary": "Claire Dubois wants to visit the house for sale in Uccle, ideally tomorrow late afternoon. Already house hunting, financing approved.",
+          "place": "Uccle",
+          "when": "Tomorrow after 4pm",
+          "topic": "House visit",
+          "duration": "2:14",
+          "replay": "Replay the call",
+          "callBack": "Call back",
+          "sentTo": "Sent to Julie by email"
+        },
+        "tabsOpen": "Open",
+        "tabsClosed": "Closed",
+        "tabsAll": "All",
+        "today": "Today",
+        "rows": [
+          {
+            "name": "Claire Dubois",
+            "number": "+32 475 55 66 77",
+            "time": "15:40",
+            "duration": "2:14",
+            "summary": "Wants to visit the house for sale in Uccle tomorrow, late afternoon.",
+            "category": "Sales",
+            "status": "New",
+            "assignee": "JD"
+          },
+          {
+            "name": "Unknown caller",
+            "number": "+32 472 22 11 00",
+            "time": "14:12",
+            "duration": "0:05",
+            "missed": "Missed call",
+            "category": "No category",
+            "status": "New",
+            "assignee": ""
+          },
+          {
+            "name": "Nadia Benali",
+            "number": "+32 474 44 33 22",
+            "time": "11:05",
+            "duration": "1:38",
+            "summary": "Owns a flat she wants to let and is looking for an agency to manage it.",
+            "category": "Rentals",
+            "status": "In progress",
+            "assignee": "MV"
+          }
+        ],
+        "categoryName": "Repair",
+        "recipients": "Marc and Julie",
+        "byEmail": "By email",
+        "emailFrom": "Voicia",
+        "emailSubject": "New call · Repair",
+        "emailBody": "Sophie Martin has a leaking water heater in Ixelles and asks for a visit today.",
+        "emailAction": "Open the call",
+        "now": "now"
+      }
     }
   }
 }

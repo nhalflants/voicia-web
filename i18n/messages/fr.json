@@ -357,6 +357,100 @@
       "callsAnswered": "appels répondus",
       "hoursHandled": "heures d'appels prises en charge pour nos clients",
       "afterHours": "appels répondus en dehors des heures de bureau"
+    },
+    "product": {
+      "title": "Une assistante pour chaque appel",
+      "subtitle": "Du premier coup de fil au suivi, Voicia fait le travail que vous feriez entre deux rendez-vous.",
+      "tabs": {
+        "answers": {
+          "label": "Répond",
+          "title": "Décroche à chaque appel, jour et nuit",
+          "text": "Voicia répond au nom de votre entreprise, avec votre message d'accueil. Elle pose les bonnes questions et transfère l'appel à une personne quand il ne peut pas attendre."
+        },
+        "brief": {
+          "label": "Rédige le résumé",
+          "title": "Un résumé pour chaque appel, prêt dès qu'il se termine",
+          "text": "Qui a appelé, pourquoi, avec quelle urgence et ce dont la personne a besoin, avec l'enregistrement si vous voulez l'écouter."
+        },
+        "sorts": {
+          "label": "Trie vos appels",
+          "title": "Vos appels, triés avant même que vous les ouvriez",
+          "text": "Chaque appel reçoit une catégorie et un statut. Les appels manqués sont signalés et chaque appel peut être assigné à quelqu'un de votre équipe."
+        },
+        "alerts": {
+          "label": "Prévient l'équipe",
+          "title": "La bonne personne est prévenue tout de suite",
+          "text": "Chaque catégorie est envoyée aux personnes que vous choisissez, par e-mail. D'autres canaux arrivent bientôt."
+        }
+      },
+      "mocks": {
+        "live": "Appel en cours",
+        "liveNumber": "+32 495 63 12 08",
+        "liveTopic": "Nouveau client · demande de devis",
+        "transfer": "Transférer à Marc",
+        "transcript": "Transcription en direct",
+        "line1": "Bonjour, je voudrais un devis pour rénover ma salle de bain.",
+        "line2": "Bien sûr. Dans quelle commune se trouve le bien, et pour quand souhaitez-vous les travaux ?",
+        "brief": {
+          "callerName": "Claire Dubois",
+          "callerNumber": "+32 475 55 66 77",
+          "time": "il y a 10 min",
+          "priority": "Très intéressée",
+          "category": "Vente",
+          "summary": "Claire Dubois souhaite visiter la maison à vendre à Uccle, idéalement demain en fin d'après-midi. Déjà en recherche, financement accordé.",
+          "place": "Uccle",
+          "when": "Demain après 16 h",
+          "topic": "Visite maison",
+          "duration": "2:14",
+          "replay": "Réécouter l'appel",
+          "callBack": "Rappeler",
+          "sentTo": "Envoyé à Julie par e-mail"
+        },
+        "tabsOpen": "Ouverts",
+        "tabsClosed": "Clôturés",
+        "tabsAll": "Tous",
+        "today": "Aujourd'hui",
+        "rows": [
+          {
+            "name": "Claire Dubois",
+            "number": "+32 475 55 66 77",
+            "time": "15:40",
+            "duration": "2:14",
+            "summary": "Souhaite visiter la maison à vendre à Uccle demain en fin d'après-midi.",
+            "category": "Vente",
+            "status": "Nouveau",
+            "assignee": "JD"
+          },
+          {
+            "name": "Appelant inconnu",
+            "number": "+32 472 22 11 00",
+            "time": "14:12",
+            "duration": "0:05",
+            "missed": "Appel manqué",
+            "category": "Sans catégorie",
+            "status": "Nouveau",
+            "assignee": ""
+          },
+          {
+            "name": "Nadia Benali",
+            "number": "+32 474 44 33 22",
+            "time": "11:05",
+            "duration": "1:38",
+            "summary": "Possède un appartement à louer et cherche une agence pour la gestion locative.",
+            "category": "Location",
+            "status": "En cours",
+            "assignee": "MV"
+          }
+        ],
+        "categoryName": "Dépannage",
+        "recipients": "Marc et Julie",
+        "byEmail": "Par e-mail",
+        "emailFrom": "Voicia",
+        "emailSubject": "Nouvel appel · Dépannage",
+        "emailBody": "Sophie Martin a un chauffe-eau qui fuit à Ixelles et demande un passage aujourd'hui.",
+        "emailAction": "Ouvrir l'appel",
+        "now": "maintenant"
+      }
     }
   }
 }
