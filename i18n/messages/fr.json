@@ -265,15 +265,6 @@
       "nameTaken": "Une catégorie porte déjà ce nom."
     }
   },
-  "Home": {
-    "signIn": "Se connecter",
-    "signUp": "S'inscrire",
-    "title": "Projet prêt !",
-    "intro": "Vous pouvez maintenant ajouter des composants et commencer à construire.",
-    "buttonAdded": "Nous avons déjà ajouté le composant bouton pour vous.",
-    "button": "Bouton",
-    "darkModeHint": "(Appuyez sur <kbd>d</kbd> pour basculer le mode sombre)"
-  },
   "Org": {
     "personalAccount": "Compte personnel",
     "organizations": "Organisations",
@@ -294,5 +285,41 @@
     "toggleSidebar": "Afficher ou masquer la barre latérale",
     "sidebar": "Barre latérale",
     "sidebarDescription": "Affiche la barre latérale mobile."
+  },
+  "Landing": {
+    "nav": {
+      "home": "Accueil Voicia",
+      "howItWorks": "Fonctionnement",
+      "pricing": "Tarifs",
+      "faq": "FAQ",
+      "signIn": "Se connecter",
+      "openDashboard": "Ouvrir le tableau de bord",
+      "menu": "Menu"
+    },
+    "cta": {
+      "book": "Réserver un appel de configuration",
+      "signUp": "S'inscrire"
+    },
+    "hero": {
+      "eyebrow": "Réceptionniste IA pour professionnels occupés",
+      "title": "Transformez vos appels manqués en prospects qualifiés",
+      "subtitle": "Voicia répond à chaque appel pendant que vous travaillez, puis vous envoie un court résumé pour rappeler avant que le prospect ne refroidisse.",
+      "call": {
+        "incoming": "Appel entrant",
+        "answering": "Voicia répond",
+        "ended": "Appel terminé · {duration}",
+        "callerName": "Sophie Martin",
+        "callerNumber": "+32 478 21 45 90",
+        "greeting": "Bonjour, Plomberie Martens. Je suis l'assistante, comment puis-je vous aider ?",
+        "caller": "Bonjour, mon chauffe-eau fuit. Quelqu'un peut-il passer aujourd'hui ?",
+        "assistant": "Je transmets tout de suite. Est-ce le bon numéro pour vous rappeler ?",
+        "briefLabel": "Résumé prêt",
+        "answeredBy": "Répondu par Voicia",
+        "category": "Dépannage urgent",
+        "summary": "Sophie Martin a un chauffe-eau qui fuit chez elle à Ixelles et demande un passage aujourd'hui. Joignable à ce numéro.",
+        "callBack": "Rappeler",
+        "assignToMe": "M'assigner"
+      }
+    }
   }
 }

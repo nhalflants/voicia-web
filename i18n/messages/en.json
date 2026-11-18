@@ -265,15 +265,6 @@
       "nameTaken": "A category with this name already exists."
     }
   },
-  "Home": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "title": "Project ready!",
-    "intro": "You may now add components and start building.",
-    "buttonAdded": "We've already added the button component for you.",
-    "button": "Button",
-    "darkModeHint": "(Press <kbd>d</kbd> to toggle dark mode)"
-  },
   "Org": {
     "personalAccount": "Personal account",
     "organizations": "Organizations",
@@ -294,5 +285,41 @@
     "toggleSidebar": "Toggle sidebar",
     "sidebar": "Sidebar",
     "sidebarDescription": "Displays the mobile sidebar."
+  },
+  "Landing": {
+    "nav": {
+      "home": "Voicia home",
+      "howItWorks": "How it works",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "signIn": "Sign in",
+      "openDashboard": "Open dashboard",
+      "menu": "Menu"
+    },
+    "cta": {
+      "book": "Book a setup call",
+      "signUp": "Sign up"
+    },
+    "hero": {
+      "eyebrow": "AI receptionist for busy professionals",
+      "title": "Turn missed calls into qualified leads",
+      "subtitle": "Voicia answers every call while you work, then sends you a short brief so you can follow up before the lead goes cold.",
+      "call": {
+        "incoming": "Incoming call",
+        "answering": "Voicia is answering",
+        "ended": "Call ended · {duration}",
+        "callerName": "Sophie Martin",
+        "callerNumber": "+32 478 21 45 90",
+        "greeting": "Hello, Martens Plumbing. I'm the assistant, how can I help?",
+        "caller": "Hi, my water heater is leaking. Can someone come today?",
+        "assistant": "I'll pass this on right away. Is this the best number to call you back on?",
+        "briefLabel": "Brief ready",
+        "answeredBy": "Answered by Voicia",
+        "category": "Urgent repair",
+        "summary": "Sophie Martin has a leaking water heater at home in Ixelles and asks for a visit today. Best reached on this number.",
+        "callBack": "Call back",
+        "assignToMe": "Assign to me"
+      }
+    }
   }
 }

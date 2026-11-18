@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Familjen_Grotesk, Geist, Geist_Mono, Inter } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import { frFR } from "@clerk/localizations"
 import { shadcn } from "@clerk/ui/themes"
@@ -19,6 +19,12 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+// Landing page headings only, as on the previous voicia.be
+const fontDisplay = Familjen_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+})
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -35,6 +41,7 @@ export default async function RootLayout({
       className={cn(
         "antialiased",
         fontMono.variable,
+        fontDisplay.variable,
         "font-sans",
         inter.variable
       )}
