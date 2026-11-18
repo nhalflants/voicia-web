@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 import {
   FileTextIcon,
   PhoneIncomingIcon,
@@ -10,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 const PILLS: {
   key: "answers" | "qualifies" | "sorts" | "summary"

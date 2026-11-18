@@ -18,8 +18,6 @@ import { Pricing } from "@/features/landing/components/pricing"
 import { Problem } from "@/features/landing/components/problem"
 import { Product } from "@/features/landing/components/product"
 
-const SITE_URL = "https://www.voicia.be"
-
 export async function generateMetadata({
   params,
 }: {
@@ -32,7 +30,6 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Landing.meta" })
 
   return {
-    metadataBase: new URL(SITE_URL),
     title: t("title"),
     description: t("description"),
     alternates: {

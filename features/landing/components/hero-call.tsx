@@ -1,18 +1,14 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useReducedMotion,
-} from "motion/react"
+import { AnimatePresence, motion, useInView } from "motion/react"
 import { PhoneIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import { BriefCard } from "@/features/landing/components/brief-card"
 import { PhoneFrame } from "@/features/landing/components/phone-frame"
 import { cn } from "@/lib/utils"
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 // ringing → greeting → caller → assistant → brief, then again
 const STAGE_DURATIONS = [1800, 1600, 2000, 2000, 4200]

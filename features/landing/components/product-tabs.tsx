@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useInView, useReducedMotion } from "motion/react"
+import { motion, useInView } from "motion/react"
 import {
   BellRingIcon,
   FileTextIcon,
@@ -17,6 +17,7 @@ import { AlertsMock } from "@/features/landing/components/mocks/alerts-mock"
 import { AppFrame } from "@/features/landing/components/mocks/app-frame"
 import { CallsListMock } from "@/features/landing/components/mocks/calls-list-mock"
 import { LiveCallMock } from "@/features/landing/components/mocks/live-call-mock"
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 type TabKey = "answers" | "brief" | "sorts" | "alerts"
 

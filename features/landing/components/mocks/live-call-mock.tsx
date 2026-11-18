@@ -1,12 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion, useReducedMotion } from "motion/react"
+import { motion } from "motion/react"
 import { PhoneForwardedIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 const BARS = 28
 

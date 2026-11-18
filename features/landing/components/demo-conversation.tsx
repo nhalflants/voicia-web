@@ -1,17 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useReducedMotion,
-} from "motion/react"
+import { AnimatePresence, motion, useInView } from "motion/react"
 import { useTranslations } from "next-intl"
 
 import { Card } from "@/components/ui/card"
 import { BriefCard } from "@/features/landing/components/brief-card"
 import { cn } from "@/lib/utils"
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 interface Turn {
   from: "assistant" | "caller"

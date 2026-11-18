@@ -1,8 +1,10 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { animate, useInView, useReducedMotion } from "motion/react"
+import { animate, useInView } from "motion/react"
 import { useFormatter } from "next-intl"
+
+import { useReducedMotion } from "@/features/landing/use-reduced-motion"
 
 // A number that counts up from 0 the first time it scrolls into view. The
 // final value is always in the page for screen readers and search engines

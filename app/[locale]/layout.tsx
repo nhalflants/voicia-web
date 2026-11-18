@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Familjen_Grotesk, Geist, Geist_Mono, Inter } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import { frFR } from "@clerk/localizations"
@@ -24,6 +25,11 @@ const fontDisplay = Familjen_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
 })
+
+// Absolute URLs for canonical links and social images, in every route
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.voicia.be"),
+}
 
 export default async function RootLayout({
   children,

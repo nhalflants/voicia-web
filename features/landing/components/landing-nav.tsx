@@ -63,6 +63,7 @@ function AccountLink({ className }: { className?: string }) {
 function LandingNav() {
   const t = useTranslations("Landing.nav")
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -104,7 +105,7 @@ function LandingNav() {
           <BookCallButton size="default" className="rounded-full px-4" />
         </div>
 
-        <Sheet>
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger
             render={
               <Button
@@ -117,7 +118,14 @@ function LandingNav() {
           >
             <MenuIcon />
           </SheetTrigger>
-          <SheetContent side="right" className="gap-2 p-6">
+          <SheetContent
+            side="right"
+            className="gap-2 p-6"
+            // Any link in the menu closes it, so the page shows where it went
+            onClick={(event) => {
+              if ((event.target as HTMLElement).closest("a")) setMenuOpen(false)
+            }}
+          >
             <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
             <div className="mt-8 flex flex-col gap-1">
               {SECTIONS.map((section) => (
