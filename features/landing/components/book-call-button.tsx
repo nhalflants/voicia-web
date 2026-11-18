@@ -1,4 +1,3 @@
-import { CalendarIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
@@ -31,7 +30,6 @@ function BookCallButton({
         />
       }
     >
-      <CalendarIcon data-icon="inline-start" />
       {t("book")}
     </Button>
   )

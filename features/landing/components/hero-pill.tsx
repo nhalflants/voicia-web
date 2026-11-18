@@ -11,9 +11,12 @@ import {
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 
-const PILLS: { key: "answers" | "chases" | "sorts" | "summary"; icon: LucideIcon }[] = [
+const PILLS: {
+  key: "answers" | "qualifies" | "sorts" | "summary"
+  icon: LucideIcon
+}[] = [
   { key: "answers", icon: PhoneIncomingIcon },
-  { key: "chases", icon: TargetIcon },
+  { key: "qualifies", icon: TargetIcon },
   { key: "sorts", icon: TagsIcon },
   { key: "summary", icon: FileTextIcon },
 ]

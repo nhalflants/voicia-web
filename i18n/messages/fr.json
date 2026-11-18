@@ -293,7 +293,7 @@
       "pricing": "Tarifs",
       "faq": "FAQ",
       "signIn": "Se connecter",
-      "openDashboard": "Ouvrir le tableau de bord",
+      "openDashboard": "Mon espace",
       "menu": "Menu"
     },
     "cta": {
@@ -303,12 +303,12 @@
     "hero": {
       "pills": {
         "answers": "Répond à chaque appel",
-        "chases": "Ne laisse filer aucun prospect",
+        "qualifies": "Qualifie chaque prospect",
         "sorts": "Classe les appels par intention",
         "summary": "Vous envoie un résumé"
       },
       "title": "Transformez vos appels manqués en prospects qualifiés",
-      "subtitle": "Voicia prend en charge vos appels entrants, qualifie la demande et donne à votre équipe un résumé structuré sur lequel agir immédiatement.",
+      "subtitle": "Voicia prend en charge vos appels, qualifie la demande et vous envoie un résumé structuré.",
       "call": {
         "incoming": "Appel entrant",
         "answering": "Voicia répond",
@@ -318,12 +318,19 @@
         "greeting": "Bonjour, Plomberie Martens. Je suis l'assistante, comment puis-je vous aider ?",
         "caller": "Bonjour, mon chauffe-eau fuit. Quelqu'un peut-il passer aujourd'hui ?",
         "assistant": "Je transmets tout de suite. Est-ce le bon numéro pour vous rappeler ?",
-        "briefLabel": "Résumé prêt",
-        "answeredBy": "Répondu par Voicia",
-        "category": "Dépannage urgent",
+        "category": "Dépannage",
         "summary": "Sophie Martin a un chauffe-eau qui fuit chez elle à Ixelles et demande un passage aujourd'hui. Joignable à ce numéro.",
         "callBack": "Rappeler",
-        "assignToMe": "M'assigner"
+        "time": "il y a 2 min",
+        "priority": "Urgent",
+        "facts": {
+          "place": "Ixelles",
+          "when": "Passage aujourd'hui",
+          "topic": "Chauffe-eau"
+        },
+        "replay": "Réécouter l'appel",
+        "duration": "0:48",
+        "sentTo": "Envoyé à Marc par e-mail"
       }
     }
   }

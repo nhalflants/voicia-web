@@ -22,21 +22,21 @@ function Hero() {
           {t("hero.title")}
         </h1>
         <p
-          className="landing-intro max-w-2xl text-lg text-pretty text-muted-foreground"
+          className="landing-intro max-w-[480px] text-[15px] leading-6 font-normal text-pretty text-foreground/50 sm:text-base sm:leading-[1.6]"
           style={{ animationDelay: "0.4s" }}
         >
           {t("hero.subtitle")}
         </p>
         <div
-          className="landing-intro flex flex-wrap justify-center gap-3"
+          className="landing-intro mt-4 flex flex-wrap justify-center gap-3"
           style={{ animationDelay: "0.5s" }}
         >
-          <BookCallButton className="h-11 rounded-full px-5" />
+          <BookCallButton className="h-[46px] rounded-full px-7 text-[15px]" />
           <Button
             size="lg"
             variant="outline"
             nativeButton={false}
-            className="h-11 rounded-full px-5"
+            className="h-[46px] rounded-full px-7 text-[15px]"
             render={<Link href="/sign-up" />}
           >
             {t("cta.signUp")}

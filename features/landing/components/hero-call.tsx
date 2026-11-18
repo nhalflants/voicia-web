@@ -1,7 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react"
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react"
 import { PhoneIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
@@ -59,7 +64,10 @@ function HeroCall() {
               />
             )}
             <PhoneIcon
-              className={cn("size-6", ringing ? "text-brand" : "text-foreground")}
+              className={cn(
+                "size-6",
+                ringing ? "text-brand" : "text-foreground"
+              )}
             />
           </div>
           <p className="text-sm font-medium">{t("callerNumber")}</p>
@@ -72,7 +80,7 @@ function HeroCall() {
             {ringing
               ? t("incoming")
               : ended
-                ? t("ended", { duration: "0:48" })
+                ? t("ended", { duration: t("duration") })
                 : t("answering")}
           </p>
         </div>
@@ -111,10 +119,9 @@ function HeroCall() {
         </div>
       </PhoneFrame>
 
-      {/* The brief slides out beside the phone */}
       {/* Beside the centred phone on wide screens; below it, with space kept so
           the page doesn't jump when it appears */}
-      <div className="min-h-[300px] w-full max-w-sm lg:absolute lg:top-1/2 lg:left-[calc(50%+170px)] lg:min-h-0 lg:w-[360px] lg:-translate-y-1/2">
+      <div className="min-h-[380px] w-full max-w-sm lg:absolute lg:top-1/2 lg:left-[calc(50%+170px)] lg:min-h-0 lg:w-[360px] lg:-translate-y-1/2">
         <AnimatePresence>
           {ended && (
             <motion.div
@@ -126,14 +133,21 @@ function HeroCall() {
             >
               <BriefCard
                 content={{
-                  label: t("briefLabel"),
                   callerName: t("callerName"),
                   callerNumber: t("callerNumber"),
-                  answeredBy: t("answeredBy"),
+                  time: t("time"),
                   category: t("category"),
+                  priority: t("priority"),
                   summary: t("summary"),
+                  facts: {
+                    place: t("facts.place"),
+                    when: t("facts.when"),
+                    topic: t("facts.topic"),
+                  },
+                  duration: t("duration"),
+                  replay: t("replay"),
                   callBack: t("callBack"),
-                  assignToMe: t("assignToMe"),
+                  sentTo: t("sentTo"),
                 }}
               />
             </motion.div>

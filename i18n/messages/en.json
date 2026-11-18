@@ -303,12 +303,12 @@
     "hero": {
       "pills": {
         "answers": "Answers every call",
-        "chases": "Chases every lead",
+        "qualifies": "Qualifies every lead",
         "sorts": "Sorts calls by intent",
         "summary": "Sends you a summary"
       },
       "title": "Turn missed calls into qualified leads",
-      "subtitle": "Voicia handles your incoming calls, qualifies the request and gives your team a structured brief to act on right away.",
+      "subtitle": "Voicia takes care of your calls, qualifies the request and sends you a structured brief.",
       "call": {
         "incoming": "Incoming call",
         "answering": "Voicia is answering",
@@ -318,12 +318,19 @@
         "greeting": "Hello, Martens Plumbing. I'm the assistant, how can I help?",
         "caller": "Hi, my water heater is leaking. Can someone come today?",
         "assistant": "I'll pass this on right away. Is this the best number to call you back on?",
-        "briefLabel": "Brief ready",
-        "answeredBy": "Answered by Voicia",
-        "category": "Urgent repair",
+        "category": "Repair",
         "summary": "Sophie Martin has a leaking water heater at home in Ixelles and asks for a visit today. Best reached on this number.",
         "callBack": "Call back",
-        "assignToMe": "Assign to me"
+        "time": "2 min ago",
+        "priority": "Urgent",
+        "facts": {
+          "place": "Ixelles",
+          "when": "Visit today",
+          "topic": "Water heater"
+        },
+        "replay": "Replay the call",
+        "duration": "0:48",
+        "sentTo": "Sent to Marc by email"
       }
     }
   }

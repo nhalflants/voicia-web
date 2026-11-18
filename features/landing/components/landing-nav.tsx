@@ -81,21 +81,23 @@ function LandingNav() {
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" aria-label={t("home")}>
-          <Logo />
-        </Link>
-
-        <div className="hidden items-center gap-1 md:flex">
-          {SECTIONS.map((section) => (
-            <Button
-              key={section.key}
-              variant="ghost"
-              nativeButton={false}
-              render={<a href={section.href} />}
-            >
-              {t(section.key)}
-            </Button>
-          ))}
+        <div className="flex items-center gap-6">
+          <Link href="/" aria-label={t("home")}>
+            <Logo />
+          </Link>
+          <div className="hidden items-center gap-1 md:flex">
+            {SECTIONS.map((section) => (
+              <Button
+                key={section.key}
+                variant="ghost"
+                nativeButton={false}
+                className="text-muted-foreground hover:text-foreground"
+                render={<a href={section.href} />}
+              >
+                {t(section.key)}
+              </Button>
+            ))}
+          </div>
         </div>
 
         <div className="hidden items-center gap-2 md:flex">
