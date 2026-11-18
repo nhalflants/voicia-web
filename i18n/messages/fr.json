@@ -495,6 +495,56 @@
         "whatsapp": "WhatsApp",
         "imessage": "iMessage"
       }
+    },
+    "demo": {
+      "eyebrow": "Démo en direct",
+      "title": "Ne nous croyez pas sur parole. Appelez.",
+      "text": "Appelez notre ligne de démo et parlez à Voicia comme le feraient vos clients. Elle joue un membre de notre équipe commerciale : elle vous interroge sur votre activité et sur la façon dont vous gérez vos appels aujourd'hui.",
+      "call": "Appeler la démo",
+      "copy": "Copier le numéro",
+      "copied": "Numéro copié",
+      "live": "Appel en direct",
+      "script": [
+        {
+          "from": "assistant",
+          "text": "Bonjour, vous êtes chez Voicia, je suis l'assistante. Vous appelez au sujet des appels de votre entreprise ?"
+        },
+        {
+          "from": "caller",
+          "text": "Oui, j'ai une petite entreprise de plomberie à Namur et je rate beaucoup d'appels sur les chantiers."
+        },
+        {
+          "from": "assistant",
+          "text": "Je vois. Combien d'appels par jour environ, et que deviennent ceux que vous ne pouvez pas prendre ?"
+        },
+        {
+          "from": "caller",
+          "text": "Dix à quinze. La plupart tombent sur la messagerie, et les gens laissent rarement un message."
+        },
+        {
+          "from": "assistant",
+          "text": "Voicia répondrait à chacun au nom de votre entreprise et vous enverrait un résumé, pour rappeler d'abord les plus importants. Je vous propose un appel de configuration ?"
+        },
+        {
+          "from": "caller",
+          "text": "Oui, jeudi matin, c'est parfait."
+        }
+      ],
+      "brief": {
+        "callerName": "Thomas Lambert",
+        "callerNumber": "+32 486 30 77 21",
+        "time": "à l'instant",
+        "priority": "Prospect chaud",
+        "category": "Appel de configuration",
+        "summary": "Thomas a une entreprise de plomberie à Namur et rate 10 à 15 appels par jour sur les chantiers. Souhaite un appel de configuration jeudi matin.",
+        "place": "Namur",
+        "when": "Jeudi matin",
+        "topic": "Plomberie",
+        "duration": "1:52",
+        "replay": "Réécouter l'appel",
+        "callBack": "Rappeler",
+        "sentTo": "Envoyé à l'équipe Voicia par e-mail"
+      }
     }
   }
 }

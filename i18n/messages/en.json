@@ -495,6 +495,56 @@
         "whatsapp": "WhatsApp",
         "imessage": "iMessage"
       }
+    },
+    "demo": {
+      "eyebrow": "Live demo",
+      "title": "Don't take our word for it. Call it.",
+      "text": "Call our demo line and talk to Voicia the way your customers would. It plays a member of our sales team: it asks about your business and how you handle calls today.",
+      "call": "Call the demo",
+      "copy": "Copy number",
+      "copied": "Number copied",
+      "live": "Live call",
+      "script": [
+        {
+          "from": "assistant",
+          "text": "Hello, you've reached Voicia, I'm the assistant. Are you calling about your business calls?"
+        },
+        {
+          "from": "caller",
+          "text": "Yes, I run a small plumbing company in Namur and I miss a lot of calls on jobs."
+        },
+        {
+          "from": "assistant",
+          "text": "I see. Roughly how many calls a day, and what happens to the ones you can't take?"
+        },
+        {
+          "from": "caller",
+          "text": "Ten to fifteen. Most go to voicemail, and people rarely leave a message."
+        },
+        {
+          "from": "assistant",
+          "text": "Voicia would answer each one in your company's name and send you a brief, so you call back the important ones first. Shall I book a setup call?"
+        },
+        {
+          "from": "caller",
+          "text": "Yes, Thursday morning works."
+        }
+      ],
+      "brief": {
+        "callerName": "Thomas Lambert",
+        "callerNumber": "+32 486 30 77 21",
+        "time": "just now",
+        "priority": "Hot lead",
+        "category": "Setup call",
+        "summary": "Thomas runs a plumbing company in Namur and misses 10 to 15 calls a day while on jobs. Wants a setup call on Thursday morning.",
+        "place": "Namur",
+        "when": "Thursday morning",
+        "topic": "Plumbing",
+        "duration": "1:52",
+        "replay": "Replay the call",
+        "callBack": "Call back",
+        "sentTo": "Sent to the Voicia team by email"
+      }
     }
   }
 }
