@@ -335,7 +335,7 @@
     },
     "problem": {
       "title": "Chaque appel manqué est <mark>une opportunité perdue.</mark>",
-      "stat": "des appels arrivent pendant que vous travaillez : sur un chantier, en consultation, avec un client.",
+      "stat": "des appels arrivent pendant que vous êtes occupé : sur un chantier, en consultation, avec un client.",
       "statSource": "Part des appels traités par Voicia en semaine entre 9 h et 18 h.",
       "pains": {
         "onSite": {
@@ -359,7 +359,7 @@
         "yourWork": {
           "title": "Votre métier",
           "text": "Vous l'exercez sans que le téléphone vous interrompe.",
-          "after": "Rien que pour vous"
+          "after": "L'esprit libre"
         }
       }
     },

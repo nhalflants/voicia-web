@@ -99,8 +99,8 @@ function PainList() {
         transition={{ duration: 0.5, delay: PAINS.length * 0.08 }}
         className="mt-4 flex flex-wrap items-start gap-x-4 gap-y-3 rounded-2xl bg-muted/70 px-5 py-5"
       >
-        <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center font-display text-sm text-muted-foreground">
-          {PAINS.length + 1}
+        <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center">
+          <CheckIcon className="size-4" />
         </span>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <h3 className="font-medium">{t("yourWork.title")}</h3>

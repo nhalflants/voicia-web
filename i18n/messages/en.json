@@ -334,8 +334,8 @@
       }
     },
     "problem": {
-      "title": "Every missed call is <mark>a missed opportunity.</mark>",
-      "stat": "of calls come in while you're working: on a job, in a consultation, with a client.",
+      "title": "Every missed call is <mark>a lead going cold.</mark>",
+      "stat": "of calls come in while you're busy: on a job, in a consultation, with a client.",
       "statSource": "Share of the calls Voicia answered on weekdays between 9:00 and 18:00.",
       "pains": {
         "onSite": {
