@@ -376,7 +376,7 @@
         "answers": {
           "label": "Answers",
           "title": "Picks up every call, day and night",
-          "text": "Voicia answers in your company's name, with your greeting. It asks the right questions and transfers a call to a person when it can't wait."
+          "text": "Voicia answers in your company's name, with your greeting, and asks the right questions to qualify the request. You can also set up call transfer to someone on your team."
         },
         "brief": {
           "label": "Writes the brief",

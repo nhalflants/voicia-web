@@ -359,7 +359,7 @@
         "yourWork": {
           "title": "Votre métier",
           "text": "Vous l'exercez sans que le téléphone vous interrompe.",
-          "after": "L'esprit libre"
+          "after": "Sans interruption"
         }
       }
     },
@@ -376,7 +376,7 @@
         "answers": {
           "label": "Répond",
           "title": "Décroche à chaque appel, jour et nuit",
-          "text": "Voicia répond au nom de votre entreprise, avec votre message d'accueil. Elle pose les bonnes questions et transfère l'appel à une personne quand il ne peut pas attendre."
+          "text": "Voicia répond au nom de votre entreprise, avec votre message d'accueil, et pose les bonnes questions pour qualifier la demande. Vous pouvez aussi configurer un transfert d'appel vers une personne de votre équipe."
         },
         "brief": {
           "label": "Rédige le résumé",
