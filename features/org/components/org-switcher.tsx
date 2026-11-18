@@ -98,7 +98,7 @@ function OrgSwitcher() {
           <DropdownMenuContent
             className="min-w-56"
             side={isMobile ? "bottom" : "right"}
-            align="end"
+            align="start"
             sideOffset={4}
           >
             <DropdownMenuGroup>

@@ -16,12 +16,7 @@ import {
 } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
-export const callStatus = pgEnum("call_status", [
-  "new",
-  "in_progress",
-  "done",
-  "dismissed",
-])
+export const callStatus = pgEnum("call_status", ["new", "in_progress", "done"])
 export const language = pgEnum("language", ["fr", "nl", "en"])
 
 export const assistants = pgTable(
@@ -56,11 +51,10 @@ export const calls = pgTable(
   {
     id: uuid().defaultRandom().primaryKey().notNull(),
     organizationId: text("organization_id").notNull(),
-    assistantId: uuid("assistant_id"),
+    assistantId: uuid("assistant_id").notNull(),
     externalCallId: text("external_call_id").notNull(),
     endedReason: text("ended_reason"),
     customerNumber: text("customer_number"),
-    phoneNumberId: text("phone_number_id"),
     startedAt: timestamp("started_at", { withTimezone: true, mode: "string" }),
     endedAt: timestamp("ended_at", { withTimezone: true, mode: "string" }),
     durationSeconds: integer("duration_seconds"),
@@ -97,30 +91,53 @@ export const calls = pgTable(
       "btree",
       table.categoryId.asc().nullsLast().op("uuid_ops")
     ),
+    index("calls_organization_id_assignee_user_id_idx")
+      .using(
+        "btree",
+        table.organizationId.asc().nullsLast().op("text_ops"),
+        table.assigneeUserId.asc().nullsLast().op("text_ops")
+      )
+      .where(sql`(assignee_user_id IS NOT NULL)`),
+    index("calls_organization_id_customer_number_started_at_idx")
+      .using(
+        "btree",
+        table.organizationId.asc().nullsLast().op("text_ops"),
+        table.customerNumber.asc().nullsLast().op("timestamptz_ops"),
+        table.startedAt.asc().nullsLast().op("timestamptz_ops")
+      )
+      .where(sql`(customer_number IS NOT NULL)`),
     index("calls_organization_id_started_at_idx").using(
       "btree",
-      table.organizationId.asc().nullsLast().op("text_ops"),
+      table.organizationId.asc().nullsLast().op("timestamptz_ops"),
       table.startedAt.asc().nullsLast().op("text_ops")
     ),
     index("calls_organization_id_status_started_at_idx").using(
       "btree",
-      table.organizationId.asc().nullsLast().op("timestamptz_ops"),
-      table.status.asc().nullsLast().op("timestamptz_ops"),
-      table.startedAt.asc().nullsLast().op("timestamptz_ops")
+      table.organizationId.asc().nullsLast().op("text_ops"),
+      table.status.asc().nullsLast().op("text_ops"),
+      table.startedAt.asc().nullsLast().op("enum_ops")
     ),
     index("calls_usage_unreported_created_at_idx")
       .using("btree", table.createdAt.asc().nullsLast().op("timestamptz_ops"))
       .where(sql`(usage_reported_at IS NULL)`),
     foreignKey({
-      columns: [table.assistantId],
-      foreignColumns: [assistants.id],
-      name: "calls_assistant_id_assistants_id_fk",
-    }).onDelete("set null"),
-    foreignKey({
       columns: [table.categoryId],
       foreignColumns: [callCategories.id],
       name: "calls_category_id_call_categories_id_fk",
     }).onDelete("set null"),
+    foreignKey({
+      columns: [table.organizationId, table.assigneeUserId],
+      foreignColumns: [
+        organizationMemberships.organizationId,
+        organizationMemberships.userId,
+      ],
+      name: "calls_assignee_membership_fk",
+    }).onDelete("set null"),
+    foreignKey({
+      columns: [table.assistantId],
+      foreignColumns: [assistants.id],
+      name: "calls_assistant_id_assistants_id_fk",
+    }).onDelete("cascade"),
     unique("calls_external_call_id_unique").on(table.externalCallId),
   ]
 )
@@ -201,6 +218,28 @@ export const organizationBilling = pgTable(
   ]
 )
 
+export const organizationMemberships = pgTable(
+  "organization_memberships",
+  {
+    id: text().primaryKey().notNull(),
+    organizationId: text("organization_id").notNull(),
+    userId: text("user_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("organization_memberships_user_id_idx").using(
+      "btree",
+      table.userId.asc().nullsLast().op("text_ops")
+    ),
+    unique("organization_memberships_organization_id_user_id_unique").on(
+      table.userId,
+      table.organizationId
+    ),
+  ]
+)
+
 export const callCategoryRecipients = pgTable(
   "call_category_recipients",
   {
@@ -224,6 +263,14 @@ export const callCategoryRecipients = pgTable(
       columns: [table.categoryId, table.organizationId],
       foreignColumns: [callCategories.id, callCategories.organizationId],
       name: "call_category_recipients_category_organization_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [table.organizationId, table.userId],
+      foreignColumns: [
+        organizationMemberships.organizationId,
+        organizationMemberships.userId,
+      ],
+      name: "call_category_recipients_membership_fk",
     }).onDelete("cascade"),
     primaryKey({
       columns: [table.userId, table.categoryId],

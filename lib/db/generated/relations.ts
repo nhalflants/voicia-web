@@ -1,24 +1,25 @@
 import { relations } from "drizzle-orm/relations"
 import {
-  assistants,
-  calls,
   callCategories,
+  calls,
+  organizationMemberships,
+  assistants,
   callCategoryRecipients,
 } from "./schema"
 
 export const callsRelations = relations(calls, ({ one }) => ({
-  assistant: one(assistants, {
-    fields: [calls.assistantId],
-    references: [assistants.id],
-  }),
   callCategory: one(callCategories, {
     fields: [calls.categoryId],
     references: [callCategories.id],
   }),
-}))
-
-export const assistantsRelations = relations(assistants, ({ many }) => ({
-  calls: many(calls),
+  organizationMembership: one(organizationMemberships, {
+    fields: [calls.organizationId],
+    references: [organizationMemberships.organizationId],
+  }),
+  assistant: one(assistants, {
+    fields: [calls.assistantId],
+    references: [assistants.id],
+  }),
 }))
 
 export const callCategoriesRelations = relations(
@@ -29,12 +30,28 @@ export const callCategoriesRelations = relations(
   })
 )
 
+export const organizationMembershipsRelations = relations(
+  organizationMemberships,
+  ({ many }) => ({
+    calls: many(calls),
+    callCategoryRecipients: many(callCategoryRecipients),
+  })
+)
+
+export const assistantsRelations = relations(assistants, ({ many }) => ({
+  calls: many(calls),
+}))
+
 export const callCategoryRecipientsRelations = relations(
   callCategoryRecipients,
   ({ one }) => ({
     callCategory: one(callCategories, {
       fields: [callCategoryRecipients.categoryId],
       references: [callCategories.id],
+    }),
+    organizationMembership: one(organizationMemberships, {
+      fields: [callCategoryRecipients.organizationId],
+      references: [organizationMemberships.organizationId],
     }),
   })
 )
