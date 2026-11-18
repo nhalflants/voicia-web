@@ -21,14 +21,19 @@ export interface BriefCardContent {
   callerNumber: string
   time: string
   category: string
-  priority: string
+  // Badge before the category; left out when not set
+  priority?: string
   summary: string
   facts: { place: string; when: string; topic: string }
   duration: string
   replay: string
   callBack: string
-  sentTo: string
+  // Footer line naming who was notified; left out when not set
+  sentTo?: string
 }
+
+// Amber, as the sample categories use in the calls list mock
+const CATEGORY_COLOR = "#f59e0b"
 
 // Bar heights of the recording's waveform, as a share of the full height
 const WAVEFORM = [
@@ -93,11 +98,23 @@ function BriefCard({
         </motion.div>
 
         <motion.div variants={part} className="flex flex-wrap gap-1.5">
-          <Badge className="bg-brand-soft font-medium text-brand">
-            {content.priority}
-          </Badge>
-          <Badge variant="outline" className="gap-1.5 font-normal">
-            <span className="size-1.5 rounded-full bg-amber-500" />
+          {content.priority && (
+            <Badge className="bg-brand-soft font-medium text-brand">
+              {content.priority}
+            </Badge>
+          )}
+          {/* Same tinted category badge as the dashboard's calls list */}
+          <Badge
+            variant="secondary"
+            className="gap-1.5 font-normal text-foreground"
+            style={{
+              backgroundColor: `color-mix(in srgb, ${CATEGORY_COLOR} 12%, transparent)`,
+            }}
+          >
+            <span
+              className="size-1.5 rounded-full"
+              style={{ backgroundColor: CATEGORY_COLOR }}
+            />
             {content.category}
           </Badge>
         </motion.div>
@@ -154,13 +171,15 @@ function BriefCard({
           </span>
         </motion.div>
 
-        <motion.div variants={part} className="flex flex-col gap-3">
-          <Separator />
-          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <MailIcon className="size-3.5" />
-            {content.sentTo}
-          </p>
-        </motion.div>
+        {content.sentTo && (
+          <motion.div variants={part} className="flex flex-col gap-3">
+            <Separator />
+            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MailIcon className="size-3.5" />
+              {content.sentTo}
+            </p>
+          </motion.div>
+        )}
       </motion.div>
     </Card>
   )

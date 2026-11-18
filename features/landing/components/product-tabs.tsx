@@ -40,7 +40,6 @@ function BriefMock() {
         callerNumber: t("answers.callerNumber"),
         time: t("answers.time"),
         category: t("answers.category"),
-        priority: t("answers.priority"),
         summary: t("answers.summary"),
         facts: {
           place: t("answers.place"),
@@ -50,7 +49,6 @@ function BriefMock() {
         duration: t("answers.duration"),
         replay: t("answers.replay"),
         callBack: t("answers.callBack"),
-        sentTo: t("answers.sentTo"),
       }}
     />
   )
