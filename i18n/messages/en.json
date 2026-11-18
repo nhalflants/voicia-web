@@ -332,6 +332,31 @@
         "duration": "0:48",
         "sentTo": "Sent to Marc by email"
       }
+    },
+    "problem": {
+      "title": "Every missed call is a lead going cold",
+      "stat": "of calls come in while you're working: on a job, with a client, on the road.",
+      "statSource": "Share of the calls Voicia answered on weekdays between 9:00 and 18:00.",
+      "pains": {
+        "onSite": {
+          "title": "On a job",
+          "text": "Your hands are full when the phone rings. The caller hangs up and tries the next company."
+        },
+        "withClient": {
+          "title": "With a client",
+          "text": "You can't step out of a meeting or a visit to pick up."
+        },
+        "afterHours": {
+          "title": "After hours",
+          "text": "People call at lunch, in the evening and at weekends. Few of them leave a message."
+        }
+      }
+    },
+    "numbers": {
+      "title": "Voicia at work since {since}",
+      "callsAnswered": "calls answered",
+      "hoursHandled": "hours of calls handled for our customers",
+      "afterHours": "calls answered after office hours"
     }
   }
 }
