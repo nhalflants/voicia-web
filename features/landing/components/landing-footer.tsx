@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils"
 
 const LANGUAGE_NAMES: Record<string, string> = { en: "English", fr: "Français" }
 
-function LandingFooter() {
+// path keeps the language links on the current page
+function LandingFooter({ path = "/" }: { path?: string }) {
   const t = useTranslations("Landing.footer")
   const locale = useLocale()
 
@@ -36,7 +37,7 @@ function LandingFooter() {
               {routing.locales.map((code) => (
                 <Link
                   key={code}
-                  href="/"
+                  href={path}
                   locale={code}
                   aria-current={code === locale ? "true" : undefined}
                   className={cn(
@@ -50,9 +51,17 @@ function LandingFooter() {
             </div>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground">
-          {t("rights", { year: new Date().getFullYear() })}
-        </p>
+        <div className="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>{t("rights", { year: new Date().getFullYear() })}</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/privacy-policy" className="hover:text-foreground">
+              {t("privacy")}
+            </Link>
+            <Link href="/terms" className="hover:text-foreground">
+              {t("terms")}
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   )

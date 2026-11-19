@@ -364,7 +364,6 @@
       }
     },
     "numbers": {
-      "title": "Voicia au travail depuis {since}",
       "callsAnswered": "appels répondus",
       "hoursHandled": "heures d'appels prises en charge pour nos clients",
       "afterHours": "appels répondus en dehors des heures de bureau"
@@ -386,12 +385,12 @@
         "sorts": {
           "label": "Trie vos appels",
           "title": "Vos appels, triés avant même que vous les ouvriez",
-          "text": "Chaque appel reçoit une catégorie et un statut. Les appels manqués sont signalés et chaque appel peut être assigné à quelqu'un de votre équipe."
+          "text": "Chaque appel reçoit une catégorie et un statut. Vos messages restent organisés et suivis pour vous aider à traiter en priorité ce qui est important."
         },
         "alerts": {
           "label": "Prévient l'équipe",
           "title": "La bonne personne est prévenue tout de suite",
-          "text": "Chaque catégorie est envoyée aux personnes que vous choisissez, par e-mail."
+          "text": "Chaque catégorie est envoyée aux personnes que vous choisissez."
         }
       },
       "mocks": {
@@ -468,31 +467,57 @@
     },
     "audiences": {
       "title": "Pensé pour ceux qui ne peuvent pas toujours décrocher",
-      "subtitle": "Si votre travail se fait loin du téléphone, Voicia prend l'appel pour vous.",
+      "subtitle": "Voicia prend le relais quand vous êtes occupé pour que votre activité garde son rythme.",
       "items": {
-        "trades": {
-          "title": "Artisans et dépannage",
-          "text": "L'intervention est notée pendant que vous êtes sur le chantier."
+        "homeServices": {
+          "title": "Services à domicile",
+          "text": "Ne rate aucun appel, distingue les urgences des devis et fait avancer vos offres.",
+          "tags": [
+            "Plomberie",
+            "Chauffage et climatisation",
+            "Électricité",
+            "Toiture",
+            "Jardins"
+          ]
         },
-        "clinics": {
-          "title": "Cabinets et centres médicaux",
-          "text": "Les patients ont une réponse même quand l'accueil est débordé."
-        },
-        "agencies": {
-          "title": "Agences et consultants",
-          "text": "Les prospects vous joignent pendant que vous êtes chez un client."
-        },
-        "legal": {
-          "title": "Juridique et comptabilité",
-          "text": "Les nouvelles demandes sont triées avant que vous rappeliez."
-        },
-        "hospitality": {
-          "title": "Restauration et hôtellerie",
-          "text": "Réservations et questions prises en charge pendant le coup de feu."
+        "automotive": {
+          "title": "Automobile",
+          "text": "Répond dès qu'un prospect appelle, qualifie l'acheteur et assure le suivi jusqu'à la vente.",
+          "tags": ["Courtiers auto", "Concessions", "Entretien et réparation"]
         },
         "realEstate": {
           "title": "Immobilier",
-          "text": "Les demandes de visite sont notées, même le dimanche."
+          "text": "Répond pendant les visites et garde chaque prospect au chaud jusqu'à la signature.",
+          "tags": ["Agents", "Agences", "Gestion locative"]
+        },
+        "beauty": {
+          "title": "Beauté et esthétique",
+          "text": "Réserve la prochaine visite, répond pendant les soins.",
+          "tags": [
+            "Salons de coiffure et d'ongles",
+            "Barbiers",
+            "Centres esthétiques",
+            "Cliniques de la peau"
+          ]
+        },
+        "clinics": {
+          "title": "Cabinets et centres médicaux",
+          "text": "Les patients ont une réponse même quand l'accueil est débordé.",
+          "tags": [
+            "Dentistes",
+            "Kinésithérapie",
+            "Vétérinaires",
+            "Médecine générale"
+          ]
+        },
+        "brokers": {
+          "title": "Courtiers et comptables",
+          "text": "Qualifie chaque demande pendant vos rendez-vous et vous indique qui rappeler en premier.",
+          "tags": [
+            "Courtiers en assurances et en crédit",
+            "Comptables",
+            "Fiduciaires"
+          ]
         }
       }
     },
@@ -510,63 +535,13 @@
         "imessage": "iMessage"
       }
     },
-    "demo": {
-      "eyebrow": "Démo en direct",
-      "title": "Ne nous croyez pas sur parole. Appelez.",
-      "text": "Appelez notre ligne de démo et parlez à Voicia comme le feraient vos clients. Elle joue un membre de notre équipe commerciale : elle vous interroge sur votre activité et sur la façon dont vous gérez vos appels aujourd'hui.",
-      "call": "Appeler la démo",
-      "copy": "Copier le numéro",
-      "copied": "Numéro copié",
-      "live": "Appel en direct",
-      "script": [
-        {
-          "from": "assistant",
-          "text": "Bonjour, vous êtes chez Voicia, je suis l'assistante. Vous appelez au sujet des appels de votre entreprise ?"
-        },
-        {
-          "from": "caller",
-          "text": "Oui, j'ai une petite entreprise de plomberie à Namur et je rate beaucoup d'appels sur les chantiers."
-        },
-        {
-          "from": "assistant",
-          "text": "Je vois. Combien d'appels par jour environ, et que deviennent ceux que vous ne pouvez pas prendre ?"
-        },
-        {
-          "from": "caller",
-          "text": "Dix à quinze. La plupart tombent sur la messagerie, et les gens laissent rarement un message."
-        },
-        {
-          "from": "assistant",
-          "text": "Voicia répondrait à chacun au nom de votre entreprise et vous enverrait un résumé, pour rappeler d'abord les plus importants. Je vous propose un appel de configuration ?"
-        },
-        {
-          "from": "caller",
-          "text": "Oui, jeudi matin, c'est parfait."
-        }
-      ],
-      "brief": {
-        "callerName": "Thomas Lambert",
-        "callerNumber": "+32 486 30 77 21",
-        "time": "à l'instant",
-        "priority": "Prospect chaud",
-        "category": "Appel de configuration",
-        "summary": "Thomas a une entreprise de plomberie à Namur et rate 10 à 15 appels par jour sur les chantiers. Souhaite un appel de configuration jeudi matin.",
-        "place": "Namur",
-        "when": "Jeudi matin",
-        "topic": "Plomberie",
-        "duration": "1:52",
-        "replay": "Réécouter l'appel",
-        "callBack": "Rappeler",
-        "sentTo": "Envoyé à l'équipe Voicia par e-mail"
-      }
-    },
     "pricing": {
       "title": "Des tarifs simples, configuration incluse",
-      "subtitle": "Choisissez vos minutes. Nous configurons votre assistante avec vous, en général le jour même.",
+      "subtitle": "Choisissez vos minutes. Nous configurons votre assistante avec vous.",
       "perMonth": "/mois HTVA",
       "includedMinutes": "{minutes, number} minutes d'appels incluses",
       "extraMinute": "Puis {price} par minute supplémentaire",
-      "setupIncluded": "Configuration incluse",
+      "setupIncluded": "Configuration offerte",
       "features": [
         "Chaque appel répondu, jour et nuit",
         "Un résumé et l'enregistrement pour chaque appel",
@@ -598,18 +573,25 @@
     },
     "finalCta": {
       "title": "Ne perdez plus de prospects sur la messagerie",
-      "text": "Réservez un appel de configuration. Voicia peut répondre à vos appels dès aujourd'hui."
+      "text": "La configuration de votre assistante est faite dans la journée. Voicia peut répondre à vos appels dès aujourd'hui."
     },
     "footer": {
       "tagline": "La réceptionniste IA des professionnels occupés.",
       "contact": "Contact",
       "language": "Langue",
-      "rights": "© {year} Voicia"
+      "rights": "© {year} Voicia",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation"
     },
     "meta": {
       "title": "Voicia · Réceptionniste IA pour professionnels occupés",
       "description": "Voicia répond à chaque appel pendant que vous travaillez, qualifie la demande et vous envoie un résumé structuré, pour qu'aucun prospect ne refroidisse.",
       "ogAlt": "Voicia : transformez vos appels manqués en prospects qualifiés"
     }
+  },
+  "Legal": {
+    "home": "Accueil Voicia",
+    "backHome": "Retour à l'accueil",
+    "lastUpdated": "Dernière mise à jour : {date}"
   }
 }

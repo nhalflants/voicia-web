@@ -19,7 +19,7 @@ Stripe ──subscription events──▶ POST /stripe/webhook ──▶ organiz
 | Product    | Base price | Usage price on the `call_minute` meter (graduated) |
 | ---------- | ---------- | -------------------------------------------------- |
 | Voicia 150 | €60/month  | 0–150 at €0, then €0.20                            |
-| Voicia 500 | €120/month | 0–500 at €0, then €0.15                            |
+| Voicia 500 | €120/month | 0–500 at €0, then €0.16                            |
 
 Prices exclude VAT. Each plan has two prices: a usage-only price would bill the flat fee at the end of the month instead of up front.
 

@@ -15,6 +15,6 @@ export const PLANS: Plan[] = [
     name: "Voicia 500",
     monthlyPrice: 120,
     includedMinutes: 500,
-    extraMinutePrice: 0.15,
+    extraMinutePrice: 0.16,
   },
 ]

@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server"
 import { routing } from "@/i18n/routing"
 
 import { Audiences } from "@/features/landing/components/audiences"
-import { DemoLine } from "@/features/landing/components/demo-line"
 import { Faq } from "@/features/landing/components/faq"
 import { FinalCta } from "@/features/landing/components/final-cta"
 import { Hero } from "@/features/landing/components/hero"
@@ -57,8 +56,7 @@ export default function Page() {
         <Product />
         <Numbers />
         <Audiences />
-        <DemoLine />
-        <Integrations />
+        {/* <Integrations /> */}
         <Pricing />
         <Faq />
         <FinalCta />

@@ -364,7 +364,6 @@
       }
     },
     "numbers": {
-      "title": "Voicia at work since {since}",
       "callsAnswered": "calls answered",
       "hoursHandled": "hours of calls handled for our customers",
       "afterHours": "calls answered after office hours"
@@ -386,12 +385,12 @@
         "sorts": {
           "label": "Sorts your calls",
           "title": "Your calls, sorted before you look",
-          "text": "Each call gets a category and a status. Missed calls are flagged and every call can be assigned to someone on your team."
+          "text": "Each call gets a category and a status. Your messages stay organized and tracked to help you prioritize what's important."
         },
         "alerts": {
           "label": "Alerts your team",
           "title": "The right person hears about it right away",
-          "text": "Each category goes to the people you choose, by email."
+          "text": "Each category goes to the people you choose."
         }
       },
       "mocks": {
@@ -468,31 +467,51 @@
     },
     "audiences": {
       "title": "Built for people who can't always pick up",
-      "subtitle": "If your work happens away from the phone, Voicia takes the call for you.",
+      "subtitle": "Voicia steps in when you're busy, so your business never misses a beat.",
       "items": {
-        "trades": {
-          "title": "Trades and home services",
-          "text": "The repair gets booked while you're on the roof."
+        "homeServices": {
+          "title": "Home services",
+          "text": "Never misses a call, sorts emergencies from estimates, and keeps quotes moving.",
+          "tags": ["Plumbing", "HVAC", "Electrical", "Roofing", "Landscaping"]
         },
-        "clinics": {
-          "title": "Clinics and practices",
-          "text": "Patients get an answer even when the front desk is busy."
-        },
-        "agencies": {
-          "title": "Agencies and consultants",
-          "text": "Prospects reach you while you're with a client."
-        },
-        "legal": {
-          "title": "Legal and accounting",
-          "text": "New enquiries are screened before you call back."
-        },
-        "hospitality": {
-          "title": "Restaurants and hospitality",
-          "text": "Bookings and questions are handled during the rush."
+        "automotive": {
+          "title": "Automotive",
+          "text": "Answers the second a lead lands, qualifies the buyer, and follows up to the sale.",
+          "tags": [
+            "Auto brokers",
+            "Dealerships",
+            "Service and repair",
+            "Detailing"
+          ]
         },
         "realEstate": {
           "title": "Real estate",
-          "text": "Viewing requests are captured, even on a Sunday."
+          "text": "Answers mid-showing and keeps every lead warm until closing.",
+          "tags": ["Agents", "Brokerages", "Property management"]
+        },
+        "beauty": {
+          "title": "Beauty & Aesthetics",
+          "text": "Books the next visit, answers mid-service.",
+          "tags": [
+            "Hair and nail salons",
+            "Barbers",
+            "Med spas",
+            "Skin clinics"
+          ]
+        },
+        "clinics": {
+          "title": "Clinics and practices",
+          "text": "Patients get an answer even when the front desk is busy.",
+          "tags": ["Dental", "Physiotherapy", "Veterinary", "General practice"]
+        },
+        "brokers": {
+          "title": "Brokers and accountants",
+          "text": "Qualifies every enquiry mid-meeting and tells you who to call back first.",
+          "tags": [
+            "Insurance and mortgage brokers",
+            "Accountants",
+            "Bookkeepers"
+          ]
         }
       }
     },
@@ -510,63 +529,13 @@
         "imessage": "iMessage"
       }
     },
-    "demo": {
-      "eyebrow": "Live demo",
-      "title": "Don't take our word for it. Call it.",
-      "text": "Call our demo line and talk to Voicia the way your customers would. It plays a member of our sales team: it asks about your business and how you handle calls today.",
-      "call": "Call the demo",
-      "copy": "Copy number",
-      "copied": "Number copied",
-      "live": "Live call",
-      "script": [
-        {
-          "from": "assistant",
-          "text": "Hello, you've reached Voicia, I'm the assistant. Are you calling about your business calls?"
-        },
-        {
-          "from": "caller",
-          "text": "Yes, I run a small plumbing company in Namur and I miss a lot of calls on jobs."
-        },
-        {
-          "from": "assistant",
-          "text": "I see. Roughly how many calls a day, and what happens to the ones you can't take?"
-        },
-        {
-          "from": "caller",
-          "text": "Ten to fifteen. Most go to voicemail, and people rarely leave a message."
-        },
-        {
-          "from": "assistant",
-          "text": "Voicia would answer each one in your company's name and send you a brief, so you call back the important ones first. Shall I book a setup call?"
-        },
-        {
-          "from": "caller",
-          "text": "Yes, Thursday morning works."
-        }
-      ],
-      "brief": {
-        "callerName": "Thomas Lambert",
-        "callerNumber": "+32 486 30 77 21",
-        "time": "just now",
-        "priority": "Hot lead",
-        "category": "Setup call",
-        "summary": "Thomas runs a plumbing company in Namur and misses 10 to 15 calls a day while on jobs. Wants a setup call on Thursday morning.",
-        "place": "Namur",
-        "when": "Thursday morning",
-        "topic": "Plumbing",
-        "duration": "1:52",
-        "replay": "Replay the call",
-        "callBack": "Call back",
-        "sentTo": "Sent to the Voicia team by email"
-      }
-    },
     "pricing": {
       "title": "Simple pricing, setup included",
-      "subtitle": "Pick the minutes you need. We set up your assistant with you, usually the same day.",
+      "subtitle": "Pick the minutes you need. We set up your assistant with you.",
       "perMonth": "/month excl. VAT",
       "includedMinutes": "{minutes, number} minutes of calls included",
       "extraMinute": "Then {price} per extra minute",
-      "setupIncluded": "Setup included",
+      "setupIncluded": "Setup offered",
       "features": [
         "Every call answered, day and night",
         "A brief and the recording for each call",
@@ -598,18 +567,25 @@
     },
     "finalCta": {
       "title": "Stop losing leads to voicemail",
-      "text": "Book a setup call. Voicia can be answering your calls today."
+      "text": "Your assistant is set up in a day. Voicia can be answering your calls today."
     },
     "footer": {
       "tagline": "The AI receptionist for busy professionals.",
       "contact": "Contact",
       "language": "Language",
-      "rights": "© {year} Voicia"
+      "rights": "© {year} Voicia",
+      "privacy": "Privacy policy",
+      "terms": "Terms of use"
     },
     "meta": {
       "title": "Voicia · AI receptionist for busy professionals",
       "description": "Voicia answers every call while you work, qualifies the request and sends you a structured brief, so no lead goes cold.",
       "ogAlt": "Voicia: turn missed calls into qualified leads"
     }
+  },
+  "Legal": {
+    "home": "Voicia home",
+    "backHome": "Back to home",
+    "lastUpdated": "Last updated: {date}"
   }
 }

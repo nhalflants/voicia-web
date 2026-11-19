@@ -1,6 +1,6 @@
 # Landing page image prompts
 
-Prompts for the six "Who it's for" cards on the landing page. The page ships
+Prompts for the six "Who it's for" rows on the landing page. The page ships
 with icons; each photo is optional and can be added on its own.
 
 ## How to add a photo
@@ -9,10 +9,10 @@ with icons; each photo is optional and can be added on its own.
 2. Export it as WebP or JPEG under 250 KB and save it as
    `public/landing/<key>.webp` (keys below).
 3. In `features/landing/components/audiences.tsx`, set `image` on that
-   audience, for example `{ key: "trades", icon: WrenchIcon, image: "/landing/trades.webp" }`.
+   audience, for example `{ key: "homeServices", icon: WrenchIcon, image: "/landing/homeServices.webp" }`.
 
-The card shows the photo above its text. Images are decorative (`alt=""`),
-so the text below still carries the meaning.
+The row shows the photo at its end on large screens and hides it on smaller
+ones. Images are decorative (`alt=""`), so the row's text carries the meaning.
 
 ## Shared style (add to every prompt)
 
@@ -24,14 +24,32 @@ so the text below still carries the meaning.
 Avoid: stock-photo smiles at the camera, headsets, call-centre desks, robots
 or "AI" visuals, glowing blue light, hands pointing at holograms.
 
-## The six cards
+## The six rows
 
-### `trades`: Trades and home services
+### `homeServices`: Home services
 
 > A plumber in work clothes kneeling under a kitchen sink in a bright
 > Brussels apartment, both hands busy with a wrench, a smartphone lying
 > face-down on the tiled floor beside a toolbox. Focus on the hands and
 > the tools; the person's face partly out of frame.
+
+### `automotive`: Automotive
+
+> A mechanic in a small, tidy independent garage leaning into the open
+> bonnet of a car, hands busy with a tool, a smartphone resting on the
+> wing beside a rag. Warm light through the open roller door.
+
+### `realEstate`: Real estate
+
+> An estate agent showing a sunlit, empty townhouse living room to a young
+> couple, seen from behind, the agent gesturing towards tall windows and
+> parquet floors. Brussels townhouse architecture.
+
+### `beauty`: Beauty & Aesthetics
+
+> A hairdresser mid-cut in a small, bright salon, scissors and comb in hand,
+> the client seen from behind in the chair, a phone face-down on the
+> station beside brushes and bottles without readable labels.
 
 ### `clinics`: Clinics and practices
 
@@ -40,29 +58,11 @@ or "AI" visuals, glowing blue light, hands pointing at holograms.
 > desk with a ringing desk phone in the soft-focus foreground, plants and
 > wooden furniture.
 
-### `agencies`: Agencies and consultants
-
-> A consultant in a meeting with a client at a café table, laptop open but
-> turned away from the camera, notebook and coffee cups, the consultant's
-> phone face-down on the table. Warm afternoon light through a large window.
-
-### `legal`: Legal and accounting
+### `brokers`: Brokers and accountants
 
 > An accountant in a calm office reviewing paper files with a client across
 > a desk, glasses on, a fountain pen in hand, shelves of binders behind
 > them, a phone on the desk out of focus.
-
-### `hospitality`: Restaurants and hospitality
-
-> A chef plating dishes in a small restaurant kitchen during service, steam
-> and warm lamps, a busy pass with order tickets (no readable text), a
-> phone on a shelf in the background.
-
-### `realEstate`: Real estate
-
-> An estate agent showing a sunlit, empty townhouse living room to a young
-> couple, seen from behind, the agent gesturing towards tall windows and
-> parquet floors. Brussels townhouse architecture.
 
 ## Answers tab: Voicia picks up while you work
 
