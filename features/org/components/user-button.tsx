@@ -1,9 +1,10 @@
 "use client"
 
 import { useClerk, useUser } from "@clerk/nextjs"
-import { EllipsisVerticalIcon, LogOutIcon, UserCogIcon } from "lucide-react"
+import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 
+import { accountNavItem } from "@/components/layout/nav-items"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -21,7 +22,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getPathname } from "@/i18n/navigation"
+import { getPathname, useRouter } from "@/i18n/navigation"
 
 function UserIdentity({
   name,
@@ -52,7 +53,8 @@ function UserButton() {
   const t = useTranslations("User")
   const locale = useLocale()
   const { isMobile } = useSidebar()
-  const { openUserProfile, signOut } = useClerk()
+  const router = useRouter()
+  const { signOut } = useClerk()
   const { user, isLoaded } = useUser()
 
   if (!isLoaded) {
@@ -103,8 +105,8 @@ function UserButton() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => openUserProfile()}>
-              <UserCogIcon />
+            <DropdownMenuItem onClick={() => router.push(accountNavItem.url)}>
+              <accountNavItem.icon />
               {t("manageAccount")}
             </DropdownMenuItem>
             <DropdownMenuItem

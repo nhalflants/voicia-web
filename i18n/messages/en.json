@@ -4,7 +4,8 @@
     "settings": "Settings",
     "assistants": "Assistants",
     "callCategories": "Call categories",
-    "plans": "Plans"
+    "plans": "Plans",
+    "account": "Account"
   },
   "Common": {
     "noOrganization": "No organization selected",
@@ -277,6 +278,43 @@
     "openMenu": "Open user menu",
     "manageAccount": "Manage account",
     "signOut": "Sign out"
+  },
+  "Account": {
+    "profile": {
+      "title": "Profile",
+      "description": "How you appear to your team in Voicia.",
+      "changePhoto": "Change photo",
+      "removePhoto": "Remove",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "saved": "Profile saved",
+      "photoSaved": "Photo updated",
+      "photoRemoved": "Photo removed",
+      "errors": {
+        "save": "Couldn't save your profile",
+        "photo": "Couldn't update your photo",
+        "photoTooLarge": "Choose an image under 10 MB."
+      }
+    },
+    "reports": {
+      "title": "Call reports",
+      "description": "The address that receives the email Voicia sends after each call.",
+      "signInEmail": "Sign-in email",
+      "unverified": "Current address, set before addresses had to be verified. Pick another one to change it.",
+      "addAnother": "Want reports at another address? Add it under Sign-in & security, then choose it here.",
+      "noEmail": "Add an email address under Sign-in & security to receive call reports.",
+      "saved": "Call reports will go to this address",
+      "errors": {
+        "save": "Couldn't change the address",
+        "unverified": "Choose one of your verified email addresses."
+      }
+    },
+    "security": {
+      "title": "Sign-in & security",
+      "description": "Email addresses, password, two-step verification, active sessions and account deletion.",
+      "signInEmail": "Sign-in email",
+      "manage": "Manage sign-in & security"
+    }
   },
   "UI": {
     "loading": "Loading",

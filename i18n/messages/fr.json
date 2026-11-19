@@ -4,7 +4,8 @@
     "settings": "Paramètres",
     "assistants": "Assistants",
     "callCategories": "Catégories d'appels",
-    "plans": "Abonnements"
+    "plans": "Abonnements",
+    "account": "Compte"
   },
   "Common": {
     "noOrganization": "Aucune organisation sélectionnée",
@@ -277,6 +278,43 @@
     "openMenu": "Ouvrir le menu utilisateur",
     "manageAccount": "Gérer le compte",
     "signOut": "Se déconnecter"
+  },
+  "Account": {
+    "profile": {
+      "title": "Profil",
+      "description": "Comment votre équipe vous voit dans Voicia.",
+      "changePhoto": "Changer la photo",
+      "removePhoto": "Supprimer",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "saved": "Profil enregistré",
+      "photoSaved": "Photo mise à jour",
+      "photoRemoved": "Photo supprimée",
+      "errors": {
+        "save": "Impossible d'enregistrer votre profil",
+        "photo": "Impossible de mettre à jour votre photo",
+        "photoTooLarge": "Choisissez une image de moins de 10 Mo."
+      }
+    },
+    "reports": {
+      "title": "Rapports d'appel",
+      "description": "L'adresse qui reçoit l'e-mail envoyé par Voicia après chaque appel.",
+      "signInEmail": "E-mail de connexion",
+      "unverified": "Adresse actuelle, définie avant que les adresses doivent être vérifiées. Choisissez-en une autre pour la changer.",
+      "addAnother": "Vous voulez recevoir les rapports à une autre adresse ? Ajoutez-la dans Connexion et sécurité, puis choisissez-la ici.",
+      "noEmail": "Ajoutez une adresse e-mail dans Connexion et sécurité pour recevoir les rapports d'appel.",
+      "saved": "Les rapports d'appel iront à cette adresse",
+      "errors": {
+        "save": "Impossible de changer l'adresse",
+        "unverified": "Choisissez une de vos adresses e-mail vérifiées."
+      }
+    },
+    "security": {
+      "title": "Connexion et sécurité",
+      "description": "Adresses e-mail, mot de passe, vérification en deux étapes, sessions actives et suppression du compte.",
+      "signInEmail": "E-mail de connexion",
+      "manage": "Gérer la connexion et la sécurité"
+    }
   },
   "UI": {
     "loading": "Chargement",
