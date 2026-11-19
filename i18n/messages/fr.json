@@ -298,7 +298,7 @@
     },
     "reports": {
       "title": "Rapports d'appel",
-      "description": "L'adresse qui reçoit l'e-mail envoyé par Voicia après chaque appel.",
+      "description": "L'adresse qui reçoit la notification d'appel après chaque appel.",
       "signInEmail": "E-mail de connexion",
       "unverified": "Adresse actuelle, définie avant que les adresses doivent être vérifiées. Choisissez-en une autre pour la changer.",
       "addAnother": "Vous voulez recevoir les rapports à une autre adresse ? Ajoutez-la dans Connexion et sécurité, puis choisissez-la ici.",

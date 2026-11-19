@@ -298,7 +298,7 @@
     },
     "reports": {
       "title": "Call reports",
-      "description": "The address that receives the email Voicia sends after each call.",
+      "description": "The address that receives an email notification after each call.",
       "signInEmail": "Sign-in email",
       "unverified": "Current address, set before addresses had to be verified. Pick another one to change it.",
       "addAnother": "Want reports at another address? Add it under Sign-in & security, then choose it here.",

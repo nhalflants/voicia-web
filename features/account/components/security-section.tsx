@@ -27,7 +27,7 @@ function SecuritySection({ user }: { user: ClerkUser }) {
         <CardTitle>{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-wrap items-center justify-between gap-4">
+      <CardContent className="flex flex-row items-center justify-between">
         {email && (
           <div className="grid min-w-0 gap-0.5">
             <span className="text-muted-foreground">{t("signInEmail")}</span>

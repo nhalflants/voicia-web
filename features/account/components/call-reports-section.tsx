@@ -94,7 +94,7 @@ function CallReportsSection({
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-2">
         {options.length === 0 ? (
           <p className="flex items-center gap-2 text-muted-foreground">
             <MailWarningIcon className="size-4 shrink-0" />
@@ -136,7 +136,7 @@ function CallReportsSection({
         <p className="text-muted-foreground">{t("addAnother")}</p>
       </CardContent>
 
-      <CardFooter className="justify-end border-t">
+      <CardFooter className="justify-end">
         <Button onClick={handleSave} disabled={!changed || pending}>
           {pending && <Spinner />}
           {tCommon("saveChanges")}

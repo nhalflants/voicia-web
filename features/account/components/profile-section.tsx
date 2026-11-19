@@ -99,13 +99,12 @@ function ProfileSection({ user }: { user: ClerkUser }) {
     <Card>
       <CardHeader>
         <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-        <CardContent className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-4">
-            <Avatar className="size-16">
+            <Avatar className="size-12">
               <AvatarImage src={user.imageUrl} alt={displayName} />
               <AvatarFallback className="text-lg">
                 {displayName.charAt(0).toUpperCase()}
@@ -172,7 +171,7 @@ function ProfileSection({ user }: { user: ClerkUser }) {
           </FieldGroup>
         </CardContent>
 
-        <CardFooter className="justify-end border-t">
+        <CardFooter className="justify-end">
           <Button type="submit" disabled={!changed || saving}>
             {saving && <Spinner />}
             {tCommon("saveChanges")}
