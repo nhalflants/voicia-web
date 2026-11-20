@@ -1,4 +1,4 @@
-export type PlanId = "voicia-150" | "voicia-500"
+export type PlanId = "voicia-120" | "voicia-500"
 
 export interface Plan {
   id: PlanId

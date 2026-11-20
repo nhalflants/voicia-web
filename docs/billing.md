@@ -18,8 +18,8 @@ Stripe ──subscription events──▶ POST /stripe/webhook ──▶ organiz
 
 | Product    | Base price | Usage price on the `call_minute` meter (graduated) |
 | ---------- | ---------- | -------------------------------------------------- |
-| Voicia 150 | €60/month  | 0–150 at €0, then €0.20                            |
-| Voicia 500 | €120/month | 0–500 at €0, then €0.16                            |
+| Voicia 120 | €60/month  | 0–120 at €0, then €0.25                            |
+| Voicia 500 | €150/month | 0–500 at €0, then €0.20                            |
 
 Prices exclude VAT. Each plan has two prices: a usage-only price would bill the flat fee at the end of the month instead of up front.
 
@@ -41,8 +41,8 @@ Refuse checkout unless the organization has no row, or its `status` is `canceled
 ```bash
 # .env.local of the Next.js app
 STRIPE_SECRET_KEY=rk_...                 # restricted key: Checkout Sessions write, Customer portal write
-STRIPE_VOICIA_150_BASE_PRICE_ID=price_...
-STRIPE_VOICIA_150_USAGE_PRICE_ID=price_...
+STRIPE_VOICIA_120_BASE_PRICE_ID=price_...
+STRIPE_VOICIA_120_USAGE_PRICE_ID=price_...
 STRIPE_VOICIA_500_BASE_PRICE_ID=price_...
 STRIPE_VOICIA_500_USAGE_PRICE_ID=price_...
 APP_URL=https://...                      # where Stripe sends users back

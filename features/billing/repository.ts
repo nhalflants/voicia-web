@@ -16,9 +16,9 @@ import { getStripe } from "@/lib/stripe"
 // Each plan has a flat base price and a metered usage price. IDs differ
 // between Stripe test and live mode, so they come from the environment
 const PRICE_IDS: Record<PlanId, { base?: string; usage?: string }> = {
-  "voicia-150": {
-    base: process.env.STRIPE_VOICIA_150_BASE_PRICE_ID,
-    usage: process.env.STRIPE_VOICIA_150_USAGE_PRICE_ID,
+  "voicia-120": {
+    base: process.env.STRIPE_VOICIA_120_BASE_PRICE_ID,
+    usage: process.env.STRIPE_VOICIA_120_USAGE_PRICE_ID,
   },
   "voicia-500": {
     base: process.env.STRIPE_VOICIA_500_BASE_PRICE_ID,
