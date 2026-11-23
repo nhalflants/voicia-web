@@ -1,6 +1,7 @@
 {
   "Nav": {
     "calls": "Appels",
+    "contacts": "Contacts",
     "settings": "Paramètres",
     "assistants": "Assistants",
     "callCategories": "Catégories d'appels",
@@ -112,6 +113,99 @@
       "title": "Transcription",
       "copy": "Copier",
       "copied": "Transcription copiée"
+    },
+    "openContact": "Ouvrir le contact"
+  },
+  "Contacts": {
+    "description": "Les personnes et entreprises qui ont appelé, et les contacts que vous avez ajoutés.",
+    "noOrganization": "Sélectionnez une organisation pour voir ses contacts.",
+    "search": "Rechercher par nom ou numéro",
+    "add": "Ajouter un contact",
+    "empty": {
+      "title": "Aucun contact pour l'instant",
+      "description": "Les appelants apparaissent ici après leur premier appel. Vous pouvez aussi ajouter un contact vous-même."
+    },
+    "noMatch": {
+      "title": "Aucun contact ne correspond",
+      "description": "Essayez un autre nom ou numéro."
+    },
+    "unconfirmed": "Nom suggéré, pas encore confirmé",
+    "callCount": "{count, plural, =0 {Aucun appel} one {# appel} other {# appels}}",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {page} sur {pages}"
+    },
+    "salutations": {
+      "mr": "Monsieur",
+      "mrs": "Madame"
+    },
+    "languages": {
+      "fr": "Français",
+      "nl": "Néerlandais",
+      "en": "Anglais"
+    },
+    "form": {
+      "newTitle": "Ajouter un contact",
+      "editTitle": "Modifier le contact",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "company": "Entreprise",
+      "salutation": "Civilité",
+      "language": "Langue préférée",
+      "notSet": "Non renseigné",
+      "email": "E-mail",
+      "phoneNumbers": "Numéros de téléphone",
+      "phoneNumber": "Numéro {index}",
+      "addNumber": "Ajouter un autre numéro",
+      "removeNumber": "Retirer ce numéro",
+      "numberHint": "Les numéros belges peuvent être saisis sans +32.",
+      "create": "Ajouter le contact",
+      "created": "Contact ajouté",
+      "saved": "Contact enregistré",
+      "nameHint": "Enregistrer un nom le confirme : les appels ne le modifient plus."
+    },
+    "errors": {
+      "numberRequired": "Ajoutez au moins un numéro de téléphone.",
+      "invalidNumber": "{number} n'est pas un numéro de téléphone valide.",
+      "numberTaken": "Ce numéro appartient à {name}.",
+      "numberOnContact": "Ce numéro est déjà sur ce contact.",
+      "lastNumber": "Un contact doit avoir au moins un numéro. Supprimez plutôt le contact.",
+      "openContact": "Ouvrir le contact",
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "forbidden": "Vous ne pouvez pas modifier les contacts de cette organisation.",
+      "notFound": "Ce contact n'existe plus."
+    },
+    "detail": {
+      "back": "Contacts",
+      "suggested": "Nom suggéré, d'après les appels",
+      "confirm": "Confirmer",
+      "confirmed": "Nom confirmé",
+      "numbers": "Numéros",
+      "primary": "Principal",
+      "makePrimary": "Définir comme principal",
+      "deleteNumber": "Supprimer {number}",
+      "lastNumberHint": "Un contact doit avoir au moins un numéro",
+      "addNumber": "Ajouter un numéro",
+      "numberAdded": "Numéro ajouté",
+      "numberDeleted": "Numéro supprimé",
+      "email": "E-mail",
+      "language": "Langue",
+      "firstCall": "Premier appel {date}",
+      "lastCall": "Dernier appel {date}",
+      "calls": "Appels",
+      "noCalls": {
+        "title": "Aucun appel pour l'instant",
+        "description": "Les appels des numéros de ce contact apparaîtront ici."
+      },
+      "showOlder": "Afficher les appels plus anciens",
+      "unnamed": "Contact sans nom"
+    },
+    "delete": {
+      "title": "Supprimer ce contact ?",
+      "description": "Ses appels restent dans Appels. Si l'un de ses numéros rappelle, un nouveau contact est créé.",
+      "confirm": "Supprimer le contact",
+      "deleted": "Contact supprimé"
     }
   },
   "Billing": {

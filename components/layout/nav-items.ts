@@ -4,6 +4,7 @@ import {
   PhoneIcon,
   TagsIcon,
   UserCogIcon,
+  UsersIcon,
 } from "lucide-react"
 
 // `key` names the label in the Nav messages
@@ -12,6 +13,11 @@ const mainNavItems = [
     key: "calls",
     url: "/dashboard/calls",
     icon: PhoneIcon,
+  },
+  {
+    key: "contacts",
+    url: "/dashboard/contacts",
+    icon: UsersIcon,
   },
 ] as const
 
