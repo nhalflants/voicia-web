@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 
+import { DashboardHeader } from "@/components/layout/dashboard-header"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -50,11 +51,13 @@ import type { OrganizationMember } from "@/features/org/types"
 type MembersById = Map<string, OrganizationMember>
 
 function CallCategoriesSettings({
+  title,
   categories,
   members,
   currentUserId,
   canManage,
 }: {
+  title: string
   categories: CallCategory[]
   members: OrganizationMember[]
   currentUserId: string
@@ -86,17 +89,20 @@ function CallCategoriesSettings({
 
   return (
     <>
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <p className="max-w-prose text-sm text-muted-foreground">
-          {t("intro")}
-        </p>
-        {canManage && categories.length > 0 && (
-          <Button onClick={() => openSheet(null)} disabled={atLimit}>
-            <PlusIcon />
-            {t("new")}
-          </Button>
-        )}
-      </div>
+      <DashboardHeader
+        title={title}
+        description={t("intro")}
+        action={
+          // The empty state has its own CTA, so only show this once categories exist
+          canManage &&
+          categories.length > 0 && (
+            <Button onClick={() => openSheet(null)} disabled={atLimit}>
+              <PlusIcon />
+              {t("new")}
+            </Button>
+          )
+        }
+      />
 
       {!canManage && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
