@@ -255,10 +255,6 @@ export const contacts = pgTable(
     lastName: text("last_name"),
     companyName: text("company_name"),
     nameConfirmed: boolean("name_confirmed").default(false).notNull(),
-    nameSourceStartedAt: timestamp("name_source_started_at", {
-      withTimezone: true,
-      mode: "string",
-    }),
     salutation: contactSalutation(),
     email: text(),
     language: language(),
