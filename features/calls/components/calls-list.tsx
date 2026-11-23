@@ -20,7 +20,7 @@ import { CallDetailSheet } from "@/features/calls/components/call-detail-sheet"
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
 import { MissedCallBadge } from "@/features/calls/components/missed-call-badge"
 import { groupCallsByDay, type DaySection } from "@/features/calls/day-sections"
-import { formatDuration } from "@/features/calls/format"
+import { callerDisplayName, formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
@@ -225,7 +225,7 @@ function CallItem({
                 onOpen()
               }}
             >
-              {call.callerName || t("unknownCaller")}
+              {callerDisplayName(call) || t("unknownCaller")}
             </Link>
           </ItemTitle>
           {call.customerNumber && (

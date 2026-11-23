@@ -7,6 +7,7 @@ import {
   ChevronUpIcon,
   PhoneIcon,
   RotateCcwIcon,
+  UserRoundIcon,
   UserRoundPlusIcon,
 } from "lucide-react"
 import { useFormatter, useTranslations } from "next-intl"
@@ -34,10 +35,11 @@ import { CallRecordingPlayer } from "@/features/calls/components/call-recording-
 import { CallStatusMenu } from "@/features/calls/components/call-status-menu"
 import { CallTranscript } from "@/features/calls/components/call-transcript"
 import { ENDED_REASONS } from "@/features/calls/constants"
-import { formatDuration } from "@/features/calls/format"
+import { callerDisplayName, formatDuration } from "@/features/calls/format"
 import type { CallDetail, CallListItem } from "@/features/calls/types"
 import { useCallUpdate } from "@/features/calls/use-call-update"
 import type { OrganizationMember } from "@/features/org/types"
+import { Link } from "@/i18n/navigation"
 
 interface PanelProps {
   members: OrganizationMember[]
@@ -131,7 +133,7 @@ function CallPanel({
   const endedReason = detail?.endedReason
     ? ENDED_REASONS[detail.endedReason]
     : undefined
-  const callerName = call.callerName || t("unknownCaller")
+  const callerName = callerDisplayName(call) || t("unknownCaller")
   const meta = [
     call.customerNumber && <span>{call.customerNumber}</span>,
     call.startedAt && (
@@ -172,6 +174,18 @@ function CallPanel({
                 .filter(Boolean)
                 .join(" · ")}
             </p>
+          )}
+          {call.contact && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-auto w-fit gap-1.5 px-0"
+              nativeButton={false}
+              render={<Link href={`/dashboard/contacts/${call.contact.id}`} />}
+            >
+              <UserRoundIcon className="size-3.5" />
+              {t("openContact")}
+            </Button>
           )}
         </div>
 
@@ -271,7 +285,7 @@ function CallPanel({
           <CallTranscript
             turns={detail.transcript}
             assistantName={detail.assistantName ?? t("detail.assistant")}
-            callerName={detail.callerName || t("detail.caller")}
+            callerName={callerDisplayName(detail) || t("detail.caller")}
           />
         ) : (
           <section className="flex flex-col gap-2">

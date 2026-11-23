@@ -9,15 +9,17 @@ import {
   STATUS_FILTERS,
 } from "@/features/calls/constants"
 import type {
+  CallContact,
   CallDetail,
   CallFilters,
   CallListItem,
   CallUpdate,
   TranscriptTurn,
 } from "@/features/calls/types"
+import { displayName } from "@/features/contacts/display-name"
 import { api } from "@/lib/api"
 import { db } from "@/lib/db"
-import { calls } from "@/lib/db/generated/schema"
+import { calls, contactPhoneNumbers, contacts } from "@/lib/db/generated/schema"
 
 // Reads go straight to the database; writes go through the NestJS API, which
 // owns them (see lib/db/index.ts)
@@ -50,6 +52,42 @@ export const todayCallCount = sql<number>`case
   )
   else 0
 end`.as("today_call_count")
+
+// The contact owning the call's number, if any. Contacts own numbers, not
+// calls, so this is looked up by number
+const contactOfCall = sql<RawCallContact | null>`(
+  select json_build_object(
+    'id', c.id,
+    'firstName', c.first_name,
+    'lastName', c.last_name,
+    'companyName', c.company_name,
+    'nameConfirmed', c.name_confirmed
+  )
+  from ${contactPhoneNumbers} n
+  join ${contacts} c on c.id = n.contact_id
+  where n.organization_id = ${calls.organizationId}
+    and n.number = ${calls.customerNumber}
+)`.as("contact")
+
+interface RawCallContact {
+  id: string
+  firstName: string | null
+  lastName: string | null
+  companyName: string | null
+  nameConfirmed: boolean
+}
+
+// Computed columns every calls query selects
+export const callExtras = { todayCallCount, contact: contactOfCall }
+
+// Only a confirmed name replaces the name extracted from the call
+function toCallContact(contact: RawCallContact | null): CallContact | null {
+  if (!contact) return null
+  return {
+    id: contact.id,
+    name: contact.nameConfirmed ? displayName(contact) : null,
+  }
+}
 
 // Newest first; calls that never connected have no start time and go last
 export const newestFirst = [
@@ -84,7 +122,7 @@ export async function getCalls(
   const rows = await db.query.calls.findMany({
     where: and(...conditions),
     columns: listColumns,
-    extras: { todayCallCount },
+    extras: callExtras,
     with: { callCategory: { columns: { name: true, color: true } } },
     orderBy: newestFirst,
     limit: CALL_LIST_LIMIT,
@@ -107,7 +145,7 @@ export async function getCall(
       transcript: true,
       recordingUrl: true,
     },
-    extras: { todayCallCount },
+    extras: callExtras,
     with: {
       callCategory: { columns: { name: true, color: true } },
       assistant: { columns: { name: true } },
@@ -121,11 +159,13 @@ export async function getCall(
     transcript,
     recordingUrl,
     isEmpty,
+    contact,
     ...call
   } = row
   const otherCalls = await getOtherCalls(organizationId, call)
   return {
     ...call,
+    contact: toCallContact(contact),
     category: callCategory,
     assistantName: assistant?.name ?? null,
     isEmpty: isEmpty ?? false,
@@ -153,7 +193,7 @@ async function getOtherCalls(
     db.query.calls.findMany({
       where,
       columns: listColumns,
-      extras: { todayCallCount },
+      extras: callExtras,
       with: { callCategory: { columns: { name: true, color: true } } },
       orderBy: newestFirst,
       limit: CALL_HISTORY_LIMIT,
@@ -167,9 +207,18 @@ async function getOtherCalls(
 // isEmpty is null when the structured output didn't run; treat that as a call
 // with something said
 export function toListItem<
-  T extends { callCategory: CallListItem["category"]; isEmpty: boolean | null },
->({ callCategory, isEmpty, ...call }: T) {
-  return { ...call, category: callCategory, isEmpty: isEmpty ?? false }
+  T extends {
+    callCategory: CallListItem["category"]
+    isEmpty: boolean | null
+    contact: RawCallContact | null
+  },
+>({ callCategory, isEmpty, contact, ...call }: T) {
+  return {
+    ...call,
+    category: callCategory,
+    isEmpty: isEmpty ?? false,
+    contact: toCallContact(contact),
+  }
 }
 
 // The stored recording URLs aren't playable (Vapi's storage is private), so

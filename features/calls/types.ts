@@ -18,6 +18,14 @@ export interface CallListItem {
   todayCallCount: number
   // The caller said nothing: a missed call to call back
   isEmpty: boolean
+  // The contact owning the call's number, if any
+  contact: CallContact | null
+}
+
+export interface CallContact {
+  id: string
+  // Set only when the contact's name is confirmed; it then replaces callerName
+  name: string | null
 }
 
 export interface TranscriptTurn {

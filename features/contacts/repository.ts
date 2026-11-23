@@ -4,9 +4,9 @@ import { and, desc, eq, exists, ilike, or, sql, type SQL } from "drizzle-orm"
 import { alias } from "drizzle-orm/pg-core"
 
 import {
+  callExtras,
   listColumns,
   newestFirst,
-  todayCallCount,
   toListItem,
 } from "@/features/calls/repository"
 import { isUuid } from "@/features/calls/filters"
@@ -204,7 +204,7 @@ export async function getContactCalls(
     db.query.calls.findMany({
       where,
       columns: listColumns,
-      extras: { todayCallCount },
+      extras: callExtras,
       with: { callCategory: { columns: { name: true, color: true } } },
       orderBy: newestFirst,
       limit,
