@@ -11,12 +11,15 @@ import {
   jsonb,
   boolean,
   check,
+  uniqueIndex,
   primaryKey,
   pgEnum,
 } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const callStatus = pgEnum("call_status", ["new", "in_progress", "done"])
+export const contactSalutation = pgEnum("contact_salutation", ["mr", "mrs"])
+export const contactSource = pgEnum("contact_source", ["call", "manual"])
 export const language = pgEnum("language", ["fr", "nl", "en"])
 
 export const assistants = pgTable(
@@ -81,6 +84,9 @@ export const calls = pgTable(
       withTimezone: true,
       mode: "string",
     }),
+    callerFirstName: text("caller_first_name"),
+    callerLastName: text("caller_last_name"),
+    callerCompanyName: text("caller_company_name"),
   },
   (table) => [
     index("calls_assistant_id_idx").using(
@@ -236,6 +242,80 @@ export const organizationMemberships = pgTable(
     unique("organization_memberships_organization_id_user_id_unique").on(
       table.userId,
       table.organizationId
+    ),
+  ]
+)
+
+export const contacts = pgTable(
+  "contacts",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    organizationId: text("organization_id").notNull(),
+    firstName: text("first_name"),
+    lastName: text("last_name"),
+    companyName: text("company_name"),
+    nameConfirmed: boolean("name_confirmed").default(false).notNull(),
+    nameSourceStartedAt: timestamp("name_source_started_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
+    salutation: contactSalutation(),
+    email: text(),
+    language: language(),
+    source: contactSource().notNull(),
+    createdByUserId: text("created_by_user_id"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("contacts_organization_id_created_at_idx").using(
+      "btree",
+      table.organizationId.asc().nullsLast().op("timestamptz_ops"),
+      table.createdAt.asc().nullsLast().op("timestamptz_ops")
+    ),
+    unique("contacts_id_organization_id_unique").on(
+      table.organizationId,
+      table.id
+    ),
+  ]
+)
+
+export const contactPhoneNumbers = pgTable(
+  "contact_phone_numbers",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    contactId: uuid("contact_id").notNull(),
+    organizationId: text("organization_id").notNull(),
+    number: text().notNull(),
+    isPrimary: boolean("is_primary").default(false).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("contact_phone_numbers_contact_id_idx").using(
+      "btree",
+      table.contactId.asc().nullsLast().op("uuid_ops")
+    ),
+    uniqueIndex("contact_phone_numbers_one_primary_idx")
+      .using("btree", table.contactId.asc().nullsLast().op("uuid_ops"))
+      .where(sql`is_primary`),
+    foreignKey({
+      columns: [table.contactId, table.organizationId],
+      foreignColumns: [contacts.id, contacts.organizationId],
+      name: "contact_phone_numbers_contact_organization_fk",
+    }).onDelete("cascade"),
+    unique("contact_phone_numbers_organization_id_number_unique").on(
+      table.organizationId,
+      table.number
+    ),
+    check(
+      "contact_phone_numbers_number_e164_check",
+      sql`number ~ '^\+[1-9][0-9]{1,14}$'::text`
     ),
   ]
 )

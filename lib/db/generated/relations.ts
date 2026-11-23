@@ -4,6 +4,8 @@ import {
   calls,
   organizationMemberships,
   assistants,
+  contacts,
+  contactPhoneNumbers,
   callCategoryRecipients,
 } from "./schema"
 
@@ -40,6 +42,20 @@ export const organizationMembershipsRelations = relations(
 
 export const assistantsRelations = relations(assistants, ({ many }) => ({
   calls: many(calls),
+}))
+
+export const contactPhoneNumbersRelations = relations(
+  contactPhoneNumbers,
+  ({ one }) => ({
+    contact: one(contacts, {
+      fields: [contactPhoneNumbers.contactId],
+      references: [contacts.id],
+    }),
+  })
+)
+
+export const contactsRelations = relations(contacts, ({ many }) => ({
+  contactPhoneNumbers: many(contactPhoneNumbers),
 }))
 
 export const callCategoryRecipientsRelations = relations(

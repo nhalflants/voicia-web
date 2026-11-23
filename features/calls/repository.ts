@@ -22,7 +22,7 @@ import { calls } from "@/lib/db/generated/schema"
 // Reads go straight to the database; writes go through the NestJS API, which
 // owns them (see lib/db/index.ts)
 
-const listColumns = {
+export const listColumns = {
   id: true,
   callerName: true,
   customerNumber: true,
@@ -41,7 +41,7 @@ const startOfToday = sql`date_trunc('day', now(), ${BUSINESS_TIME_ZONE})`
 // How many calls this number made today, for today's calls; 0 for earlier
 // days. A missing number or start time makes the comparisons null, which
 // counts 0
-const todayCallCount = sql<number>`case
+export const todayCallCount = sql<number>`case
   when ${calls.startedAt} >= ${startOfToday} then (
     select count(*)::int from ${calls} as other
     where other.organization_id = ${calls.organizationId}
@@ -52,7 +52,7 @@ const todayCallCount = sql<number>`case
 end`.as("today_call_count")
 
 // Newest first; calls that never connected have no start time and go last
-const newestFirst = [
+export const newestFirst = [
   sql`${calls.startedAt} desc nulls last`,
   desc(calls.createdAt),
 ]
@@ -166,7 +166,7 @@ async function getOtherCalls(
 
 // isEmpty is null when the structured output didn't run; treat that as a call
 // with something said
-function toListItem<
+export function toListItem<
   T extends { callCategory: CallListItem["category"]; isEmpty: boolean | null },
 >({ callCategory, isEmpty, ...call }: T) {
   return { ...call, category: callCategory, isEmpty: isEmpty ?? false }

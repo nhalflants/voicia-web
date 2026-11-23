@@ -6,7 +6,9 @@ import { auth } from "@clerk/nextjs/server"
 export class ApiError extends Error {
   constructor(
     readonly status: number,
-    message: string
+    message: string,
+    // The parsed JSON body, for fields beyond `message`; null when there is none
+    readonly body: unknown = null
   ) {
     super(message)
     this.name = "ApiError"
@@ -40,7 +42,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
       : typeof body?.message === "string"
         ? body.message
         : res.statusText
-    throw new ApiError(res.status, message)
+    throw new ApiError(res.status, message, body)
   }
   // 204 No Content has no body to parse
   return (res.status === 204 ? undefined : await res.json()) as T
