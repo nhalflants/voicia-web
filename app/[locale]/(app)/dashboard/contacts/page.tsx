@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { auth } from "@clerk/nextjs/server"
 import { getTranslations } from "next-intl/server"
-import { SearchIcon, UsersIcon } from "lucide-react"
+import { UsersIcon } from "lucide-react"
 
 import { DashboardHeader } from "@/components/layout/dashboard-header"
 import {
@@ -12,11 +12,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group"
-import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -25,6 +20,7 @@ import {
 } from "@/components/ui/pagination"
 import { AddContactButton } from "@/features/contacts/components/add-contact-button"
 import { ContactsList } from "@/features/contacts/components/contacts-list"
+import { ContactsSearch } from "@/features/contacts/components/contacts-search"
 import { CONTACTS_PAGE_SIZE } from "@/features/contacts/constants"
 import { getContacts } from "@/features/contacts/repository"
 
@@ -88,21 +84,14 @@ export default async function ContactsPage({
         action={<AddContactButton />}
       />
 
-      {/* A plain GET form: the search lives in the URL, like the calls filters */}
-      <form role="search" className="w-full sm:max-w-sm">
-        <InputGroup>
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupInput
-            type="search"
-            name="q"
-            defaultValue={query}
-            placeholder={t("search")}
-            aria-label={t("search")}
-          />
-        </InputGroup>
-      </form>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <ContactsSearch query={query} />
+        {total > 0 && (
+          <p className="text-sm text-muted-foreground tabular-nums">
+            {t("count", { count: total })}
+          </p>
+        )}
+      </div>
 
       {contacts.length > 0 ? (
         <ContactsList contacts={contacts} />

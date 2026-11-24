@@ -130,6 +130,7 @@
       "description": "Try another name or number."
     },
     "unconfirmed": "Suggested name, not confirmed yet",
+    "count": "{count, plural, one {# contact} other {# contacts}}",
     "callCount": "{count, plural, =0 {No calls} one {# call} other {# calls}}",
     "pagination": {
       "previous": "Previous",
