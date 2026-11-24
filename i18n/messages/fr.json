@@ -162,8 +162,7 @@
       "numberHint": "Les numéros belges peuvent être saisis sans +32.",
       "create": "Ajouter le contact",
       "created": "Contact ajouté",
-      "saved": "Contact enregistré",
-      "nameHint": "Enregistrer un nom le confirme : les appels ne le modifient plus."
+      "saved": "Contact enregistré"
     },
     "errors": {
       "numberRequired": "Ajoutez au moins un numéro de téléphone.",
@@ -181,17 +180,18 @@
       "suggested": "Nom suggéré, d'après les appels",
       "confirm": "Confirmer",
       "confirmed": "Nom confirmé",
+      "moreActions": "Plus d'actions",
       "numbers": "Numéros",
       "primary": "Principal",
       "makePrimary": "Définir comme principal",
       "deleteNumber": "Supprimer {number}",
-      "lastNumberHint": "Un contact doit avoir au moins un numéro",
+      "numberActions": "Actions pour {number}",
       "addNumber": "Ajouter un numéro",
+      "saveNumber": "Ajouter",
       "numberAdded": "Numéro ajouté",
       "numberDeleted": "Numéro supprimé",
       "email": "E-mail",
       "language": "Langue",
-      "firstCall": "Premier appel {date}",
       "lastCall": "Dernier appel {date}",
       "calls": "Appels",
       "noCalls": {

@@ -162,8 +162,7 @@
       "numberHint": "Belgian numbers can be typed without +32.",
       "create": "Add contact",
       "created": "Contact added",
-      "saved": "Contact saved",
-      "nameHint": "Saving a name confirms it, so calls no longer change it."
+      "saved": "Contact saved"
     },
     "errors": {
       "numberRequired": "Add at least one phone number.",
@@ -181,17 +180,18 @@
       "suggested": "Suggested name, from the calls",
       "confirm": "Confirm",
       "confirmed": "Name confirmed",
+      "moreActions": "More actions",
       "numbers": "Numbers",
       "primary": "Primary",
       "makePrimary": "Make primary",
       "deleteNumber": "Delete {number}",
-      "lastNumberHint": "A contact needs at least one number",
+      "numberActions": "Actions for {number}",
       "addNumber": "Add number",
+      "saveNumber": "Add",
       "numberAdded": "Number added",
       "numberDeleted": "Number deleted",
       "email": "Email",
       "language": "Language",
-      "firstCall": "First call {date}",
       "lastCall": "Last call {date}",
       "calls": "Calls",
       "noCalls": {

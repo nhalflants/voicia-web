@@ -1,10 +1,23 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { CheckIcon, PencilIcon, SparklesIcon, Trash2Icon } from "lucide-react"
+import { cn } from "cn"
+import {
+  CheckIcon,
+  EllipsisIcon,
+  PencilIcon,
+  SparklesIcon,
+  Trash2Icon,
+} from "lucide-react"
 import { useFormatter, useLocale, useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { updateContactAction } from "@/features/contacts/actions"
@@ -28,11 +41,15 @@ function ContactHeader({ contact }: { contact: ContactDetail }) {
   const fallback = contact.phoneNumbers[0]
     ? formatPhoneNumber(contact.phoneNumbers[0].number)
     : t("detail.unnamed")
-  const salutation = contact.salutation
-    ? t(`salutations.${contact.salutation}`)
-    : null
-  const date = (value: string) =>
-    format.dateTime(new Date(value), { dateStyle: "medium" })
+  // « Mr » goes with a person's name, not a company or a number
+  const salutation =
+    contact.salutation && (contact.firstName || contact.lastName)
+      ? t(`salutations.${contact.salutation}`)
+      : null
+  const openEditor = () => {
+    setFormKey((key) => key + 1)
+    setEditing(true)
+  }
 
   const confirmName = () => {
     startConfirm(async () => {
@@ -51,48 +68,58 @@ function ContactHeader({ contact }: { contact: ContactDetail }) {
 
   return (
     <section className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
-        <div className="flex min-w-0 flex-1 basis-64 flex-col gap-1">
+      <div className="flex items-start gap-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
           <h1
-            className={
-              name && !contact.nameConfirmed
-                ? "font-heading text-xl font-semibold text-muted-foreground"
-                : "font-heading text-xl font-semibold"
-            }
+            className={cn(
+              "font-heading text-xl leading-tight font-semibold break-words sm:text-2xl",
+              name && !contact.nameConfirmed && "text-muted-foreground",
+              !name && "tabular-nums"
+            )}
           >
             {[salutation, name ?? fallback].filter(Boolean).join(" ")}
           </h1>
           <p className="text-sm text-muted-foreground">
             {[
               t("callCount", { count: contact.callCount }),
-              contact.firstCallAt &&
-                t("detail.firstCall", { date: date(contact.firstCallAt) }),
               contact.lastCallAt &&
-                t("detail.lastCall", { date: date(contact.lastCallAt) }),
+                t("detail.lastCall", {
+                  date: format.dateTime(new Date(contact.lastCallAt), {
+                    dateStyle: "medium",
+                  }),
+                }),
             ]
               .filter(Boolean)
               .join(" · ")}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setFormKey((key) => key + 1)
-              setEditing(true)
-            }}
-          >
+        <div className="flex shrink-0 items-center gap-1">
+          <Button variant="outline" onClick={openEditor}>
             <PencilIcon />
             {tCommon("edit")}
           </Button>
-          <Button
-            variant="ghost"
-            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-            onClick={() => setDeleting(true)}
-          >
-            <Trash2Icon />
-            {tCommon("delete")}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={t("detail.moreActions")}
+                />
+              }
+            >
+              <EllipsisIcon />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-auto">
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => setDeleting(true)}
+              >
+                <Trash2Icon />
+                {t("delete.confirm")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -105,14 +132,7 @@ function ContactHeader({ contact }: { contact: ContactDetail }) {
               {confirming ? <Spinner /> : <CheckIcon />}
               {t("detail.confirm")}
             </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => {
-                setFormKey((key) => key + 1)
-                setEditing(true)
-              }}
-            >
+            <Button size="sm" variant="outline" onClick={openEditor}>
               {tCommon("edit")}
             </Button>
           </div>

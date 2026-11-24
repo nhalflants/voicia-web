@@ -31,13 +31,12 @@ const primaryNumber = alias(contactPhoneNumbers, "primary_number")
 // When a call happened; one that never connected has only its insert time
 const callTime = sql`coalesce(${calls.startedAt}, ${calls.createdAt})`
 
-// Call count, first and last call per contact of the organization
+// Call count and last call per contact of the organization
 function callStats(organizationId: string) {
   return db
     .select({
       contactId: contactPhoneNumbers.contactId,
       callCount: sql<number>`count(*)::int`.as("call_count"),
-      firstCallAt: sql<string>`min(${callTime})`.as("first_call_at"),
       lastCallAt: sql<string>`max(${callTime})`.as("last_call_at"),
     })
     .from(contactPhoneNumbers)
@@ -148,7 +147,6 @@ export async function getContact(
   const [row] = await db
     .select({
       callCount: stats.callCount,
-      firstCallAt: stats.firstCallAt,
       lastCallAt: stats.lastCallAt,
     })
     .from(stats)
@@ -174,7 +172,6 @@ export async function getContact(
     source: contact.source,
     phoneNumbers,
     callCount: row?.callCount ?? 0,
-    firstCallAt: row?.firstCallAt ?? null,
     lastCallAt: row?.lastCallAt ?? null,
   }
 }

@@ -34,7 +34,6 @@ export interface ContactDetail extends ContactName {
   // Primary first, then oldest first
   phoneNumbers: ContactPhoneNumber[]
   callCount: number
-  firstCallAt: string | null
   lastCallAt: string | null
 }
 

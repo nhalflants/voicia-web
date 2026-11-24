@@ -155,7 +155,7 @@ function ContactForm({
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <FieldGroup className="gap-6">
+        <FieldGroup className="gap-4">
           {error && !error.field && (
             <Alert variant="destructive">
               <CircleAlertIcon />
@@ -201,7 +201,6 @@ function ContactForm({
                 maxLength={100}
                 autoComplete="off"
               />
-              <FieldDescription>{t("form.nameHint")}</FieldDescription>
             </Field>
           </FieldSet>
 
@@ -274,7 +273,10 @@ function ContactForm({
           </Field>
 
           {!contact && (
-            <FieldSet data-invalid={numbersInvalid || undefined}>
+            <FieldSet
+              className="gap-3"
+              data-invalid={numbersInvalid || undefined}
+            >
               <FieldLegend variant="label">
                 {t("form.phoneNumbers")}
               </FieldLegend>

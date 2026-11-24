@@ -40,3 +40,4 @@ next-env.d.ts
 
 # clerk migration output
 /scripts/clerk-migration/output/
+.gstack/
