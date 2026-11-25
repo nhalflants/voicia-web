@@ -13,16 +13,22 @@ import { getStripe } from "@/lib/stripe"
 // webhook writes; checkout and the portal go straight to Stripe (see
 // docs/billing.md)
 
-// Each plan has a flat base price and a metered usage price. IDs differ
-// between Stripe test and live mode, so they come from the environment
-const PRICE_IDS: Record<PlanId, { base?: string; usage?: string }> = {
+// Each plan has a flat base price, a metered minute price and a metered SMS
+// price. IDs differ between Stripe test and live mode, so they come from the
+// environment
+const PRICE_IDS: Record<
+  PlanId,
+  { base?: string; usage?: string; sms?: string }
+> = {
   "voicia-120": {
     base: process.env.STRIPE_VOICIA_120_BASE_PRICE_ID,
     usage: process.env.STRIPE_VOICIA_120_USAGE_PRICE_ID,
+    sms: process.env.STRIPE_VOICIA_120_SMS_PRICE_ID,
   },
   "voicia-500": {
     base: process.env.STRIPE_VOICIA_500_BASE_PRICE_ID,
     usage: process.env.STRIPE_VOICIA_500_USAGE_PRICE_ID,
+    sms: process.env.STRIPE_VOICIA_500_SMS_PRICE_ID,
   },
 }
 
@@ -56,8 +62,8 @@ export async function createCheckoutSession(
   billing: OrganizationBilling | null,
   locale: Locale
 ): Promise<string> {
-  const { base, usage } = PRICE_IDS[planId]
-  if (!base || !usage)
+  const { base, usage, sms } = PRICE_IDS[planId]
+  if (!base || !usage || !sms)
     throw new Error(`Stripe prices for ${planId} are not set`)
   const plansUrl = getPlansUrl(locale)
 
@@ -70,6 +76,7 @@ export async function createCheckoutSession(
       { price: base, quantity: 1 },
       // Metered prices take no quantity: Stripe bills what the meter reports
       { price: usage },
+      { price: sms },
     ],
     automatic_tax: { enabled: true },
     tax_id_collection: { enabled: true },

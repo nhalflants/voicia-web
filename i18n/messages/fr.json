@@ -227,6 +227,7 @@
     "perMonth": "/mois HTVA",
     "includedMinutes": "{minutes, number} minutes incluses",
     "extraMinute": "Ensuite {price}/min HTVA",
+    "smsPrice": "SMS aux appelants : {price} l'unité HTVA",
     "choose": "Choisir {plan}",
     "errors": {
       "forbidden": "Seuls les administrateurs de l'organisation peuvent gérer l'abonnement.",

@@ -21,13 +21,13 @@ Stripe ──subscription events──▶ POST /stripe/webhook ──▶ organiz
 | Voicia 120 | €60/month  | 0–120 at €0, then €0.25                            |
 | Voicia 500 | €150/month | 0–500 at €0, then €0.20                            |
 
-Prices exclude VAT. Each plan has two prices: a usage-only price would bill the flat fee at the end of the month instead of up front.
+Prices exclude VAT. Each plan has three prices: a usage-only price would bill the flat fee at the end of the month instead of up front, and SMS sent to callers have their own per-unit price (€0.25 on Voicia 120, €0.20 on Voicia 500, from the first SMS) so they show on their own invoice line.
 
 ## Frontend
 
 The Next.js app handles checkout and the customer portal, on the server, because both need the Stripe secret key. Restrict both to organization admins.
 
-**Checkout:** create a Checkout session in `subscription` mode with both of the plan's prices. Pass:
+**Checkout:** create a Checkout session in `subscription` mode with the plan's three prices (base, minutes, SMS). Pass:
 
 - `client_reference_id`: the Clerk organization ID. This is how the webhook links the subscription.
 - `customer`: the existing `stripe_customer_id`, if the organization has a row.
@@ -43,8 +43,10 @@ Refuse checkout unless the organization has no row, or its `status` is `canceled
 STRIPE_SECRET_KEY=rk_...                 # restricted key: Checkout Sessions write, Customer portal write
 STRIPE_VOICIA_120_BASE_PRICE_ID=price_...
 STRIPE_VOICIA_120_USAGE_PRICE_ID=price_...
+STRIPE_VOICIA_120_SMS_PRICE_ID=price_...
 STRIPE_VOICIA_500_BASE_PRICE_ID=price_...
 STRIPE_VOICIA_500_USAGE_PRICE_ID=price_...
+STRIPE_VOICIA_500_SMS_PRICE_ID=price_...
 APP_URL=https://...                      # where Stripe sends users back
 ```
 
@@ -56,6 +58,6 @@ The plan cards in `features/billing/constants.ts` repeat the prices for display.
 
 ## Changing plan
 
-Stripe's customer portal can't update subscriptions with usage-based prices, only cancel them. Change the plan in the Stripe Dashboard, effective at renewal, replacing both the base and usage prices. The webhook picks up the change.
+Stripe's customer portal can't update subscriptions with usage-based prices, only cancel them. Change the plan in the Stripe Dashboard, effective at renewal, replacing the base, usage and SMS prices. The webhook picks up the change.
 
 Never add a second subscription for a customer who already has one, for the same reason as above.

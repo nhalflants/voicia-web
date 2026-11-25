@@ -227,6 +227,7 @@
     "perMonth": "/month excl. VAT",
     "includedMinutes": "{minutes, number} minutes included",
     "extraMinute": "Then {price}/min excl. VAT",
+    "smsPrice": "SMS to callers: {price} each excl. VAT",
     "choose": "Choose {plan}",
     "errors": {
       "forbidden": "Only organization admins can manage the subscription.",

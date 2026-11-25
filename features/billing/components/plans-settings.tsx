@@ -157,6 +157,15 @@ function PlansSettings({
                     }),
                   })}
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckIcon className="size-4 shrink-0 text-muted-foreground" />
+                  {t("smsPrice", {
+                    price: format.number(plan.smsPrice, {
+                      style: "currency",
+                      currency: "EUR",
+                    }),
+                  })}
+                </li>
               </ul>
             </CardContent>
             <CardFooter className="mt-auto">
