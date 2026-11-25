@@ -50,6 +50,8 @@ STRIPE_VOICIA_500_SMS_PRICE_ID=price_...
 APP_URL=https://...                      # where Stripe sends users back
 ```
 
+Checkout refuses to start until both `STRIPE_VOICIA_*_SMS_PRICE_ID` are set: set them before deploying.
+
 The plan cards in `features/billing/constants.ts` repeat the prices for display. Change them with the Stripe prices.
 
 **Portal:** create a portal session with the row's `stripe_customer_id`.
