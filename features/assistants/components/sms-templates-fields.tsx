@@ -1,17 +1,15 @@
 "use client"
 
+import { useRef } from "react"
 import { useTranslations } from "next-intl"
 
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field"
+import { Field, FieldDescription, FieldError } from "@/components/ui/field"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  VariableChips,
+  insertVariable,
+} from "@/features/assistants/components/variable-chips"
 import {
   nonGsmCharacters,
   normalizeTypography,
@@ -22,16 +20,6 @@ import {
   type SmsLanguage,
   type SmsTemplates,
 } from "@/features/assistants/types"
-
-// Caller variables the API accepts in a message (src/vapi/caller-greeting.ts)
-const VARIABLES = [
-  "customerFirstName",
-  "customerLastName",
-  "customerSalutation",
-  "customerCompanyName",
-]
-  .map((name) => `{{${name}}}`)
-  .join(", ")
 
 export type SmsDrafts = Record<SmsLanguage, string>
 
@@ -55,48 +43,91 @@ export function toSmsTemplates(drafts: SmsDrafts): SmsTemplates | null {
 }
 
 export function smsTooLong(drafts: SmsDrafts): boolean {
-  return SMS_LANGUAGES.some((language) => {
-    const { units, limit } = templateLength(
-      normalizeTypography(drafts[language]).trim()
-    )
-    return units > limit
-  })
+  return SMS_LANGUAGES.some((language) => smsLength(drafts[language]).tooLong)
 }
 
+function smsLength(draft: string) {
+  const value = normalizeTypography(draft).trim()
+  const { units, limit } = templateLength(value)
+  return { value, units, limit, tooLong: units > limit }
+}
+
+// The language tab to open first: the first one with a message
+export function firstSmsLanguage(drafts: SmsDrafts): SmsLanguage {
+  return SMS_LANGUAGES.find((language) => drafts[language].trim()) ?? "fr"
+}
+
+// One message per language, one language shown at a time
 export function SmsTemplatesFields({
   drafts,
   onChange,
   errors,
+  language,
+  onLanguageChange,
+  readOnly,
 }: {
   drafts: SmsDrafts
   onChange: (language: SmsLanguage, value: string) => void
   // API errors by language
   errors: Partial<Record<SmsLanguage, string>>
+  language: SmsLanguage
+  onLanguageChange: (language: SmsLanguage) => void
+  readOnly?: boolean
 }) {
   const t = useTranslations("Assistants.form.sms")
+  // Only the open tab's textarea is mounted
+  const textarea = useRef<HTMLTextAreaElement>(null)
 
   return (
-    <FieldSet>
-      <FieldLegend>{t("title")}</FieldLegend>
-      <FieldDescription>{t("description")}</FieldDescription>
-      <FieldGroup className="gap-5">
-        {SMS_LANGUAGES.map((language) => {
-          const value = normalizeTypography(drafts[language]).trim()
-          const { units, limit } = templateLength(value)
-          const offenders = limit === 70 ? nonGsmCharacters(value) : []
-          const tooLong = units > limit
-          const apiError = errors[language]
-          const invalid = tooLong || !!apiError
-          const id = `assistant-sms-${language}`
+    <Tabs
+      value={language}
+      onValueChange={(value) => onLanguageChange(value as SmsLanguage)}
+      className="gap-3"
+    >
+      <TabsList aria-label={t("language")}>
+        {SMS_LANGUAGES.map((tab) => {
+          const invalid = smsLength(drafts[tab]).tooLong || !!errors[tab]
+          const filled = drafts[tab].trim() !== ""
           return (
-            <Field key={language} data-invalid={invalid || undefined}>
-              <FieldLabel htmlFor={id}>{t(`languages.${language}`)}</FieldLabel>
+            <TabsTrigger key={tab} value={tab} className="px-3">
+              {t(`languages.${tab}`)}
+              {(invalid || filled) && (
+                <span
+                  aria-hidden
+                  className={
+                    invalid
+                      ? "size-1.5 rounded-full bg-destructive"
+                      : "size-1.5 rounded-full bg-primary"
+                  }
+                />
+              )}
+              {invalid && <span className="sr-only">{t("tabInvalid")}</span>}
+              {!invalid && !filled && (
+                <span className="sr-only">{t("tabEmpty")}</span>
+              )}
+            </TabsTrigger>
+          )
+        })}
+      </TabsList>
+
+      {SMS_LANGUAGES.map((tab) => {
+        const { value, units, limit, tooLong } = smsLength(drafts[tab])
+        const offenders = limit === 70 ? nonGsmCharacters(value) : []
+        const apiError = errors[tab]
+        const invalid = tooLong || !!apiError
+        return (
+          <TabsContent key={tab} value={tab}>
+            <Field data-invalid={invalid || undefined}>
               <Textarea
-                id={id}
-                value={drafts[language]}
-                onChange={(event) => onChange(language, event.target.value)}
+                ref={textarea}
+                aria-label={t("messageIn", {
+                  language: t(`languages.${tab}`),
+                })}
+                value={drafts[tab]}
+                onChange={(event) => onChange(tab, event.target.value)}
                 placeholder={t("placeholder")}
                 rows={3}
+                readOnly={readOnly}
                 aria-invalid={invalid || undefined}
               />
               {apiError && <FieldError>{apiError}</FieldError>}
@@ -117,11 +148,27 @@ export function SmsTemplatesFields({
                   </span>
                 )}
               </FieldDescription>
+              {!readOnly && (
+                <>
+                  <VariableChips
+                    onInsert={(name) =>
+                      insertVariable(
+                        textarea.current,
+                        drafts[tab],
+                        name,
+                        (text) => onChange(tab, text)
+                      )
+                    }
+                  />
+                  <FieldDescription className="text-xs">
+                    {t("variablesHint")}
+                  </FieldDescription>
+                </>
+              )}
             </Field>
-          )
-        })}
-      </FieldGroup>
-      <FieldDescription>{t("variables", { list: VARIABLES })}</FieldDescription>
-    </FieldSet>
+          </TabsContent>
+        )
+      })}
+    </Tabs>
   )
 }

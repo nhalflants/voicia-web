@@ -249,12 +249,10 @@
     "quoted": "“{message}”",
     "noFirstMessage": "No first message",
     "form": {
-      "title": "Edit assistant",
       "name": "Name",
       "namePlaceholder": "e.g. Front desk",
       "firstMessage": "First message",
       "firstMessagePlaceholder": "e.g. Hello, you've reached the Dupont practice. How can I help you?",
-      "firstMessageHint": "What callers hear when the assistant picks up.",
       "saved": "Assistant saved",
       "errors": {
         "nameRequired": "Enter a name.",
@@ -262,7 +260,7 @@
       },
       "sms": {
         "title": "Text message to the caller",
-        "description": "During a call, the assistant can offer to text this message to a caller on a Belgian mobile. It comes from a number they don't know, so start with your business name.",
+        "description": "During a call, the assistant can offer to text this to a caller on a Belgian mobile.",
         "languages": {
           "fr": "French",
           "nl": "Dutch",
@@ -273,13 +271,45 @@
         "empty": "Leave empty to send nothing in this language.",
         "ucs2": "Because of {characters}, one SMS holds 70 characters instead of 160. Replace them to get 160.",
         "tooLong": "Too long for one SMS ({limit} characters max).",
-        "variables": "You can use {list}. They stay empty when the caller isn't a known contact, and each counts as 20 characters."
-      }
+        "off": {
+          "badge": "Off",
+          "description": "During a call, the assistant can text the caller a link or useful info, e.g. to book an appointment. Contact us to turn it on.",
+          "contact": "Contact us"
+        },
+        "language": "Language",
+        "tabInvalid": "(has an error)",
+        "tabEmpty": "(empty)",
+        "messageIn": "Text message ({language})",
+        "variablesHint": "Variables stay empty when the caller isn't a known contact, and each counts as 20 characters."
+      },
+      "general": {
+        "title": "General"
+      },
+      "unsaved": "Unsaved changes",
+      "discard": "Discard",
+      "leave": {
+        "title": "Leave without saving?",
+        "description": "Your changes to this assistant will be lost.",
+        "stay": "Keep editing",
+        "confirm": "Leave"
+      },
+      "variables": {
+        "insert": "Insert:",
+        "customerFirstName": "First name",
+        "customerLastName": "Last name",
+        "customerSalutation": "Salutation",
+        "customerCompanyName": "Company"
+      },
+      "firstMessageHint": "What callers hear when the assistant picks up."
     },
     "errors": {
       "forbidden": "Only organization admins can change assistants.",
       "notFound": "This assistant no longer exists.",
       "phoneLine": "We couldn't update your phone line. Nothing was saved, please try again."
+    },
+    "page": {
+      "back": "Assistants",
+      "description": "How your assistant greets callers and what it can text them."
     }
   },
   "CallCategories": {

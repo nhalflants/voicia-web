@@ -249,12 +249,10 @@
     "quoted": "« {message} »",
     "noFirstMessage": "Pas de message d'accueil",
     "form": {
-      "title": "Modifier l'assistant",
       "name": "Nom",
       "namePlaceholder": "ex. Accueil",
       "firstMessage": "Message d'accueil",
       "firstMessagePlaceholder": "ex. Bonjour, vous êtes bien au cabinet Dupont. Comment puis-je vous aider ?",
-      "firstMessageHint": "Ce que les appelants entendent quand l'assistant décroche.",
       "saved": "Assistant enregistré",
       "errors": {
         "nameRequired": "Saisissez un nom.",
@@ -262,7 +260,7 @@
       },
       "sms": {
         "title": "SMS envoyé à l'appelant",
-        "description": "Pendant l'appel, l'assistant peut proposer d'envoyer ce message par SMS à un appelant sur un mobile belge. Il arrive d'un numéro que l'appelant ne connaît pas : commencez par le nom de votre entreprise.",
+        "description": "Pendant l'appel, l'assistant peut proposer d'envoyer ce SMS à un appelant sur un mobile belge.",
         "languages": {
           "fr": "Français",
           "nl": "Néerlandais",
@@ -273,13 +271,45 @@
         "empty": "Laissez vide pour ne rien envoyer dans cette langue.",
         "ucs2": "À cause de {characters}, un SMS ne contient que 70 caractères au lieu de 160. Remplacez-les pour retrouver 160.",
         "tooLong": "Trop long pour un SMS ({limit} caractères maximum).",
-        "variables": "Vous pouvez utiliser {list}. Elles restent vides si l'appelant n'est pas un contact connu, et chacune compte pour 20 caractères."
-      }
+        "off": {
+          "badge": "Désactivé",
+          "description": "Pendant l'appel, l'assistant peut envoyer par SMS un lien ou une info utile à l'appelant, par exemple pour prendre rendez-vous. Contactez-nous pour l'activer.",
+          "contact": "Nous contacter"
+        },
+        "language": "Langue",
+        "tabInvalid": "(contient une erreur)",
+        "tabEmpty": "(vide)",
+        "messageIn": "SMS ({language})",
+        "variablesHint": "Les variables restent vides si l'appelant n'est pas un contact connu, et chacune compte pour 20 caractères."
+      },
+      "general": {
+        "title": "Général"
+      },
+      "unsaved": "Modifications non enregistrées",
+      "discard": "Annuler les modifications",
+      "leave": {
+        "title": "Quitter sans enregistrer ?",
+        "description": "Vos modifications de cet assistant seront perdues.",
+        "stay": "Continuer la modification",
+        "confirm": "Quitter"
+      },
+      "variables": {
+        "insert": "Insérer :",
+        "customerFirstName": "Prénom",
+        "customerLastName": "Nom",
+        "customerSalutation": "Civilité",
+        "customerCompanyName": "Entreprise"
+      },
+      "firstMessageHint": "Ce que les appelants entendent quand l'assistant décroche."
     },
     "errors": {
       "forbidden": "Seuls les administrateurs de l'organisation peuvent modifier les assistants.",
       "notFound": "Cet assistant n'existe plus.",
       "phoneLine": "Nous n'avons pas pu mettre à jour votre ligne téléphonique. Rien n'a été enregistré, veuillez réessayer."
+    },
+    "page": {
+      "back": "Assistants",
+      "description": "Comment votre assistant accueille les appelants et ce qu'il peut leur envoyer par SMS."
     }
   },
   "CallCategories": {

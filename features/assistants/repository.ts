@@ -1,12 +1,13 @@
 import "server-only"
 
-import { eq } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 
 import type {
   Assistant,
   AssistantUpdate,
   SmsTemplates,
 } from "@/features/assistants/types"
+import { isUuid } from "@/features/calls/filters"
 import { api } from "@/lib/api"
 import { db } from "@/lib/db"
 import { assistants } from "@/lib/db/generated/schema"
@@ -14,29 +15,61 @@ import { assistants } from "@/lib/db/generated/schema"
 // Reads go straight to the database; writes go through the NestJS API, which
 // owns them (see lib/db/index.ts)
 
+// The system prompt is never selected: it isn't shown to anyone
+const columns = {
+  id: assistants.id,
+  name: assistants.name,
+  firstMessage: assistants.firstMessage,
+  phoneNumber: assistants.phoneNumber,
+  smsEnabled: assistants.smsEnabled,
+  smsTemplates: assistants.smsTemplates,
+}
+
+function toAssistant({
+  phoneNumber,
+  smsEnabled,
+  smsTemplates,
+  ...assistant
+}: {
+  id: string
+  name: string
+  firstMessage: string | null
+  phoneNumber: string | null
+  smsEnabled: boolean
+  smsTemplates: unknown
+}): Assistant {
+  return {
+    ...assistant,
+    smsEnabled: smsEnabled && phoneNumber !== null,
+    smsTemplates: smsTemplates as SmsTemplates | null,
+  }
+}
+
 export async function getAssistants(
   organizationId: string
 ): Promise<Assistant[]> {
-  // The system prompt is never selected: it isn't shown to anyone
   const rows = await db
-    .select({
-      id: assistants.id,
-      name: assistants.name,
-      firstMessage: assistants.firstMessage,
-      phoneNumber: assistants.phoneNumber,
-      smsEnabled: assistants.smsEnabled,
-      smsTemplates: assistants.smsTemplates,
-    })
+    .select(columns)
     .from(assistants)
     .where(eq(assistants.organizationId, organizationId))
 
-  return rows
-    .map(({ phoneNumber, smsEnabled, smsTemplates, ...assistant }) => ({
-      ...assistant,
-      smsEnabled: smsEnabled && phoneNumber !== null,
-      smsTemplates: smsTemplates as SmsTemplates | null,
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name))
+  return rows.map(toAssistant).sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export async function getAssistant(
+  organizationId: string,
+  id: string
+): Promise<Assistant | null> {
+  // The id is a uuid column: anything else would make Postgres throw
+  if (!isUuid(id)) return null
+  const [row] = await db
+    .select(columns)
+    .from(assistants)
+    .where(
+      and(eq(assistants.organizationId, organizationId), eq(assistants.id, id))
+    )
+    .limit(1)
+  return row ? toAssistant(row) : null
 }
 
 // The organization comes from the session token, never from the body. A first
