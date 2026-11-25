@@ -5,11 +5,11 @@ import {
   uuid,
   text,
   timestamp,
+  jsonb,
+  boolean,
   foreignKey,
   integer,
   numeric,
-  jsonb,
-  boolean,
   check,
   uniqueIndex,
   primaryKey,
@@ -17,6 +17,11 @@ import {
 } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
+export const calendarConnectionStatus = pgEnum("calendar_connection_status", [
+  "active",
+  "disconnected",
+])
+export const calendarProvider = pgEnum("calendar_provider", ["google"])
 export const callStatus = pgEnum("call_status", ["new", "in_progress", "done"])
 export const contactSalutation = pgEnum("contact_salutation", ["mr", "mrs"])
 export const contactSource = pgEnum("contact_source", ["call", "manual"])
@@ -43,6 +48,9 @@ export const assistants = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),
+    externalPhoneNumberId: text("external_phone_number_id"),
+    defaultLanguage: language("default_language").default("fr").notNull(),
+    knownCallerGreetings: jsonb("known_caller_greetings"),
     phoneNumber: text("phone_number"),
     smsEnabled: boolean("sms_enabled").default(false).notNull(),
     smsTemplates: jsonb("sms_templates"),
@@ -54,6 +62,9 @@ export const assistants = pgTable(
     ),
     unique("assistants_external_assistant_id_unique").on(
       table.externalAssistantId
+    ),
+    unique("assistants_external_phone_number_id_unique").on(
+      table.externalPhoneNumberId
     ),
   ]
 )
@@ -325,6 +336,47 @@ export const contactPhoneNumbers = pgTable(
   ]
 )
 
+export const smsMessages = pgTable(
+  "sms_messages",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    organizationId: text("organization_id").notNull(),
+    assistantId: uuid("assistant_id").notNull(),
+    externalCallId: text("external_call_id").notNull(),
+    toNumber: text("to_number").notNull(),
+    language: language().notNull(),
+    text: text().notNull(),
+    status: smsStatus().default("pending").notNull(),
+    externalMessageId: text("external_message_id"),
+    parts: integer(),
+    error: text(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    usageReportedAt: timestamp("usage_reported_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
+  },
+  (table) => [
+    index("sms_messages_org_to_created_idx").using(
+      "btree",
+      table.organizationId.asc().nullsLast().op("text_ops"),
+      table.toNumber.asc().nullsLast().op("timestamptz_ops"),
+      table.createdAt.asc().nullsLast().op("timestamptz_ops")
+    ),
+    foreignKey({
+      columns: [table.assistantId],
+      foreignColumns: [assistants.id],
+      name: "sms_messages_assistant_id_assistants_id_fk",
+    }).onDelete("cascade"),
+    unique("sms_messages_external_call_id_unique").on(table.externalCallId),
+  ]
+)
+
 export const callCategoryRecipients = pgTable(
   "call_category_recipients",
   {
@@ -361,42 +413,5 @@ export const callCategoryRecipients = pgTable(
       columns: [table.userId, table.categoryId],
       name: "call_category_recipients_category_id_user_id_pk",
     }),
-  ]
-)
-
-export const smsMessages = pgTable(
-  "sms_messages",
-  {
-    id: uuid().defaultRandom().primaryKey().notNull(),
-    organizationId: text("organization_id").notNull(),
-    assistantId: uuid("assistant_id").notNull(),
-    externalCallId: text("external_call_id").notNull(),
-    toNumber: text("to_number").notNull(),
-    language: language().notNull(),
-    text: text().notNull(),
-    status: smsStatus().default("pending").notNull(),
-    externalMessageId: text("external_message_id"),
-    parts: integer(),
-    error: text(),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
-      .defaultNow()
-      .notNull(),
-  },
-  (table) => [
-    index("sms_messages_org_to_created_idx").using(
-      "btree",
-      table.organizationId.asc().nullsLast().op("text_ops"),
-      table.toNumber.asc().nullsLast().op("text_ops"),
-      table.createdAt.asc().nullsLast().op("timestamptz_ops")
-    ),
-    foreignKey({
-      columns: [table.assistantId],
-      foreignColumns: [assistants.id],
-      name: "sms_messages_assistant_id_assistants_id_fk",
-    }).onDelete("cascade"),
-    unique("sms_messages_external_call_id_unique").on(table.externalCallId),
   ]
 )

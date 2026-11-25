@@ -21,7 +21,7 @@ Stripe ──subscription events──▶ POST /stripe/webhook ──▶ organiz
 | Voicia 120 | €60/month  | 0–120 at €0, then €0.25                            |
 | Voicia 500 | €150/month | 0–500 at €0, then €0.20                            |
 
-Prices exclude VAT. Each plan has three prices: a usage-only price would bill the flat fee at the end of the month instead of up front, and SMS sent to callers have their own per-unit price (€0.25 on Voicia 120, €0.20 on Voicia 500, from the first SMS) so they show on their own invoice line.
+Prices exclude VAT. Each plan has three prices: a usage-only price would bill the flat fee at the end of the month instead of up front, and SMS sent to callers have their own per-unit price (€0.16 on every plan, from the first SMS) so they show on their own invoice line. That SMS price belongs to a separate `Voicia SMS` product and is shared by all plans.
 
 ## Frontend
 
@@ -43,14 +43,13 @@ Refuse checkout unless the organization has no row, or its `status` is `canceled
 STRIPE_SECRET_KEY=rk_...                 # restricted key: Checkout Sessions write, Customer portal write
 STRIPE_VOICIA_120_BASE_PRICE_ID=price_...
 STRIPE_VOICIA_120_USAGE_PRICE_ID=price_...
-STRIPE_VOICIA_120_SMS_PRICE_ID=price_...
 STRIPE_VOICIA_500_BASE_PRICE_ID=price_...
 STRIPE_VOICIA_500_USAGE_PRICE_ID=price_...
-STRIPE_VOICIA_500_SMS_PRICE_ID=price_...
+STRIPE_SMS_PRICE_ID=price_...            # one SMS price, shared by every plan
 APP_URL=https://...                      # where Stripe sends users back
 ```
 
-Checkout refuses to start until both `STRIPE_VOICIA_*_SMS_PRICE_ID` are set: set them before deploying.
+Checkout refuses to start until `STRIPE_SMS_PRICE_ID` is set: set it before deploying.
 
 The plan cards in `features/billing/constants.ts` repeat the prices for display. Change them with the Stripe prices.
 
@@ -60,6 +59,6 @@ The plan cards in `features/billing/constants.ts` repeat the prices for display.
 
 ## Changing plan
 
-Stripe's customer portal can't update subscriptions with usage-based prices, only cancel them. Change the plan in the Stripe Dashboard, effective at renewal, replacing the base, usage and SMS prices. The webhook picks up the change.
+Stripe's customer portal can't update subscriptions with usage-based prices, only cancel them. Change the plan in the Stripe Dashboard, effective at renewal, replacing the base and usage prices; the SMS price is the same on every plan and stays. The webhook picks up the change.
 
 Never add a second subscription for a customer who already has one, for the same reason as above.

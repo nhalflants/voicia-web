@@ -7,8 +7,6 @@ export interface Plan {
   monthlyPrice: number
   includedMinutes: number
   extraMinutePrice: number
-  // Per SMS sent to a caller, from the first one
-  smsPrice: number
 }
 
 export interface OrganizationBilling {

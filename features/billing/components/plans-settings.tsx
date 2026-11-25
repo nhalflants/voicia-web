@@ -26,7 +26,7 @@ import {
   startCheckoutAction,
   type ActionResult,
 } from "@/features/billing/actions"
-import { PLANS } from "@/features/billing/constants"
+import { PLANS, SMS_PRICE } from "@/features/billing/constants"
 import type { PlanId, SubscriptionState } from "@/features/billing/types"
 
 function PlansSettings({
@@ -160,7 +160,7 @@ function PlansSettings({
                 <li className="flex items-center gap-2">
                   <CheckIcon className="size-4 shrink-0 text-muted-foreground" />
                   {t("smsPrice", {
-                    price: format.number(plan.smsPrice, {
+                    price: format.number(SMS_PRICE, {
                       style: "currency",
                       currency: "EUR",
                     }),

@@ -9,7 +9,6 @@ export const PLANS: Plan[] = [
     monthlyPrice: 60,
     includedMinutes: 120,
     extraMinutePrice: 0.25,
-    smsPrice: 0.25,
   },
   {
     id: "voicia-500",
@@ -17,6 +16,9 @@ export const PLANS: Plan[] = [
     monthlyPrice: 150,
     includedMinutes: 500,
     extraMinutePrice: 0.2,
-    smsPrice: 0.2,
   },
 ]
+
+// Per SMS sent to a caller, from the first one, on every plan. Display copy
+// only, like PLANS
+export const SMS_PRICE = 0.16
