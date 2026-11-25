@@ -44,14 +44,6 @@ export interface CallDetail extends CallListItem {
   // many there are in all
   otherCalls: CallListItem[]
   otherCallsTotal: number
-  // The SMS the assistant texted the caller during the call; null when none
-  // was sent or tried
-  sms: CallSms | null
-}
-
-export interface CallSms {
-  status: "sent" | "failed"
-  text: string
 }
 
 // "open" groups the calls someone still has to act on
