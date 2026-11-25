@@ -13,13 +13,19 @@ import type {
   CallDetail,
   CallFilters,
   CallListItem,
+  CallSms,
   CallUpdate,
   TranscriptTurn,
 } from "@/features/calls/types"
 import { displayName } from "@/features/contacts/display-name"
 import { api } from "@/lib/api"
 import { db } from "@/lib/db"
-import { calls, contactPhoneNumbers, contacts } from "@/lib/db/generated/schema"
+import {
+  calls,
+  contactPhoneNumbers,
+  contacts,
+  smsMessages,
+} from "@/lib/db/generated/schema"
 
 // Reads go straight to the database; writes go through the NestJS API, which
 // owns them (see lib/db/index.ts)
@@ -144,6 +150,7 @@ export async function getCall(
       endedReason: true,
       transcript: true,
       recordingUrl: true,
+      externalCallId: true,
     },
     extras: callExtras,
     with: {
@@ -160,9 +167,13 @@ export async function getCall(
     recordingUrl,
     isEmpty,
     contact,
+    externalCallId,
     ...call
   } = row
-  const otherCalls = await getOtherCalls(organizationId, call)
+  const [otherCalls, sms] = await Promise.all([
+    getOtherCalls(organizationId, call),
+    getCallSms(organizationId, externalCallId),
+  ])
   return {
     ...call,
     contact: toCallContact(contact),
@@ -173,7 +184,28 @@ export async function getCall(
     hasRecording: Boolean(recordingUrl),
     otherCalls: otherCalls.calls,
     otherCallsTotal: otherCalls.total,
+    sms,
   }
+}
+
+// Only sent or failed SMS mean something to the business; pending and
+// refused ones (a limit stopped them) are left out
+async function getCallSms(
+  organizationId: string,
+  externalCallId: string
+): Promise<CallSms | null> {
+  const [row] = await db
+    .select({ status: smsMessages.status, text: smsMessages.text })
+    .from(smsMessages)
+    .where(
+      and(
+        eq(smsMessages.organizationId, organizationId),
+        eq(smsMessages.externalCallId, externalCallId)
+      )
+    )
+    .limit(1)
+  if (row?.status !== "sent" && row?.status !== "failed") return null
+  return { status: row.status, text: row.text }
 }
 
 // Every other call from the same number in this organization, earlier and

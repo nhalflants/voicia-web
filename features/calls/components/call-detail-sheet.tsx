@@ -252,6 +252,20 @@ function CallPanel({
           </p>
         </section>
 
+        {detail?.sms && (
+          <section className="flex flex-col gap-2">
+            <h3 className="font-medium">{t("detail.sms")}</h3>
+            <p className="text-muted-foreground">
+              {detail.sms.status === "sent"
+                ? t("detail.smsSent")
+                : t("detail.smsFailed")}
+            </p>
+            <p className="rounded-md bg-muted px-3 py-2 leading-relaxed whitespace-pre-line">
+              {detail.sms.text}
+            </p>
+          </section>
+        )}
+
         {detail && (
           <CallHistory
             calls={detail.otherCalls}
