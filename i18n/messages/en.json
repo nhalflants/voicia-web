@@ -256,6 +256,21 @@
       "errors": {
         "nameRequired": "Enter a name.",
         "firstMessageRequired": "Enter a first message."
+      },
+      "sms": {
+        "title": "Text message to the caller",
+        "description": "During a call, the assistant can offer to text this message to a caller on a Belgian mobile. It comes from a number they don't know, so start with your business name.",
+        "languages": {
+          "fr": "French",
+          "nl": "Dutch",
+          "en": "English"
+        },
+        "placeholder": "e.g. Dupont practice: book your appointment at https://…",
+        "oneSms": "Fits in one SMS.",
+        "empty": "Leave empty to send nothing in this language.",
+        "ucs2": "Because of {characters}, one SMS holds 70 characters instead of 160. Replace them to get 160.",
+        "tooLong": "Too long for one SMS ({limit} characters max).",
+        "variables": "You can use {list}. They stay empty when the caller isn't a known contact, and each counts as 20 characters."
       }
     },
     "errors": {

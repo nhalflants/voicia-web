@@ -2,7 +2,11 @@ import "server-only"
 
 import { eq } from "drizzle-orm"
 
-import type { Assistant, AssistantUpdate } from "@/features/assistants/types"
+import type {
+  Assistant,
+  AssistantUpdate,
+  SmsTemplates,
+} from "@/features/assistants/types"
 import { api } from "@/lib/api"
 import { db } from "@/lib/db"
 import { assistants } from "@/lib/db/generated/schema"
@@ -19,11 +23,20 @@ export async function getAssistants(
       id: assistants.id,
       name: assistants.name,
       firstMessage: assistants.firstMessage,
+      phoneNumber: assistants.phoneNumber,
+      smsEnabled: assistants.smsEnabled,
+      smsTemplates: assistants.smsTemplates,
     })
     .from(assistants)
     .where(eq(assistants.organizationId, organizationId))
 
-  return rows.sort((a, b) => a.name.localeCompare(b.name))
+  return rows
+    .map(({ phoneNumber, smsEnabled, smsTemplates, ...assistant }) => ({
+      ...assistant,
+      smsEnabled: smsEnabled && phoneNumber !== null,
+      smsTemplates: smsTemplates as SmsTemplates | null,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 }
 
 // The organization comes from the session token, never from the body. A first
@@ -44,5 +57,6 @@ function toBody(update: AssistantUpdate) {
   return JSON.stringify({
     name: update.name,
     firstMessage: update.firstMessage,
+    smsTemplates: update.smsTemplates,
   })
 }

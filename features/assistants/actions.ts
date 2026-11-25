@@ -4,13 +4,15 @@ import { refresh } from "next/cache"
 import { getTranslations } from "next-intl/server"
 
 import { updateAssistant } from "@/features/assistants/repository"
-import type { AssistantUpdate } from "@/features/assistants/types"
+import type { AssistantUpdate, SmsLanguage } from "@/features/assistants/types"
 import { isOrganizationAdmin } from "@/features/org/auth"
 import { actionLocale } from "@/i18n/action-locale"
 import { ApiError } from "@/lib/api"
 
+export type AssistantField = "name" | "firstMessage" | `sms.${SmsLanguage}`
+
 export type ActionResult =
-  { ok: true } | { ok: false; field?: "name" | "firstMessage"; message: string }
+  { ok: true } | { ok: false; field?: AssistantField; message: string }
 
 export async function updateAssistantAction(
   id: string,
@@ -48,6 +50,14 @@ async function toErrorResult(
       }
       if (error.message.startsWith("name")) {
         return { ok: false, field: "name", message: error.message }
+      }
+      {
+        // e.g. "smsTemplates.fr: Too long for one SMS: 75/70 (because of ê)"
+        const sms = /^smsTemplates\.(fr|nl|en)\b/.exec(error.message)
+        if (sms) {
+          const language = sms[1] as SmsLanguage
+          return { ok: false, field: `sms.${language}`, message: error.message }
+        }
       }
       return { ok: false, message: error.message }
     case 401:

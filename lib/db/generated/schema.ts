@@ -21,6 +21,12 @@ export const callStatus = pgEnum("call_status", ["new", "in_progress", "done"])
 export const contactSalutation = pgEnum("contact_salutation", ["mr", "mrs"])
 export const contactSource = pgEnum("contact_source", ["call", "manual"])
 export const language = pgEnum("language", ["fr", "nl", "en"])
+export const smsStatus = pgEnum("sms_status", [
+  "pending",
+  "sent",
+  "failed",
+  "refused",
+])
 
 export const assistants = pgTable(
   "assistants",
@@ -37,6 +43,9 @@ export const assistants = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),
+    phoneNumber: text("phone_number"),
+    smsEnabled: boolean("sms_enabled").default(false).notNull(),
+    smsTemplates: jsonb("sms_templates"),
   },
   (table) => [
     index("assistants_organization_id_idx").using(
@@ -352,5 +361,42 @@ export const callCategoryRecipients = pgTable(
       columns: [table.userId, table.categoryId],
       name: "call_category_recipients_category_id_user_id_pk",
     }),
+  ]
+)
+
+export const smsMessages = pgTable(
+  "sms_messages",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    organizationId: text("organization_id").notNull(),
+    assistantId: uuid("assistant_id").notNull(),
+    externalCallId: text("external_call_id").notNull(),
+    toNumber: text("to_number").notNull(),
+    language: language().notNull(),
+    text: text().notNull(),
+    status: smsStatus().default("pending").notNull(),
+    externalMessageId: text("external_message_id"),
+    parts: integer(),
+    error: text(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("sms_messages_org_to_created_idx").using(
+      "btree",
+      table.organizationId.asc().nullsLast().op("text_ops"),
+      table.toNumber.asc().nullsLast().op("text_ops"),
+      table.createdAt.asc().nullsLast().op("timestamptz_ops")
+    ),
+    foreignKey({
+      columns: [table.assistantId],
+      foreignColumns: [assistants.id],
+      name: "sms_messages_assistant_id_assistants_id_fk",
+    }).onDelete("cascade"),
+    unique("sms_messages_external_call_id_unique").on(table.externalCallId),
   ]
 )

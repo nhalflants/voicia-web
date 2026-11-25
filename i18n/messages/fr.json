@@ -256,6 +256,21 @@
       "errors": {
         "nameRequired": "Saisissez un nom.",
         "firstMessageRequired": "Saisissez un message d'accueil."
+      },
+      "sms": {
+        "title": "SMS envoyé à l'appelant",
+        "description": "Pendant l'appel, l'assistant peut proposer d'envoyer ce message par SMS à un appelant sur un mobile belge. Il arrive d'un numéro que l'appelant ne connaît pas : commencez par le nom de votre entreprise.",
+        "languages": {
+          "fr": "Français",
+          "nl": "Néerlandais",
+          "en": "Anglais"
+        },
+        "placeholder": "ex. Cabinet Dupont : prenez rendez-vous sur https://…",
+        "oneSms": "Tient en un SMS.",
+        "empty": "Laissez vide pour ne rien envoyer dans cette langue.",
+        "ucs2": "À cause de {characters}, un SMS ne contient que 70 caractères au lieu de 160. Remplacez-les pour retrouver 160.",
+        "tooLong": "Trop long pour un SMS ({limit} caractères maximum).",
+        "variables": "Vous pouvez utiliser {list}. Elles restent vides si l'appelant n'est pas un contact connu, et chacune compte pour 20 caractères."
       }
     },
     "errors": {

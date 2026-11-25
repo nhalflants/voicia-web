@@ -26,14 +26,27 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/toast"
-import { updateAssistantAction } from "@/features/assistants/actions"
+import {
+  type AssistantField,
+  updateAssistantAction,
+} from "@/features/assistants/actions"
+import {
+  SmsTemplatesFields,
+  smsDrafts,
+  smsTooLong,
+  toSmsTemplates,
+} from "@/features/assistants/components/sms-templates-fields"
 import {
   MAX_FIRST_MESSAGE_LENGTH,
   MAX_NAME_LENGTH,
 } from "@/features/assistants/constants"
-import type { Assistant, AssistantUpdate } from "@/features/assistants/types"
+import type {
+  Assistant,
+  AssistantUpdate,
+  SmsLanguage,
+} from "@/features/assistants/types"
 
-type FormError = { field?: "name" | "firstMessage"; message: string }
+type FormError = { field?: AssistantField; message: string }
 
 interface AssistantFormProps {
   assistant: Assistant
@@ -73,6 +86,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
   const locale = useLocale()
   const [name, setName] = useState(assistant.name)
   const [firstMessage, setFirstMessage] = useState(assistant.firstMessage ?? "")
+  const [sms, setSms] = useState(() => smsDrafts(assistant.smsTemplates))
   const [error, setError] = useState<FormError | null>(null)
   const [pending, startTransition] = useTransition()
 
@@ -82,11 +96,21 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
   if (firstMessage.trim() !== (assistant.firstMessage ?? "")) {
     update.firstMessage = firstMessage.trim()
   }
+  // The API replaces all versions at once, so any change sends them all
+  const smsTemplates = toSmsTemplates(sms)
+  if (
+    assistant.smsEnabled &&
+    JSON.stringify(smsTemplates) !==
+      JSON.stringify(toSmsTemplates(smsDrafts(assistant.smsTemplates)))
+  ) {
+    update.smsTemplates = smsTemplates
+  }
   const changed = Object.keys(update).length > 0
+  const smsInvalid = assistant.smsEnabled && smsTooLong(sms)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!changed) return
+    if (!changed || smsInvalid) return
     if (update.name === "") {
       setError({ field: "name", message: t("errors.nameRequired") })
       return
@@ -114,6 +138,10 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
 
   const nameInvalid = error?.field === "name"
   const firstMessageInvalid = error?.field === "firstMessage"
+  const smsErrors: Partial<Record<SmsLanguage, string>> = {}
+  if (error?.field?.startsWith("sms.")) {
+    smsErrors[error.field.slice(4) as SmsLanguage] = error.message
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
@@ -174,6 +202,17 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
               </FieldDescription>
             )}
           </Field>
+
+          {assistant.smsEnabled && (
+            <SmsTemplatesFields
+              drafts={sms}
+              onChange={(language, value) => {
+                setSms((drafts) => ({ ...drafts, [language]: value }))
+                if (error?.field === `sms.${language}`) setError(null)
+              }}
+              errors={smsErrors}
+            />
+          )}
         </FieldGroup>
       </div>
 
@@ -181,7 +220,7 @@ function AssistantForm({ assistant, onDone }: AssistantFormProps) {
         <SheetClose render={<Button type="button" variant="outline" />}>
           {tCommon("cancel")}
         </SheetClose>
-        <Button type="submit" disabled={!changed || pending}>
+        <Button type="submit" disabled={!changed || smsInvalid || pending}>
           {pending && <Spinner />}
           {tCommon("saveChanges")}
         </Button>
